@@ -1,0 +1,10 @@
+{
+  "name": "Digi-books",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Odhisika <francisganyo64@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react-scripts": "^5.0.1"
+  }
+}
