@@ -5,6 +5,7 @@ import productReducer from "./productReducer";
 import allUsersReducer from "./allUserReducer";
 import cartReducer from "./cartReducer";
 import displayCartReducer from "./displayCartReducer";
+import ordersReducer from "./orderReducer";
 
 const myReducers = combineReducers({
   user: userReducer,
@@ -13,6 +14,7 @@ const myReducers = combineReducers({
   allUsers: allUsersReducer,
   cart: cartReducer,
   isCart: displayCartReducer,
+  orders: ordersReducer,
 });
 
 export default myReducers;

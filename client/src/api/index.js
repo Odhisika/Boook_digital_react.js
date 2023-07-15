@@ -111,6 +111,13 @@ export const increaseItemQuantity = async(user_id,productid,type )=>{
     }catch(error){
         return null;
     }
-}
+};
 
-//cart decreament 
+export const getAllOrders = async () =>{
+    try{
+        const res = await axios.get(`${baseURL}/api/orders`)
+         return res.data.data
+    } catch(err){
+        return null ;
+    }
+};

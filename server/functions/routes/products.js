@@ -285,6 +285,18 @@ const deleteCart = async(userId, items)=>{
 
   })
 }
+router.get("/orders", async (req, res) => {
+  try {
+    const query = db.collection("orders");
+    const querySnapshot = await query.get();
+    const response = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+
+    return res.status(200).json({ success: true, data: response });
+  } catch (err) {
+    return res.status(500).json({ success: false, msg: `Error: ${err}` });
+  }
+});
+
 module.exports =router;
 
      
