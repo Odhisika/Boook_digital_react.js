@@ -1,11 +1,21 @@
 import React from 'react'
 import {motion } from "framer-motion"
 import { buttonClick, staggerFadeInOut } from '../animations'
+import { getAllOrders, updateOrderSts } from '../api'
+import { setOrders } from '../context/actions/orderActions'
+import { useDispatch } from 'react-redux'
 
 const OrdersData = ({index, data, admin}) => {
+  const dispatch = useDispatch();
 
     const handleClick= (OrderId, sts)=>{
-
+        updateOrderSts(OrderId,sts).then(response =>{
+          console.log("Update Response:", response);
+          getAllOrders().then((data)=>{
+            console.log("All Orders:", data);
+              dispatch(setOrders(data));
+            })
+        })
     }
 
   return (

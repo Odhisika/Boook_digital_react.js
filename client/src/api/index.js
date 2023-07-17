@@ -112,12 +112,25 @@ export const increaseItemQuantity = async(user_id,productid,type )=>{
         return null;
     }
 };
-
-export const getAllOrders = async () =>{
+export const getAllOrders = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/api/products/orders`);
+      console.log('API response:', res.data); // Debugging statement
+      return res.data.data;
+    } catch (err) {
+      console.error('API error:', err); // Debugging statement
+      return null;
+    }
+  };
+  
+  export const updateOrderSts = async(order_id, sts )=>{
+    console.log(order_id, sts );
     try{
-        const res = await axios.get(`${baseURL}/api/orders`)
-         return res.data.data
-    } catch(err){
-        return null ;
+        const  res = await axios.post(`${baseURL}/api/products/updateOrder/${order_id}`, null,
+        {params: {sts: sts}});
+        return res.data.data
+        
+    }catch(error){
+        return null;
     }
 };

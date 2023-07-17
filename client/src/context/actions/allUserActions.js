@@ -1,7 +1,7 @@
 export const  setallUsersDetails = (data) =>{
     return {
         type: "SET_All_USER",
-        allUsers: data,
+        payload: data,
         };
     };
     

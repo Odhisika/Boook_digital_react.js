@@ -8,7 +8,7 @@ import { getAllCartItems, validateUserJWTToken } from './api';
 import { setUserDetails } from './context/actions/userActions';
 import { fadeInOut } from './animations';
 import { motion } from 'framer-motion';
-import { Alert, CheckOutSuccess, MainLoader } from './components';
+import { AboutUs, Alert, CheckOutSuccess, MainLoader, Menu, Services, UsersOrder } from './components';
 import { setCartItems } from './context/actions/cartActions';
 
 const App = () => {
@@ -85,8 +85,13 @@ const App = () => {
         <Route path="/*" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
-        <Route path= "checkout-success" element={<CheckOutSuccess/>}/>
-      </Routes>
+        <Route path= "/checkout-success" element={<CheckOutSuccess/>}/>
+        <Route path= "/user-orders" element={<UsersOrder/>}/>
+        <Route path='/aboutus' element={<AboutUs/>}/>
+        <Route path='/menu' element={<Menu/>}/>
+        <Route path='/services' element={<Services/>}/>
+       
+       </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}
     </div>

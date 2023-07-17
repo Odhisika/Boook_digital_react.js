@@ -4,7 +4,7 @@ const allUsersReducer = (state = null, action) => {
         return state;
   
       case "SET_All_USER":
-        return action.allUsers || null;
+        return action.payload || null;
   
       
       default:

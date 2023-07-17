@@ -1,7 +1,7 @@
-export const  setorders= (data) =>{
+export const  setOrders= (data) =>{
     return {
         type: "SET_ORDERS",
-        orders: data,
+        payload: data,
         };
     };
     

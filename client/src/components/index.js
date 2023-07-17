@@ -20,6 +20,10 @@ export {default as FilterSection} from "./FilterSection"
 export {default as Cart} from "./Cart"
 export {default as CheckOutSuccess} from "./CheckOutSuccess"
 export {default as OrdersData} from "./OrdersData"
+export {default as UsersOrder} from "./UsersOrder"
+export {default as AboutUs} from "./AboutUs"
+export {default as Menu} from "./Menu"
+export {default as Services} from "./Services"
 
 
 

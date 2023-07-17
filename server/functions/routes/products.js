@@ -297,6 +297,22 @@ router.get("/orders", async (req, res) => {
   }
 });
 
+// update the order status
+router.post("/updateOrder/:order_id", async (req, res)=>{
+  const order_id =req.params.order_id;
+  const sts = req.query.sts;
+
+  try{
+    const updatedItem = await 
+    db.collection("orders")
+    .doc(`/${order_id}/`)
+    .update({sts});
+    return res.status(200).send({success: true, data: updatedItem});
+  }catch (err){
+    return res.send({success: false, msg: `Error : ${err}`});
+  }
+})
+
 module.exports =router;
 
      
