@@ -1,8 +1,14 @@
 export const isActiveStyles =
-  "text-2xl text-red-700 hover:text-red-700 px-4 py-2 duration-100 transition-all ease-in-out";
+  "text-2xl text-red-700 hover:text-red-700 px-4 py-2 duration-100 cursor-pointer transition-all ease-in-out";
 
 export const isNotActiveStyles =
-  "text-xl text-textColor hover:text-red-700 duration-200 px-4 py-2 transition-all ease-in-out";
+  "text-xl text-textColor hover:text-red-700 cursor-pointer duration-200 px-4 py-2  transition-all ease-in-out";
+
+  export const Active =
+  "text-2xl text-blue-700 hover:text-blue-700 px-4 py-2 duration-100 transition-all ease-in-out";
+
+export const notActive =
+  "text-xl text-textColor hover:text-orange-700 duration-200 px-4 py-2 transition-all ease-in-out";
 
   export const statuses =[
     {id: 1, title:"Shops", category: "Shops", description: "Shops"},
@@ -13,6 +19,27 @@ export const isNotActiveStyles =
     {id: 6, title:"HistoricBooks", category: "HistoricBooks", description:" HistoricBooks" },
     {id: 7, title:"Science", category: "Science", description:" Science" },
   ];
+
+  export const Primary=[
+    {id: 1, title:"Primary1", category: "Primary1", description: "Primary1"},
+    {id: 2, title:"Primary2", category: "Primary2", description: "Primary2 "},
+    {id: 3, title:"Primary3", category: "Primary3",description: "Primary3" },
+    {id: 4, title:"Primary4", category: "Primary4", description: "Primary4"},
+    {id: 5, title:"Primary5", category: "BPrimary5", description: "Primary5", },
+    {id: 6, title:"Primary6", category: "Primary6", description:" Primary6" },
+  ]
+
+  export const JHS=[
+    {id: 1, title:"JHS-1", category: "JHS-1", description: "JHS-1"},
+    {id: 2, title:"JHS-2", category: "JHS-2", description: "JHS-2 "},
+    {id: 3, title:"JHS-3", category: "JHS-3", description: "JHS-3" }, 
+  ]
+
+  export const SHS=[
+    {id: 1, title:"SHS-1", category: "SHS-1", description: "SHS-1"},
+    {id: 2, title:"SHS-2", category: "SHS-2", description: "SHS-2 "},
+    {id: 3, title:"SHS-3", category: "SHS-3", description: "SHS-3" }, 
+  ]
 
 
   export const randomData =[

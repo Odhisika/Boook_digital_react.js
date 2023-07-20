@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Header, Home, HomeSlider,FilterSection, Cart,  } from '../components'
+import { Header, Home, HomeSlider,FilterSection, Cart, NavBar, KG, JHS, SHS, Primary,  } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from '../api'
 import { setAllProducts } from '../context/actions/productActions'
@@ -19,10 +19,17 @@ const Main = () => {
   }, []);
   return <main className="w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
     <Header />
+    <NavBar/>
+    
     <div className=" w-full flex flex-col items-start justify-center mt-40 px-6 md:px-24 2xl:px-96 gap-12 pb-24">
       <Home/>
       <HomeSlider/>
       <FilterSection/>
+      <div id="kindagerten"><KG/></div>
+      <div id="primary"><Primary/></div>
+      <div id="jhs"> <JHS/></div>
+      <div id="shs"><SHS/></div>
+
 
     </div>
     {isCart && <Cart/>}

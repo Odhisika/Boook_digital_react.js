@@ -24,6 +24,14 @@ export {default as UsersOrder} from "./UsersOrder"
 export {default as AboutUs} from "./AboutUs"
 export {default as Menu} from "./Menu"
 export {default as Services} from "./Services"
+export {default as NavBar} from "./NavBar"
+export {default as KG} from "./KG"
+export {default as Primary} from "./Primary"
+export {default as JHS} from "./JHS"
+export {default as SHS} from "./SHS"
+export {default as PHeader} from "./PHeader"
+
+
 
 
 

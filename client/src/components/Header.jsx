@@ -31,12 +31,12 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed backdrop-blur-md z-50 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6">
+    <header className="fixed backdrop-blur-md z-50 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6 bg-blue-50">
       <NavLink to="/" className="flex items-center justify-center gap-4">
         <img src={logo} className="w-12" alt="" />
         <p className="font-semibold text-xl">Digi.Books</p>
       </NavLink>
-      <nav className="flex items-center justify-center gap-8">
+      <nav className="flex items-center font-semibold justify-center gap-8">
         <ul className="hidden md:flex items-center justify-center gap-6">
           <NavLink
             className={({ isActive }) => (isActive ? isActiveStyles : isNotActiveStyles)}

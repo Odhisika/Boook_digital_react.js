@@ -5,6 +5,8 @@ db.settings({ignoreUndefinedProperties: true })
 const express = require("express")
 const stripe = require('stripe')(process.env.STRIPE_KEY)
 
+
+//create products 
 router.post("/create", async (req,res)=>{
     try{
 

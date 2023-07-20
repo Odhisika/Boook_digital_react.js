@@ -6,6 +6,7 @@ import {DataTable} from '../components';
 import {  avatar } from '../asset';
 
 const DbUsers = () => {
+  const users = useSelector(state=>state.users)
   const allUsers = useSelector(state=>state.allUsers)
   const dispatch = useDispatch();
 

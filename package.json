@@ -5,6 +5,7 @@
   "author": "Odhisika <francisganyo64@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "react-scripts": "^5.0.1"
+    "react-scripts": "^5.0.1",
+    "react-scroll": "^1.8.9"
   }
 }
