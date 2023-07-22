@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { statuses } from '../utils/styles'
+import { statuses,Primary,JHS,SHS } from '../utils/styles'
 import {Spinner} from '../components'
 import { FaCloudUploadAlt, MdDelete } from '../asset/icons'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage'
@@ -21,6 +21,7 @@ const DbNewItems = () => {
   const [imageDownloadURL, setImageDownloadURL] = useState(null)
   const alert =useSelector((state)=>state.alert);
   const dispatch = useDispatch();
+  
   
   const uploadImage = (e) => {
     setIsLoading(true);

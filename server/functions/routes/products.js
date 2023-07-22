@@ -145,6 +145,7 @@ router.get("/getAllCartItems/:user_id", async (req, res) => {
   }
 });
 
+// checkout sessionJ
 
 router.post('/create-checkout-session', async (req, res) => {
 
