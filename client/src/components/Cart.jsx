@@ -8,9 +8,12 @@ import { baseURL, getAllCartItems, increaseItemQuantity } from '../api'
 import { alertNull, alertSuccess } from '../context/actions/alertActions'
 import {setCartItems} from "../context/actions/cartActions"
 import axios from 'axios'
+import {  useNavigate } from 'react-router-dom';
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const cart  = useSelector((state) =>state.cart);
   const user =useSelector((state)=>state.user);
   const [total, setTotal] = useState(0)
@@ -25,18 +28,21 @@ const Cart = () => {
     }
   },[cart]);
  
-    const handleCheckOut= ()=>{
-      const data ={
-        user:user, 
-        cart: cart,
-        total: total,
+    // const handleCheckOut= ()=>{
+    //   const data ={
+    //     user:user, 
+    //     cart: cart,
+    //     total: total,
 
-      }
-     axios.post(`${baseURL}/api/products/create-checkout-session`,{data}).then(res=>{
-      if (res.data.url){
-        window.location.href =res.data.url
-      }
-     }).catch((err)=>console.log(err))
+    //   }
+    //  axios.post(`${baseURL}/api/users/customerInfo`,{data}).then(res=>{
+    //   if (res.data.url){
+    //     window.location.href =res.data.url
+    //   }
+    //  }).catch((err)=>console.log(err))
+    // }
+    const handleCheckOut=()=>{
+      navigate('/delivery', { replace: true });
     }
 
   return <motion.div {...slideIn} className=" fixed z-50 top-0 right-0 w-250 md:w-508 bg-cardOverlay backdrop-blur-md shadow-md h-[100%] overflow-y-auto ">

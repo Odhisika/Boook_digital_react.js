@@ -30,6 +30,9 @@ export {default as Primary} from "./Primary"
 export {default as JHS} from "./JHS"
 export {default as SHS} from "./SHS"
 export {default as PHeader} from "./PHeader"
+export {default as DeliveryAddress} from "./DeliveryAddress"
+export {default  as Footer} from "./Footer"
+
 
 
 

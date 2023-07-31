@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { FaWarehouse } from '../asset/icons';
 
 const FilterSection = () => {
-  const [category, setCategory] = useState("AcadamicBooks");
+  const [category, setCategory] = useState("SHS");
   const products = useSelector(state => state.products);
 
   const handleCategoryChange = (selectedCategory) => {

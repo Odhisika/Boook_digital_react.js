@@ -34,7 +34,7 @@ const SliderCad = ({ data, index }) => {
 
 
   return (
-    <div className="bg-primary hover:drop-shadow-lg backdrop-blur-md rounded-xl flex items-center justify-between relative px-4 py-2 w-full md:w-340 md:min-w-350 gap-3">
+    <div className="bg-primary hover:drop-shadow-lg backdrop-blur-md rounded-xl flex items-center justify-between relative px-4 py-2 w-full md:w-340 md:min-w-350 gap-3 overflow-y-auto">
       <img src={data.imageURL} className="w-40 h-40 md:w-32 md:mt-16 object-contain" alt="" />
       <div className="relative pt-12">
         <p className="text-xl text-headingColor font-semibold">{data.product_name}</p>

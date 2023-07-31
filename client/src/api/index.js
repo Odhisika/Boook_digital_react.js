@@ -112,25 +112,62 @@ export const increaseItemQuantity = async(user_id,productid,type )=>{
         return null;
     }
 };
-export const getAllOrders = async () => {
-    try {
-      const res = await axios.get(`${baseURL}/api/products/orders`);
-      console.log('API response:', res.data); // Debugging statement
-      return res.data.data;
-    } catch (err) {
-      console.error('API error:', err); // Debugging statement
-      return null;
+
+
+
+
+
+export const saveCustomerInfo = async (customerInfo, user_id) => {
+  try {
+    const response = await axios.post(`${baseURL}/api/products/customerInfo/${user_id}`, customerInfo);
+
+    if (response.status === 200 && response.data.success) {
+      // The request was successful, and the customer information was saved
+      return true;
+    } else {
+      // The server returned a response, but the customer information might not have been saved
+      console.error('Failed to save customer information:', response.data.error);
+      return false;
     }
-  };
-  
-  export const updateOrderSts = async(order_id, sts )=>{
-    console.log(order_id, sts );
-    try{
-        const  res = await axios.post(`${baseURL}/api/products/updateOrder/${order_id}`, null,
-        {params: {sts: sts}});
-        return res.data.data
-        
-    }catch(error){
-        return null;
-    }
+  } catch (err) {
+    // An error occurred during the request (e.g., network error, server down)
+    console.error('Error saving customer information:', err);
+    return false;
+  }
 };
+
+
+
+export const getCustomerInfor = async (user_id) =>{
+    try{
+        const res = await axios.get(`${baseURL}/api/products/customerInfo/${user_id}`)
+         return res.data.data
+    } catch(err){
+        return null ;
+    }
+}
+
+
+
+// export const getAllOrders = async () => {
+//     try {
+//       const res = await axios.get(`${baseURL}/api/products/orders`);
+//       console.log('API response:', res.data); // Debugging statement
+//       return res.data.data;
+//     } catch (err) {
+//       console.error('API error:', err); // Debugging statement
+//       return null;
+//     }
+//   };
+  
+//   export const updateOrderSts = async(order_id, sts )=>{
+//     console.log(order_id, sts );
+//     try{
+//         const  res = await axios.post(`${baseURL}/api/products/updateOrder/${order_id}`, null,
+//         {params: {sts: sts}});
+//         return res.data.data
+        
+//     }catch(error){
+//         return null;
+//     }
+// };

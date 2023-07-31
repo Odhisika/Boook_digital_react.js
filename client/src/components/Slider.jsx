@@ -10,11 +10,11 @@ import {SliderCad} from '../components';
 
 const Slider = () => {
     const products =useSelector((state)=>state.products)
-    const [AcadamicBooks, setAcadamicBooks] = useState(null)
+    const [JHS, setJHS] = useState(null)
 
     useEffect(()=>{
-        setAcadamicBooks(products?.filter((data)=>data.product_category ==="AcadamicBooks"));
-        console.log(AcadamicBooks);
+        setJHS(products?.filter((data)=>data.product_category ==="JHS"));
+        console.log(JHS);
     },[products]);
   return (
 
@@ -26,7 +26,7 @@ const Slider = () => {
         grabCursor={true}
         className="mySwiper"
       >
-      { AcadamicBooks && AcadamicBooks.map((data, i)=>(
+      { JHS && JHS.map((data, i)=>(
         <SwiperSlide key={i}>
          <SliderCad key={i} data={data} index={i}/>
         </SwiperSlide>

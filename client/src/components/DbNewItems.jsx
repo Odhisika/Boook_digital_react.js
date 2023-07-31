@@ -12,6 +12,8 @@ import { addNewProduct, getAllProducts } from '../api'
 import {setAllProducts} from "../context/actions/productActions"
 
 const DbNewItems = () => {
+  const dispatch = useDispatch();
+  
   const [itemName, setItemName] = useState("")
   const [description, setDescription] = useState("")
   const [category, setcategory] = useState(null)
@@ -20,7 +22,8 @@ const DbNewItems = () => {
   const [progress, setprogress] = useState(null);
   const [imageDownloadURL, setImageDownloadURL] = useState(null)
   const alert =useSelector((state)=>state.alert);
-  const dispatch = useDispatch();
+
+  
   
   
   const uploadImage = (e) => {

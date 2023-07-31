@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Header, Home, HomeSlider,FilterSection, Cart, NavBar, KG, JHS, SHS, Primary,  } from '../components'
+import { Header, Home, HomeSlider,FilterSection, Cart, NavBar, KG, JHS, SHS, Primary, Footer,  } from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllProducts } from '../api'
 import { setAllProducts } from '../context/actions/productActions'
@@ -29,9 +29,8 @@ const Main = () => {
       <div id="primary"><Primary/></div>
       <div id="jhs"> <JHS/></div>
       <div id="shs"><SHS/></div>
-
-
     </div>
+    <Footer/>
     {isCart && <Cart/>}
   </main>
   

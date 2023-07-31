@@ -8,11 +8,11 @@ import "swiper/css/bundle";
 
 const Primary = () => {
   const products =useSelector((state)=>state.products)
-  const [AcadamicBooks, setAcadamicBooks] = useState(null)
+  const [Primary, setPrimary] = useState(null)
 
   useEffect(()=>{
-    setAcadamicBooks(products?.filter((data)=>data.product_category ==="AcadamicBooks"));
-    console.log(AcadamicBooks);
+    setPrimary(products?.filter((data)=>data.product_category ==="Primary"));
+    console.log( Primary);
 },[products]);
 
   return (
@@ -28,7 +28,7 @@ const Primary = () => {
         grabCursor={true}
         className="mySwiper"
       >
-      { AcadamicBooks && AcadamicBooks.map((data, i)=>(
+      {  Primary && Primary.map((data, i)=>(
         <SwiperSlide key={i}>
          <SliderCad key={i} data={data} index={i}/>
         </SwiperSlide>

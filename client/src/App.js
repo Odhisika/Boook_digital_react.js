@@ -8,7 +8,7 @@ import { getAllCartItems, validateUserJWTToken } from './api';
 import { setUserDetails } from './context/actions/userActions';
 import { fadeInOut } from './animations';
 import { motion } from 'framer-motion';
-import { AboutUs, Alert, CheckOutSuccess, JHS, KG, MainLoader, Menu, Primary, SHS, Services, UsersOrder } from './components';
+import { AboutUs, Alert, CheckOutSuccess, DeliveryAddress, JHS, KG, MainLoader, Menu, Primary, SHS, Services, UsersOrder } from './components';
 import { setCartItems } from './context/actions/cartActions';
 
 const App = () => {
@@ -75,7 +75,7 @@ const App = () => {
       {isLoading && (
         <motion.div
           {...fadeInOut}
-          className=" fixed z-40 inset-0 bg-emerald-800 backdrop-blur-md flex items-center justify-center w-full"
+          className=" fixed z-50 inset-0 bg-primary backdrop-blur-md flex items-center justify-center w-full"
         >
           <MainLoader />
         </motion.div>
@@ -85,11 +85,11 @@ const App = () => {
         <Route path="/*" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
-        <Route path= "/checkout-success" element={<CheckOutSuccess/>}/>
-        <Route path= "/user-orders" element={<UsersOrder/>}/>
+        {/* <Route path= "/user-orders" element={<UsersOrder/>}/> */}
         <Route path='/aboutus' element={<AboutUs/>}/>
         <Route path='/menu' element={<Menu/>}/>
         <Route path='/services' element={<Services/>}/>
+        <Route path='/delivery' element={<DeliveryAddress/>}/>
        </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}

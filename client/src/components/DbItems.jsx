@@ -8,8 +8,10 @@ import { alertNull, alertSuccess } from '../context/actions/alertActions'
 
 
 const DbItems = () => {
+  const dispatch = useDispatch();
+  
   const products = useSelector(state=>state.products)
-const dispatch = useDispatch();
+
  
   return (
     <div className=" w-full flex justify-center items-center gap-4 pt-6 ">

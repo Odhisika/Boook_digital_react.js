@@ -2,6 +2,9 @@ const router = require("express").Router();
 const admin = require("firebase-admin");
 
 
+
+
+
 router.get("/", (req, res) => {
   return res.send("Inside the user router");
 });
@@ -22,8 +25,11 @@ router.get("/jwtVerification", async (req, res) => {
   }
 });
 
+
+
+
 const listAllUsers = async (nextPageToken) => {
-  const data = []; // Define the data array
+  const data = []; 
 
   const getUsers = async (nextPageToken) => {
     try {
@@ -56,5 +62,7 @@ router.get("/all", async (req, res) => {
     return res.send({ success: false, msg: `Error in listing users: ${err}` });
   }
 });
+
+
 
 module.exports = router;
