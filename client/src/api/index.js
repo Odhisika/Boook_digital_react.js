@@ -148,26 +148,58 @@ export const getCustomerInfor = async (user_id) =>{
 }
 
 
-
-// export const getAllOrders = async () => {
-//     try {
-//       const res = await axios.get(`${baseURL}/api/products/orders`);
-//       console.log('API response:', res.data); // Debugging statement
-//       return res.data.data;
-//     } catch (err) {
-//       console.error('API error:', err); // Debugging statement
-//       return null;
-//     }
-//   };
-  
-//   export const updateOrderSts = async(order_id, sts )=>{
-//     console.log(order_id, sts );
+// export const getAllOrders = async (user_id) =>{
 //     try{
-//         const  res = await axios.post(`${baseURL}/api/products/updateOrder/${order_id}`, null,
-//         {params: {sts: sts}});
-//         return res.data.data
-        
-//     }catch(error){
-//         return null;
+//         const res = await axios.get(`${baseURL}/api/products/orders/${user_id}`)
+//          return res.data.data
+//     } catch(err){
+//         return null ;
 //     }
-// };
+// }
+
+export const createOrder = async (data) =>{
+    try{
+        const res = await axios.post(`${baseURL}/api/products/createOrder`,{...data})
+         return res.data.data
+    } catch(err){
+        return null ;
+    }
+}
+
+
+
+export const deleteCart = async (userId) =>{
+    try{
+        const res = await axios.delete(`${baseURL}/api/products/delete/${userId}`)
+         return res.data.data
+    } catch(err){
+        return null ;
+    }
+}
+
+export const updateOrderSts = async(order_id, sts )=>{
+    console.log(order_id, sts );
+    try{
+        const  res = await axios.post(`${baseURL}/api/products/updateOrder/${order_id}`, null,
+        {params: {sts: sts}});
+        return res.data.data
+        
+    }catch(error){
+        return null;
+    }
+};
+
+
+
+
+export const getAllOrders = async () => {
+    try {
+      const res = await axios.get(`${baseURL}/api/products/orders`);
+      console.log('API response:', res.data); // Debugging statement
+      return res.data.data;
+    } catch (err) {
+      console.error('API error:', err); // Debugging statement
+      return null;
+    }
+  };
+  

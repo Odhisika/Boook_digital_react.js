@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { app } from './config/firebase.config';
-import {Dashboard, Login, Main } from "./containers";
+import {Dashboard, Login, Main, Payment } from "./containers";
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCartItems, validateUserJWTToken } from './api';
 import { setUserDetails } from './context/actions/userActions';
@@ -85,11 +85,13 @@ const App = () => {
         <Route path="/*" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
-        {/* <Route path= "/user-orders" element={<UsersOrder/>}/> */}
+        <Route path= "/user-orders" element={<UsersOrder/>}/>
+        <Route path='/checkout' element={<CheckOutSuccess/>}/>
         <Route path='/aboutus' element={<AboutUs/>}/>
         <Route path='/menu' element={<Menu/>}/>
         <Route path='/services' element={<Services/>}/>
         <Route path='/delivery' element={<DeliveryAddress/>}/>
+        <Route  path='/payment'  element={<Payment/>}/>
        </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}

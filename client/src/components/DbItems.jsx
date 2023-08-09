@@ -31,6 +31,7 @@ const DbItems = () => {
            title: "Category",
            field: "product_category",
          },
+        
          {
            title: "Price",
            field: "product_price",

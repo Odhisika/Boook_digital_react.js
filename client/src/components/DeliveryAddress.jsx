@@ -1,32 +1,29 @@
 import React, { useState,useEffect } from 'react'
 import {motion} from "framer-motion"
 import {Cart, LoginInput} from '../components'
-import { FaEnvelope } from 'react-icons/fa';
-import { buttonClick, staggerFadeInOut } from '../animations';
-import { randomData } from '../utils/styles';
-import { delivery, heroBg } from '../asset';
+import {DataTable} from '../components';
+import { buttonClick } from '../animations';
+import { delivery } from '../asset';
 import {Header} from "../components"
-import { CartItemCard } from './Cart';
 import { useDispatch, useSelector } from 'react-redux';
-import { storage } from '../config/firebase.config'
 import { useNavigate } from 'react-router-dom';
-
-import axios from 'axios';
+import {  vodafone, tigo, mtn, banks, CashOnDelivery } from '../asset';
 import {  getCustomerInfor, saveCustomerInfo } from '../api';
 import { alertDanger, alertNull, alertSuccess } from '../context/actions/alertActions';
-import { setDeliveryInfo } from '../context/actions/DeliveryInfo';
 
 
 
 
 
 const DeliveryAddress = () => {
-  const cartItems = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart);
  const user = useSelector((state)=>state.user);
  const dispatch = useDispatch();
  const isCart = useSelector((state)=>state.isCart);
 
  const info = useSelector((state) => state.info);
+ const  [deliveryInfo, setDeliveryInfo] = useState(null)
+ const navigate = useNavigate();
   
 
  
@@ -38,12 +35,16 @@ const [AddressLine2, setAddressLine2] = useState("")
 const [PhoneNumber, setPhoneNumber] = useState("")
 const [Region , setRegion ] = useState("")
 const [City, setCity] = useState("")
+const [selectedOption, setSelectedOption] = useState('');
+
+
 
 const SaveDeliveryDetails = async () => {
   if (firstName === '' || SurName === '' || AddressLine1 === '' || AddressLine2 === '' || PhoneNumber === '' || Region === '' || City === '') {
     dispatch(alertDanger('Please enter your delivery details.'));
     setTimeout(() => {
       dispatch(alertNull());
+      
     }, 3000);
   } else {
     try {
@@ -67,7 +68,7 @@ const SaveDeliveryDetails = async () => {
             dispatch(alertNull());
           }, 3000);
         console.log('Customer information saved successfully!');
-        console.log(success);
+        console.log(delivery);
       } else {
           dispatch(alertDanger("Failed to save Delivery Details"))
           setTimeout(() => {
@@ -75,6 +76,7 @@ const SaveDeliveryDetails = async () => {
           }, 3000);
         console.error('Failed to save customer information.');
       }
+     
 
       // Optionally, you can clear the form fields after successful submission
       setfirstName('');
@@ -96,36 +98,51 @@ const SaveDeliveryDetails = async () => {
   }
 };
 
-useEffect(()=>{
-  if (! info){
-    getCustomerInfor(user?.user_id).then((data)=>{
-    console.log('Data from API:', data);
-      dispatch(setDeliveryInfo(data));
-    })
+
+
+
+
+useEffect(() => {
+  if (!info) {
+    getCustomerInfor(user?.user_id) // Pass the user ID as an argument to the API function
+      .then((data) => {
+        dispatch(setDeliveryInfo(data));
+        console.log('Data from API:', data);
+        console.log(delivery)
+      })
+      .catch((err) => {
+        console.error('Error fetching customer information:', err);
+      });
+  } else {
+    
+    // No need to fetch the data again. It's already in the state (info).
+    // The data has been filtered based on user_id in the getCustomerInfor function,
+    // so you don't need to filter it again here.
+    console.log(info);
   }
-},[info, user, dispatch])
+}, [info, user?.user_id, dispatch]);
 
 
 
  
 const RegionOptions = [
-  'Greater Accra',
+  'GreaterAccra',
   'Ashanti',
-  'Brong-Ahafo',
+  'BrongAhafo',
   'Central',
   'Eastern',
   'Northern',
   'Volta',
   'Western',
-  'Upper East',
-  'Upper West',
+  'UpperEast',
+  'UpperWest',
   
 ];
  // Add your options here
  const CityOptions={
   Eastern: ['Koforidua','Begoro', 'Nkawkaw', 'Mpraeso', 'Aburi','Suhum','Akosombo', 'Asamankese', 'Nsawam',  'Akim Oda',],
- // City options for 'Greater Accra'
- GreaterAccra: [
+
+ GreaterAccra : [
   'Accra',
   'Tema',
   'Madina',
@@ -176,7 +193,7 @@ const RegionOptions = [
   'Budumburam',
   'Apam',
 ],
- NorthernCities : [
+ Northern : [
   'Tamale',
   'Yendi',
   'Salaga',
@@ -189,7 +206,6 @@ const RegionOptions = [
   'Kpandai',
 ],
 
-// City options for 'Volta'
 Volta : [
   'Ho',
   'Hohoe',
@@ -203,7 +219,7 @@ Volta : [
   'Sogakope',
 ],
 
-// City options for 'Western'
+
  Western : [
   'Sekondi-Takoradi',
   'Tarkwa',
@@ -217,7 +233,7 @@ Volta : [
   'Wiawso',
 ],
 
-// City options for 'Upper East'
+
  UpperEast :[
   'Bolgatanga',
   'Bawku',
@@ -231,7 +247,7 @@ Volta : [
   'Nangodi',
 ],
 
-// City options for 'Upper West'
+
  UpperWest : [
   'Wa',
   'Tumu',
@@ -256,7 +272,6 @@ Volta : [
 
  const handleRegionSelect = (selectedRegion) => {
   setRegion(selectedRegion);
-  // Clear the selected city when changing the region
   setCity('');
 
 };
@@ -265,19 +280,20 @@ const handleCitySelect = (selectedCity) => {
   setCity(selectedCity);
 };
 
+const handlePyment = () => {
+  navigate('/payment', { replace: true, state: { selectedOption } });
+};
 
 
 
-
-  
-
-
- 
+const handleOptionChange = (event) => {
+  setSelectedOption(event.target.value);
+};
 
 
   return (
    
-    <main className="w-screen min-h-screen flex items-center justify-start  bg-primary">
+    <main className="w-screen min-h-screen flex md:grid-cols-2 items-center justify-start bg-slate-300">
      <Header/>
      
     
@@ -361,46 +377,213 @@ const handleCitySelect = (selectedCity) => {
           <motion.button
               {...buttonClick}
              onClick={SaveDeliveryDetails}
-              className="w-full px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-500 transition-all duration-150"
+              className="w-full px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-900 transition-all duration-150"
             >
               Save Address
             </motion.button>
+            
+  {deliveryInfo && deliveryInfo.length > 0 && deliveryInfo.map((item, index) => {
+      if (item.userId === user.user_id) { 
+        return (
+          <div key={index}>
+            <h2 className="text-2xl font-bold  text-textColor w-full flex items-center justify-between ">Delivery Information</h2>
+            <div className=" flex flex-col items-start  justify-start gap-6">
+        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-primary w-full'>
+             Full Name: {item.firstName + item.SurName},
+             Address Line1: {item.AddressLine1},
+             Address Line2:{item.AddressLine2},
+             Phone Number:{item.PhoneNumber},
+             Region:{item.Region},
+             City: {item.City},
+             </div>
+             </div>
+             <motion.button
+              {...buttonClick}
+             
+              className=" w-40 px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-800 transition-all duration-150"
+            >
+              Edit Address
+            </motion.button>
+            
+          </div>
+
+          
+        );
+      }
+      return null;
+      
+    })}
+
+<div className='flex flex-col  items-start h-full w-full  bg-slate-400 justify-start gap-6 p-6'>
+        <p className='text-textColor font-bold text-[16px] md:text-[20px]'>Choose your payment Method</p>
+        <div className='font-bold text-textColor'>
+
+        <div className=" flex flex-col items-start  justify-start gap-6">
+        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-purple-300 rounded-full w-350'>
+          <img src={CashOnDelivery} className=' w-10 h-10 object-contain items-start justify-start ' alt="" />
+          <label className=' cursor-pointer'>
+            <input
+              type='radio'
+              value='Cash On Delivery'
+              checked={selectedOption === 'Cash On Delivery'}
+              onChange={handleOptionChange}
+            />
+            Cash On Delivery
+          </label>
+          </div>
+          </div>
+          <hr/>
+
+          <div className=" flex flex-col items-start justify-start gap-6">
+        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-green-300 rounded-full w-350'>
+          <img src={banks} className=' w-10 h-10 object-contain flex flex-col' alt="" />
+          <label className=' cursor-pointer'>
+            <input
+              type='radio'
+              value='Bank Payment'
+              checked={selectedOption === 'Bank Payment'}
+              onChange={handleOptionChange}
+            />
+            Bank Payment
+          </label>
+          </div>
+          </div>
+          <hr/>
+
+          <div className=" flex flex-col items-start justify-start gap-6">
+        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-yellow-300 rounded-full w-350'>
+          <img src={mtn} className=' w-10 h-10 object-contain flex flex-col' alt="" />
+          <label className=' cursor-pointer '>
+            <input
+              type='radio'
+              value='MTN Mobile Money'
+              checked={selectedOption === 'MTN Mobile Money'}
+              onChange={handleOptionChange}
+            />
+          MTN Mobile Money
+          </label>
+          </div>
+          </div>
+          <hr/>
+
+          <div className=" flex flex-col items-start justify-start gap-6">
+        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-blue-300 rounded-full w-350'>
+          <img src={tigo} className=' w-10 h-10 object-contain flex flex-col' alt="" />
+          <label className=' cursor-pointer'>
+            <input
+              type='radio'
+              value='TIGO Cash'
+              checked={selectedOption === 'TIGO Cash'}
+              onChange={handleOptionChange}
+            />
+            TIGO Cash
+          </label>      
+          </div>
+          </div>
+          <hr/>
+
+          <div className=" flex flex-col items-start justify-start gap-6">
+        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-red-300 rounded-full w-350'>
+          <img src={vodafone} className=' w-10 h-10 object-contain flex flex-col' alt="" />
+          <label className=' cursor-pointer'>
+            <input 
+              type='radio'
+              value=' VODAFONE Cash'
+              checked={selectedOption === ' VODAFONE Cash'}
+              onChange={handleOptionChange}
+            />
+            VODAFONE Cash 
+          </label>
+          </div>
+          </div>
+          <hr className=' bg-red-700'/>
+
+        </div>
+      </div>
         </div>
       </div>
 
 
-      <div className=" py-2 flex-1 flex items-center justify-end relative">
+      <div className=" py-2 flex-1 flex items-center justify-center relative">
       
-      <div className=" py-2 flex-1 flex items-center justify-end relative">
-  {/* Display the delivery information for the current user */}
-  {user?.info && info.length > 0 && info.map((item, index) => {
-    // Check if the delivery information matches the current user's details
-    if (item.userId === user.userId) {
-      return (
-        <div key={index}>
-          <h2 className="text-2xl font-bold">Delivery Information</h2>
-          <p>First Name: {item.firstName}</p>
-          <p>Last Name: {item.SurName}</p>
-          <p>Address Line 1: {item.AddressLine1}</p>
-          <p>Address Line 2: {item.AddressLine2}</p>
-          <p>Phone Number: {item.PhoneNumber}</p>
-          <p>Region: {item.Region}</p>
-          <p>City: {item.City}</p>
-        </div>
-      );
-    }
-    return null;
-  })}
-</div>
-
-      
+      <div className=" py-2 flex-1 flex items-center justify-center relative">
+  {/* Display the cart information for the current user */}
+  <div className=" w-full flex justify-center items-center gap-4 pt-6 ">
+      <div className=' w-full object-contain'>
+     <DataTable      
+       columns={[
+         {title: "Image", 
+         field : "imageURL",
+          render:(rowData)=>(
+           <img src={rowData.imageURL}
+           className="w-32 h-16 object-contain rounded-md"/>
+         )},
+         {
+           title: "Name",
+           field : "product_name",
+         },{
+           title: "Category",
+           field: "product_category",
+         },
+         {
+          title:"Quantity",
+          field: "quantity"
+         },
+         
+         {
+           title: "Price",
+           field: "product_price",
+           render: (rowData)=>(
+             <p className=" text-xl font-semibold text-textColor flex items-center justify-center">
+               <span className=" text-red-400">₵</span>{" "}
+               {parseFloat(rowData.product_price * rowData.quantity).toFixed(2)}
+   
+             </p>
+           ),
+         },
         
-        
+       ]}
+       data={cart}
+       title = "Your cart items "
+       actions={[
+        {
+          icon: "delete",
+          tooltip: "Delete Data",
+          onClick: (event, rowData) => {
+            alert("You want to Delete " + rowData.productid);
+            
+          }
+        },
+       ]}
+       />
+       <div className=' gap-4 py-4'>
+         <p>
+            <motion.button
+              {...buttonClick}
+             onClick={handlePyment}
+              className="w-full px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-red-500 transition-all duration-150"
+            >
+              Place order
+            </motion.button>
+            </p>
+              
        </div>
+   
+       </div>
+       </div>
+       
+ 
+    
+</div> 
+ </div>
+ 
 
      
     </motion.div>
+  
+  
     </main>
+    
     
     
   );
