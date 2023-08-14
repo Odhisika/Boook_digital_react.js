@@ -1,19 +1,56 @@
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useState } from 'react'
 import { delivery, heroBg } from '../asset'
 import { buttonClick, staggerFadeInOut } from '../animations'
 import { randomData } from '../utils/styles'
 
 
 const Home = () => {
+
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const filteredData = randomData.filter(data =>
+      data.product_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    console.log('Search Query:', searchQuery);
+    console.log('Filtered Data:', filteredData);
+  
+
   return (
    <motion.div className=' w-full grid grid-cols-1 md:grid-cols-2 gap-4 '>
     <div className=" flex flex-col items-start justify-start gap-6">
+              {/* Search input */}
+              <div className="relative w-full">
+          <input    className="w-full bg-orange-300 px-4 py-2 rounded-md focus:outline-none"
+            type="text"
+            placeholder="Search products..."
+         
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 absolute top-2 right-4 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 15l-4 4-4-4m4 4V4"
+            />
+          </svg>
+        </div>
+
         <div className=' px-4 py-1 flex items-center justify-center gap-2 bg-orange-100 rounded-full'>
             <p className=' text-lg font-semibold text-orange-500'> Fast Delivery</p>
             <div className=" w-10 h-10 flex items-center justify-center rounded-full bg-primary shadow-md">
                 <img src={delivery} alt="" className=' w-full h-full object-contain' />
             </div>
+
+       
         </div>
 
         <p className=" text-[40px] text-headingColor md:text-[52px] font-sans font-extrabold tracking-wider"> Buy our High Qualitiy Books   <span className=' text-orange-600'> And Get It Delivered In Your City  </span></p>

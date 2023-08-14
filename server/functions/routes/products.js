@@ -197,27 +197,29 @@ router.get("/customerInfo/:user_id", async (req, res) => {
 
 
 router.post('/createOrder', async (req, res) => {
-  const { user_id, CustomerDeliveryInfor, paymentMethod, cart, overallTotal } = req.body;
+  const { user_id, overallTotal, CustomerDeliveryInfor, paymentMethod, cart } = req.body;
 
   console.log('Inside the orders');
   try {
     const orderId = generateOrderID();
     const orderData = {
+
       orderId: orderId,
       userId: user_id,
-      total: overallTotal,
       cart: JSON.stringify(cart),
       CustomerDeliveryInfor: CustomerDeliveryInfor,
       paymentMethod: paymentMethod,
       sts: "preparing",
+      overallTotal: overallTotal,
+      createdAt: new Date(),
       // You can include other relevant order details here
       // For example: total amount, status, timestamp, etc.
     };
     
     await db.collection('orders').doc(orderId.toString()).set(orderData);
 
-    // Delete cart items after order creation
-    // deleteCart(user_id, cart);
+    
+    await deleteCartItems(user_id);
     
     
     console.log("*****************************************");
@@ -232,18 +234,25 @@ router.post('/createOrder', async (req, res) => {
 
 
 
-router.delete("/deleteCart/:userId", async (req, res) => {
-  const userId = req.params.userId;
-
+async function deleteCartItems(user_id) {
+  console.log('Inside the delete');
   try {
-    // Delete the user's cart collection and all its items
-    await db.collection("cartItems").doc(userId).delete();
-    
-    return res.status(200).send({ success: true, message: "Cart items deleted successfully." });
+    const cartItemsRef = db.collection("cartItems").doc(user_id).collection("items");
+    const cartItemsSnapshot = await cartItemsRef.get();
+
+    const batch = db.batch();
+
+    cartItemsSnapshot.forEach((doc) => {
+      batch.delete(doc.ref);
+    });
+
+    await batch.commit();
+
+    console.log("Cart items deleted for user:", user_id);
   } catch (err) {
-    return res.status(500).json({ success: false, msg: `Error: ${err}` });
+    console.error("Error deleting cart items:", err);
   }
-});
+}
 
 
 

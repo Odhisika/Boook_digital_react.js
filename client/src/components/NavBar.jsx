@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-scroll';
 import { isActiveStyles, isNotActiveStyles } from '../utils/styles';
 
 const NavBar = () => {
+
 
   return (
     <div className="fixed z-40 inset-x-0 top-24 object-contain flex items-center justify-between px-10 md:px-10 py-6 h-6 bg-red-50">
@@ -54,6 +55,7 @@ const NavBar = () => {
           </Link>
         </ul>
       </nav>
+       
     </div>
   )
 }

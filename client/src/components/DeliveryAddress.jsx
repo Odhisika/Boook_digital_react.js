@@ -399,10 +399,10 @@ const handleOptionChange = (event) => {
              </div>
              <motion.button
               {...buttonClick}
-             
+              onClick={handlePyment}
               className=" w-40 px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-800 transition-all duration-150"
             >
-              Edit Address
+              Proceed 
             </motion.button>
             
           </div>
@@ -414,7 +414,16 @@ const handleOptionChange = (event) => {
       
     })}
 
-<div className='flex flex-col  items-start h-full w-full  bg-slate-400 justify-start gap-6 p-6'>
+
+        </div>
+      </div>
+
+
+      <div className="  flex border w-full top-0   px-5 py-7 left-0 ">
+      
+      <div className=" py-2 flex-1 flex items-center justify-center relative">
+
+      <div className='flex flex-col  items-start h-full w-full  bg-slate-400 justify-start gap-6 p-6'>
         <p className='text-textColor font-bold text-[16px] md:text-[20px]'>Choose your payment Method</p>
         <div className='font-bold text-textColor'>
 
@@ -499,15 +508,11 @@ const handleOptionChange = (event) => {
           <hr className=' bg-red-700'/>
 
         </div>
+       
       </div>
-        </div>
-      </div>
-
-
-      <div className=" py-2 flex-1 flex items-center justify-center relative">
       
-      <div className=" py-2 flex-1 flex items-center justify-center relative">
-  {/* Display the cart information for the current user */}
+
+  {/* Display the cart information for the current user
   <div className=" w-full flex justify-center items-center gap-4 pt-6 ">
       <div className=' w-full object-contain'>
      <DataTable      
@@ -570,7 +575,7 @@ const handleOptionChange = (event) => {
        </div>
    
        </div>
-       </div>
+       </div> */}
        
  
     

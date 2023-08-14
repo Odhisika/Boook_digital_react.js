@@ -85,13 +85,13 @@ const App = () => {
         <Route path="/*" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
-        <Route path= "/user-orders" element={<UsersOrder/>}/>
-        <Route path='/checkout' element={<CheckOutSuccess/>}/>
+        <Route path='/delivery' element={<DeliveryAddress/>}/>
+        <Route  path='/payment'  element={<Payment/>}/>
         <Route path='/aboutus' element={<AboutUs/>}/>
         <Route path='/menu' element={<Menu/>}/>
         <Route path='/services' element={<Services/>}/>
-        <Route path='/delivery' element={<DeliveryAddress/>}/>
-        <Route  path='/payment'  element={<Payment/>}/>
+        <Route path='/checkout' element={<CheckOutSuccess/>}/>
+        <Route path= "/user-orders" element={<UsersOrder/>}/>
        </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}

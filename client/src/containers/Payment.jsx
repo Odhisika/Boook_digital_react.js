@@ -19,6 +19,7 @@ const Payment = () => {
   const info = useSelector((state) => state.info);
   const cart = useSelector((state) => state.cart);
   const navigate = useNavigate();
+ 
 
  
 
@@ -58,7 +59,7 @@ const Payment = () => {
     0
   );
   const deliveryFees = 45.10;
-  const overallTotal = totalCartPrice + deliveryFees;
+  const  overallTotal = totalCartPrice + deliveryFees;
 
   // useEffect(()=>{
   //   let deliveryFees =45.1;
@@ -78,11 +79,12 @@ const Payment = () => {
     try {
       // Create the order
       const orderData = {
-        total:overallTotal,
+        overallTotal:overallTotal,
         user_id: user.user_id,
         CustomerDeliveryInfor: deliveryInfo,
         paymentMethod: selectedOption,
         cart: JSON.stringify(cart),
+        createdAt: new Date(),
       };
   
       // Send a POST request to the createOrder API endpoint

@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../api';
 import { setAllProducts } from '../context/actions/productActions';
 import {CChart} from "@coreui/react-chartjs"
+import OrdersData from './OrdersData';
 
 const DbHome = () => {
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
-  const Shops = products?.filter((item)=> item.product_category=== "Shops");
-  const AudioBooks = products?.filter((item)=> item.product_category=== "AudioBooks");
-  const PDF = products?.filter((item)=> item.product_category=== "PDF");
-  const AcadamicBooks = products?.filter((item)=> item.product_category=== "AcadamicBooks");
+  const KG = products?.filter((item)=> item.product_category=== "KG");
+  const Primary = products?.filter((item)=> item.product_category=== "Primary");
+  const JHS = products?.filter((item)=> item.product_category=== "JHS");
+  const SHS = products?.filter((item)=> item.product_category=== "SHS");
   const BiograpghicBooks = products?.filter((item)=> item.product_category=== "BiograpghicBooks");
   const HistoricBooks = products?.filter((item)=> item.product_category=== "HistoricBooks");
   const Science = products?.filter((item)=> item.product_category=== "Science");
@@ -32,12 +33,12 @@ const DbHome = () => {
          <CChart
           type="bar"
           data={{
-            labels: ['Shops', 'AudioBooks', 'PDF', 'AcadamicBooks', 'BiographicBooks', 'HistoricBooks', 'Science'],
+            labels: ['KG', 'Primary', 'JHS', 'SHS', ],
             datasets: [
               {
                 label: 'Category wise Count ',
                 backgroundColor: '#f87979',
-                data: [Shops?.length, AudioBooks?.length, PDF?.length, AcadamicBooks?.length, BiograpghicBooks?.length, HistoricBooks?.length, Science?.length],
+                data: [KG?.length, Primary?.length, JHS?.length, SHS?.length],
               },
             ],
           }}
@@ -54,7 +55,7 @@ const DbHome = () => {
               datasets: [
                 {
                   backgroundColor: ['#56C0F5', '#06ED2F', '#C81408', '#2308C8' ,"#C80868"],
-                  data: [40, 20, 80, 10,50],
+                  data: [ 50, 10, 2,10,1],
                 },
               ],
             }}

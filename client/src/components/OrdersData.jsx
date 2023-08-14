@@ -28,7 +28,7 @@ const OrdersData = ({index, data, admin}) => {
     <div className=' w-full flex items-center justify-between'>
     <h1 className='text-xl text-headingColor font-semibold'>Order ID: {data.orderId}</h1>
      <div className=' flex items-center gap-4'>
-        <p className=' flex items-center gap-1 text-textColor'>Total: ₵<pan className=' text-headingColor font-bold'>{data?.total}</pan></p>
+        <p className=' flex items-center gap-1 text-textColor'>Total: ₵<pan className=' text-headingColor font-bold'>{data.overallTotal}</pan></p>
         <p className=' px-2 py-[2px] text-sm text-headingColor font-semibold capitalize rounded-md bg-emerald-400 drop-shadow-md'>{data?.status}</p>
         <p className={` text-base font-semibold capitalize border bg-gray-300 px-2 py-[2px] rounded-md ${
             (data.sts==="preparing" && "text-orange-500 bg-orange-100")||
