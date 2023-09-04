@@ -15,25 +15,71 @@ function generateOrderID() {
 
 
 //create products 
-router.post("/create", async (req,res)=>{
-    try{
+// Create products
+router.post("/create", async (req, res) => {
+  try {
+    const id = Date.now();
+    const data = {
+      productid: id,
+      product_name: req.body.product_name,
+      product_description: req.body.product_description,
+      product_category: req.body.product_category,
+      product_price: req.body.product_price,
+      imageURL: req.body.imageURL,
+      quantity_in_stock: req.body.quantity_in_stock, 
+    };
 
-        const id=Date.now();
-        const data ={
-            productid:id,
-            product_name: req.body.product_name,
-            product_description: req.body.product_description,
-            product_category: req.body.product_category,
-            product_price: req.body.product_price,
-            imageURL:req.body.imageURL,
-        }
-        const response  = await db.collection("products").doc(`/${id}/`).set(data) 
-        return res.status(200).send ({success: true, data: response});
 
-    }catch(err){
-        return res.send({success: false, msg: `Error : ${err}`});
-    }
-})
+const response = await db.collection("products").doc(`${id}`).set(data);
+return res.status(200).json({ success: true, data: response }); 
+
+   
+  } catch (err) {
+    return res.send({ success: false, msg: `Error: ${err}` });
+  }
+});
+
+
+
+async function createInventoryFromProducts() {
+  try {
+    const productsSnapshot = await db.collection("products").get();
+
+    const inventoryBatch = db.batch();
+
+    productsSnapshot.forEach((productDoc) => {
+      const productData = productDoc.data();
+
+      // Create an inventory document based on the product data
+      const inventoryRef = db.collection("Inventory").doc(productDoc.id);
+      inventoryBatch.set(inventoryRef, {
+        productid: productDoc.id,
+        product_name: productData.product_name,
+        product_description: productData.product_description,
+        product_category: productData.product_category,
+        product_price: productData.product_price,
+        quantity_in_stock: productData.quantity_in_stock,
+      });
+    });
+
+    // Commit the batch write to create the inventory documents
+    await inventoryBatch.commit();
+
+    console.log("Inventory documents created successfully");
+  } catch (error) {
+    console.error("Error creating inventory documents:", error);
+  }
+}
+
+// Call the function to create the inventory documents from products
+createInventoryFromProducts();
+
+
+
+
+
+
+
 
 //get all products 
 router.get("/all", async (req, res) => {
@@ -212,8 +258,7 @@ router.post('/createOrder', async (req, res) => {
       sts: "preparing",
       overallTotal: overallTotal,
       createdAt: new Date(),
-      // You can include other relevant order details here
-      // For example: total amount, status, timestamp, etc.
+      
     };
     
     await db.collection('orders').doc(orderId.toString()).set(orderData);
@@ -285,6 +330,7 @@ router.post("/updateOrder/:order_id", async (req, res)=>{
     return res.send({success: false, msg: `Error : ${err}`});
   }
 })
+
 
 
 

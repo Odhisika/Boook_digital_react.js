@@ -18,6 +18,7 @@ const DbNewItems = () => {
   const [description, setDescription] = useState("")
   const [category, setcategory] = useState(null)
   const [price, setprice] = useState("")
+  const [quantity_in_stock, setquantity_in_stock] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [progress, setprogress] = useState(null);
   const [imageDownloadURL, setImageDownloadURL] = useState(null)
@@ -77,7 +78,9 @@ const DbNewItems = () => {
       product_description: description,
       product_category: category,
       product_price: price,
+      quantity_in_stock: quantity_in_stock,
       imageURL: imageDownloadURL,
+
     };
 
     addNewProduct(data)
@@ -91,6 +94,7 @@ const DbNewItems = () => {
         setItemName("");
         setDescription("")
         setprice("");
+        setquantity_in_stock("");
         setcategory(null);
         dispatch(alertNull())
       })
@@ -107,13 +111,13 @@ const DbNewItems = () => {
     <div className="flex items-center justify-center flex-col pt-6 px-24 w-full ">
       <div className=" border border-gray-200 rounded-md p-4 w-full flex flex-col items-center justify-center gap-4">
         <InputValueField type="text"
-         placeholder={"Item name here"}
+         placeholder={"Book name here"}
          stateFunc={setItemName} 
          stateValue={itemName}/>
 
         <InputValue
           type="text"
-          placeholder="Item description (max 100 words)"
+          placeholder="Book description (max 100 words)"
           stateFunc={setDescription}
           stateValue={description}
           maxLength={100}
@@ -129,9 +133,14 @@ const DbNewItems = () => {
 
       </div>
       <InputValueField type="number"
-         placeholder={"Item price here"}
+         placeholder={"Book price here"}
          stateFunc={setprice} 
          stateValue={price}/>
+
+       <InputValueField type="number"
+        placeholder={"Book Quantity "}
+         stateFunc={setquantity_in_stock} 
+         stateValue={quantity_in_stock}/>
           
           <div className=" w-full bg-card backdrop-blur-md h-370 rounded-md border-2 border-dotted border-gray-300 cursor-pointer">
             {isLoading ? <div className=" w-full h-full flex flex-col items-center justify-evenly px-24"><Spinner/>

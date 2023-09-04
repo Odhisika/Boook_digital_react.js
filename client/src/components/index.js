@@ -32,6 +32,8 @@ export {default as SHS} from "./SHS"
 export {default as PHeader} from "./PHeader"
 export {default as DeliveryAddress} from "./DeliveryAddress"
 export {default  as Footer} from "./Footer"
+export {default  as Search} from "./Search"
+
 
 
 

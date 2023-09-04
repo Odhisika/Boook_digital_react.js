@@ -75,7 +75,7 @@ const App = () => {
       {isLoading && (
         <motion.div
           {...fadeInOut}
-          className=" fixed z-50 inset-0 bg-primary backdrop-blur-md flex items-center justify-center w-full"
+          className=" fixed z-50 inset-0 backdrop-blur-md flex items-center justify-center w-full"
         >
           <MainLoader />
         </motion.div>
