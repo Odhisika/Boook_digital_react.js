@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addNewItemToCart, getAllCartItems } from '../api';
 import { alertNull, alertSuccess } from '../context/actions/alertActions'
 import { setCartItems } from '../context/actions/cartActions';
+import { Link } from 'react-router-dom';
 
 const SliderCad = ({ data, index }) => {
   const user = useSelector((state)=>state.user);
+  const product = useSelector((state) => state.products);
   const dispatch= useDispatch();
  const SendToCart =()=>{
   addNewItemToCart(user ?. user_id, data).then(res=>{
@@ -34,7 +36,7 @@ const SliderCad = ({ data, index }) => {
 
 
   return (
-    <div className="bg-primary hover:drop-shadow-lg backdrop-blur-md rounded-xl flex items-center justify-between relative px-4 py-2 w-full md:w-340 md:min-w-350 gap-3 overflow-y-auto">
+    <div className="bg-orange-100 hover:drop-shadow-lg backdrop-blur-md rounded-xl flex items-center justify-between relative px-4 py-2 w-full md:w-340 md:min-w-350 gap-3 overflow-y-auto">
       <img src={data.imageURL} className="w-40 h-40 md:w-32 md:mt-16 object-contain" alt="" />
       <div className="relative pt-12">
         <p className="text-xl text-headingColor font-semibold">{data.product_name}</p>
@@ -55,7 +57,10 @@ const SliderCad = ({ data, index }) => {
         </div>
       )}
     </motion.div>
+    <div className="w-full text-center mt-4">
        
+        <Link to={`/bookdetails/${data.productid}`}>View Details</Link>
+      </div>
       </div>
     </div>
   );

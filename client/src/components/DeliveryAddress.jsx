@@ -10,12 +10,15 @@ import { useNavigate } from 'react-router-dom';
 import {  vodafone, tigo, mtn, banks, CashOnDelivery } from '../asset';
 import {  getCustomerInfor, saveCustomerInfo } from '../api';
 import { alertDanger, alertNull, alertSuccess } from '../context/actions/alertActions';
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 
 
 
 
-const DeliveryAddress = () => {
+
+const DeliveryAddress = (props) => {
   const cart = useSelector((state) => state.cart);
  const user = useSelector((state)=>state.user);
  const dispatch = useDispatch();
@@ -36,6 +39,7 @@ const [PhoneNumber, setPhoneNumber] = useState("")
 const [Region , setRegion ] = useState("")
 const [City, setCity] = useState("")
 const [selectedOption, setSelectedOption] = useState('');
+const [error, setError] = useState("");
 
 
 
@@ -288,7 +292,40 @@ const handlePyment = () => {
 
 const handleOptionChange = (event) => {
   setSelectedOption(event.target.value);
+
 };
+
+function isValidGhanaPhoneNumber(number) {
+  // A regular expression for Ghana phone numbers
+  const regex = /^(?:\+233|0)(?:2|5)(?:[0-9]{7})$/;
+  // Test the number against the regex and return true or false
+  return regex.test(number);
+}
+
+ /// A function to handle the input change
+function handleChange(event) {
+  // Get the input value
+  const value = event.target.value;
+  // Remove any non-numeric characters
+  const numericValue = value.replace(/\D/g, '');
+
+  // Limit the input to 10 digits
+  const limitedValue = numericValue.slice(0, 10);
+
+  // Update the input state with the sanitized and limited value
+  setPhoneNumber(limitedValue);
+
+  // Validate the phone number
+  if (isValidGhanaPhoneNumber(limitedValue)) {
+    // If valid, clear the error message
+    setError('');
+  } else {
+    // If invalid, set the error message
+    setError('Please enter a valid Ghana phone number');
+  }
+}
+
+
 
 
   return (
@@ -327,13 +364,17 @@ const handleOptionChange = (event) => {
             type="firstName"
           />
 
-            <LoginInput
-              placeholder="Enter your Phone Number"
-              inputState={PhoneNumber}
-              inputStateFunc={setPhoneNumber}
-              type="number"
-              required
-            />
+          <LoginInput
+            placeholder={"Enter Your phone number"}
+            inputState={PhoneNumber} // Replace with your state variable
+            inputStateFunc={setPhoneNumber} // Replace with your state setter function
+            type="PhoneNumber" // Set the type to "PhoneNumber" to render the PhoneInput component
+            required
+            onChange={handleChange} // Include the onChange handler
+          />
+          {/* Show the error message if any */}
+          {error && <p className="text-red-500">{error}</p>}
+
             
 
           {/* Select dropdown for Region */}
@@ -512,71 +553,6 @@ const handleOptionChange = (event) => {
       </div>
       
 
-  {/* Display the cart information for the current user
-  <div className=" w-full flex justify-center items-center gap-4 pt-6 ">
-      <div className=' w-full object-contain'>
-     <DataTable      
-       columns={[
-         {title: "Image", 
-         field : "imageURL",
-          render:(rowData)=>(
-           <img src={rowData.imageURL}
-           className="w-32 h-16 object-contain rounded-md"/>
-         )},
-         {
-           title: "Name",
-           field : "product_name",
-         },{
-           title: "Category",
-           field: "product_category",
-         },
-         {
-          title:"Quantity",
-          field: "quantity"
-         },
-         
-         {
-           title: "Price",
-           field: "product_price",
-           render: (rowData)=>(
-             <p className=" text-xl font-semibold text-textColor flex items-center justify-center">
-               <span className=" text-red-400">₵</span>{" "}
-               {parseFloat(rowData.product_price * rowData.quantity).toFixed(2)}
-   
-             </p>
-           ),
-         },
-        
-       ]}
-       data={cart}
-       title = "Your cart items "
-       actions={[
-        {
-          icon: "delete",
-          tooltip: "Delete Data",
-          onClick: (event, rowData) => {
-            alert("You want to Delete " + rowData.productid);
-            
-          }
-        },
-       ]}
-       />
-       <div className=' gap-4 py-4'>
-         <p>
-            <motion.button
-              {...buttonClick}
-             onClick={handlePyment}
-              className="w-full px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-red-500 transition-all duration-150"
-            >
-              Place order
-            </motion.button>
-            </p>
-              
-       </div>
-   
-       </div>
-       </div> */}
-       
  
     
 </div> 

@@ -8,7 +8,7 @@ import { getAllCartItems, validateUserJWTToken } from './api';
 import { setUserDetails } from './context/actions/userActions';
 import { fadeInOut } from './animations';
 import { motion } from 'framer-motion';
-import { AboutUs, Alert, CheckOutSuccess, DeliveryAddress, JHS, KG, MainLoader, Menu, Primary, SHS, Services, UsersOrder } from './components';
+import { AboutUs, Alert, BookDetails, CheckOutSuccess, DeliveryAddress, JHS, KG, MainLoader, Menu, Primary, SHS, Services, UsersOrder } from './components';
 import { setCartItems } from './context/actions/cartActions';
 
 const App = () => {
@@ -92,6 +92,7 @@ const App = () => {
         <Route path='/services' element={<Services/>}/>
         <Route path='/checkout' element={<CheckOutSuccess/>}/>
         <Route path= "/user-orders" element={<UsersOrder/>}/>
+        <Route path='/bookdetails/:productid' element={<BookDetails />} />
        </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}

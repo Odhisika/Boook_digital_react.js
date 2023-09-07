@@ -12,7 +12,7 @@ const Home = () => {
     
    
   return (
-   <motion.div className=' w-full grid grid-cols-1 md:grid-cols-2 gap-4 '>
+   <motion.div className=' w-full grid grid-cols-1 md:grid-cols-2 gap-4  '>
     <div className=" flex flex-col items-start justify-start gap-6">
       
           

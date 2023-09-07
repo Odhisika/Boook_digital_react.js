@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from "react";
 import {Header} from "../components"
+
 
 const AboutUs = () => {
   return (
@@ -13,3 +14,11 @@ const AboutUs = () => {
 }
 
 export default AboutUs
+
+
+
+
+
+
+
+
