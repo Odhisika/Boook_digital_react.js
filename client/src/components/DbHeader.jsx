@@ -27,9 +27,9 @@ const DbHeader = () => {
   return (
     <div className=" w-full flex items-center justify-between gap-3">
       <p className=' text-2xl text-headingColor'>Welcome to Digi.Books
-        {user?.name &&(
+        {/* {user?.name &&(
             <span className=" block text-base text-gray-500">{`Hello ${user?.name}...!`}</span>
-        )}
+        )} */}
       </p>
       <div className=" flex items-center justify-center gap-4">
         <div className=' flex items-center justify-center gap-3 px-4 py-2 bg-slate-50 rounded-md backdrop-blur-md shadow-md'>
