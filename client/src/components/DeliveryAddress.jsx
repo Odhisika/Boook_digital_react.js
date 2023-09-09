@@ -375,7 +375,12 @@ function handleChange(event) {
           {/* Show the error message if any */}
           {error && <p className="text-red-500">{error}</p>}
 
-            
+
+
+          {/* Show the error message if any
+          {error && <p className="text-red-500">{error}</p>} */}
+
+             
 
           {/* Select dropdown for Region */}
           <div className="w-full h-full text-primary bg-slate-800 text-lg font-semibold flex-1 border-none outline-none">
