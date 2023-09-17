@@ -303,10 +303,50 @@ router.delete('/customerInfo/:user_id', async (req, res) => {
 });
 
 
+async function placeOrder(orderData) {
+  try {
+    if (!Array.isArray(orderData.cart)) {
+      throw new Error("Invalid or missing order items (cart)");
+      
+    }
+
+    // Iterate through the products in the order
+    for (const orderItem of orderData.cart) {
+      const productid = orderItem.productid;
+      const quantityOrdered = orderItem.quantity;
+
+      // Get the current product data from Firestore
+      const productRef = db.collection("products").doc(productid);
+      const productDoc = await productRef.get();
+      const productData = productDoc.data();
+
+      // Ensure there are enough items in stock to fulfill the order
+      if (productData.quantity_in_stock >= quantityOrdered) {
+        // Calculate the new quantity in stock
+        const newQuantity = productData.quantity_in_stock - quantityOrdered;
+
+        // Update the quantity_in_stock in Firestore
+        await productRef.update({ quantity_in_stock: newQuantity });
+
+        console.log(`Order placed for ${quantityOrdered} units of ${productData.product_name}`);
+      } else {
+        console.log(`Insufficient stock for ${productData.product_name}`);
+        // Handle insufficient stock error as needed
+      }
+    }
+
+    // Handle order completion and other tasks here
+    // ...
+
+  } catch (error) {
+    console.error("Error placing order:", error);
+    // Handle the error and possibly roll back any changes made
+  }
+}
+
 
 
  
-
 // Inside your /createOrder route
 router.post('/createOrder', async (req, res) => {
   const { user_id, overallTotal, CustomerDeliveryInfor, paymentMethod, cart } = req.body;
@@ -318,7 +358,7 @@ router.post('/createOrder', async (req, res) => {
 
       orderId: orderId,
       userId: user_id,
-      cart: JSON.stringify(cart),
+      cart: JSON.parse(cart),
       CustomerDeliveryInfor: CustomerDeliveryInfor,
       paymentMethod: paymentMethod,
       sts: "preparing",
@@ -328,8 +368,11 @@ router.post('/createOrder', async (req, res) => {
     };
     
     await db.collection('orders').doc(orderId.toString()).set(orderData);
-
     
+    await placeOrder(orderData);
+    
+
+    console.log('Calling deleteCartItems with user_id:', user_id);
     await deleteCartItems(user_id);
     
     
@@ -342,9 +385,6 @@ router.post('/createOrder', async (req, res) => {
     return res.status(500).send({ error: 'An error occurred' });
   }
 });
-
-
-
 
 
 async function deleteCartItems(user_id) {

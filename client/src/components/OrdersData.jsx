@@ -74,7 +74,7 @@ const OrdersData = ({index, data, admin}) => {
             <p> Price: {product.product_price} </p>
             <p> Qty: {product.quantity} </p>
 
-            {/* You can include other information here */}
+            
           </div>
           </div>
         ))}
