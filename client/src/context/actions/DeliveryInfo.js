@@ -1,20 +1,23 @@
 export const setDeliveryInfo = (data) => {
     return {
-      type: "SET_DELIVERY_INFO",
+      type: "SET_CUSTOMER_INFO",
       payload: data,
     };
   };
   
-  export const getUserInfo = () => {
+
+  export const getCustomerInfo = () => {
     return {
-      type: "GET_DELIVERY_INFO",
+      type: "GET_CUSTOMER_INFO",
     };
   };
   
-  export const setUserNull = () => {
+  export const setCustomerInfoNull = () => {
     return {
-      type: "SET_DELIVERY_INFO",
-      info: null,
+      type: "CLEAR_CUSTOMER_INFO",
+      payload: null,
     };
   };
+  
+ 
   

@@ -7,9 +7,10 @@ import { storage } from '../config/firebase.config'
 import { useDispatch, useSelector } from 'react-redux'
 import {alertDanger, alertNull, alertSuccess} from "../context/actions/alertActions";
 import { buttonClick } from '../animations'
-import {motion} from "framer-motion"
+import {motion, useInstantTransition} from "framer-motion"
 import { addNewProduct, getAllProducts } from '../api'
 import {setAllProducts} from "../context/actions/productActions"
+import { useSubmit } from 'react-router-dom'
 
 const DbNewItems = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ const DbNewItems = () => {
   const [itemName, setItemName] = useState("")
   const [description, setDescription] = useState("")
   const [category, setcategory] = useState(null)
+  const [publishers, setPublishers] = useState(''); // Corrected state variable name
+  const [authors, setAuthors] = useState('');
   const [price, setprice] = useState("")
   const [quantity_in_stock, setquantity_in_stock] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -77,6 +80,8 @@ const DbNewItems = () => {
       product_name: itemName,
       product_description: description,
       product_category: category,
+      product_publishers: publishers, 
+      product_authors: authors, 
       product_price: price,
       quantity_in_stock: quantity_in_stock,
       imageURL: imageDownloadURL,
@@ -93,6 +98,8 @@ const DbNewItems = () => {
         setImageDownloadURL(null);
         setItemName("");
         setDescription("")
+        setPublishers(''); // Reset the state variable
+        setAuthors('');
         setprice("");
         setquantity_in_stock("");
         setcategory(null);
@@ -122,6 +129,21 @@ const DbNewItems = () => {
           stateValue={description}
           maxLength={100}
         />
+        
+        <InputValueField
+        type="text"
+        placeholder="Publishers"
+        stateValue={publishers}
+        stateFunc={setPublishers}
+      />
+
+      <InputValueField
+        type="text"
+        placeholder="Authors"
+        stateValue={authors}
+        stateFunc={setAuthors}
+      />
+
 
 
       <div className=" w-full flex items-center justify-around gap-3 flex-wrap">

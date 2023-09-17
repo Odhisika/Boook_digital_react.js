@@ -4,33 +4,79 @@ const db= admin.firestore();
 db.settings({ignoreUndefinedProperties: true })
 const express = require("express")
 
-function generateOrderID() {
-  const timestamp = Date.now(); 
-  const random = Math.floor(Math.random() * 1000000); 
 
-  const orderID = `${timestamp}-${random}`;
-  return orderID;
+
+const totalItemsRef = db.collection("Inventory").doc("total_items");
+
+
+totalItemsRef.set({ total_items: 0 });
+
+function generateID() {
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const idLength = 8; 
+
+  let id = '';
+  for (let i = 0; i < idLength; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    id += characters[randomIndex];
+  }
+
+  return id;
+}
+
+
+async function updateTotalItems() {
+  try {
+    const productsSnapshot = await db.collection("products").get();
+    let totalItems = 0;
+
+    productsSnapshot.forEach((productDoc) => {
+      const productData = productDoc.data();
+      console.log(`Product: ${productDoc.id}, Quantity: ${productData.quantity_in_stock}`);
+
+      // Convert the quantity_in_stock to a number if it's a string
+      const quantity = parseFloat(productData.quantity_in_stock);
+
+      if (!isNaN(quantity)) {
+        totalItems += quantity;
+      }
+    });
+
+    console.log(`Total Items in Stock: ${totalItems}`);
+    // Update the total_items document with the new total items value
+    await totalItemsRef.update({ total_items: totalItems });
+  } catch (error) {
+    console.error("Error updating total items in stock:", error);
+  }
 }
 
 
 
-//create products 
+// Call the updateTotalItems function to initialize the total items
+updateTotalItems();
+
+
+
+
 // Create products
 router.post("/create", async (req, res) => {
   try {
-    const id = Date.now();
+    const productid = generateID();
     const data = {
-      productid: id,
+      productid: productid,
       product_name: req.body.product_name,
       product_description: req.body.product_description,
       product_category: req.body.product_category,
+      product_publishers: req.body.product_publishers,
+      product_authors: req.body.product_authors,
       product_price: req.body.product_price,
       imageURL: req.body.imageURL,
       quantity_in_stock: req.body.quantity_in_stock, 
     };
 
 
-const response = await db.collection("products").doc(`${id}`).set(data);
+const response = await db.collection("products").doc(`${productid}`).set(data);
+await updateTotalItems();
 return res.status(200).json({ success: true, data: response }); 
 
    
@@ -45,6 +91,8 @@ async function createInventoryFromProducts() {
   try {
     const productsSnapshot = await db.collection("products").get();
 
+    console.log(`Total products in 'products' collection: ${productsSnapshot.size}`);
+
     const inventoryBatch = db.batch();
 
     productsSnapshot.forEach((productDoc) => {
@@ -56,6 +104,8 @@ async function createInventoryFromProducts() {
         productid: productDoc.id,
         product_name: productData.product_name,
         product_description: productData.product_description,
+        product_publishers: productData.product_publishers,
+        product_authors: productData.product_authors,
         product_category: productData.product_category,
         product_price: productData.product_price,
         quantity_in_stock: productData.quantity_in_stock,
@@ -73,11 +123,6 @@ async function createInventoryFromProducts() {
 
 // Call the function to create the inventory documents from products
 createInventoryFromProducts();
-
-
-
-
-
 
 
 
@@ -205,9 +250,9 @@ router.get("/getAllCartItems/:user_id", async (req, res) => {
 router.post('/customerInfo/:user_id', async (req, res) => {
   try {
     const user_id = req.params.user_id;
-    const id = Date.now();
+    const id = generateID();
     const customerInfo = {
-      userId: user_id, // Add the user_id to the customerInfo object
+      userId: user_id, 
       firstName: req.body.firstName,
       SurName: req.body.SurName,
       AddressLine1: req.body.AddressLine1,
@@ -241,13 +286,34 @@ router.get("/customerInfo/:user_id", async (req, res) => {
 
 
 
+// Delete customer delivery information by user_id
+router.delete('/customerInfo/:user_id', async (req, res) => {
+  const user_id = req.params.user_id;
 
+  try {
+    const userDocRef = db.collection('CustomerDeliveryInfor').doc(user_id);
+
+    await userDocRef.delete();
+    
+
+    return res.status(200).json({ success: true, msg: 'Customer information deleted successfully' });
+  } catch (err) {
+    return res.status(500).json({ success: false, msg: `Error: ${err}` });
+  }
+});
+
+
+
+
+ 
+
+// Inside your /createOrder route
 router.post('/createOrder', async (req, res) => {
   const { user_id, overallTotal, CustomerDeliveryInfor, paymentMethod, cart } = req.body;
 
   console.log('Inside the orders');
   try {
-    const orderId = generateOrderID();
+    const orderId = generateID();
     const orderData = {
 
       orderId: orderId,
@@ -276,6 +342,8 @@ router.post('/createOrder', async (req, res) => {
     return res.status(500).send({ error: 'An error occurred' });
   }
 });
+
+
 
 
 

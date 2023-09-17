@@ -5,7 +5,7 @@ export const  setallUsersDetails = (data) =>{
         };
     };
     
-    export const  getallUsersDetails = (data) =>{
+    export const  getallUsersDetails = () =>{
         return {
             type: "GET_All_USER"
             

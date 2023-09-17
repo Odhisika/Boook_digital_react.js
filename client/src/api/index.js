@@ -79,10 +79,10 @@ export const addNewItemToCart = async (userId, data) => {
         console.log("Response status:", error.response.status);
         console.log("Response headers:", error.response.headers);
       } else if (error.request) {
-        // The request was made, but no response was received
+        
         console.log("Request:", error.request);
       } else {
-        // Something happened in setting up the request that triggered an error
+        
         console.log("Error:", error.message);
       }
       throw new Error(`Error: ${error.message}`);
@@ -122,15 +122,15 @@ export const saveCustomerInfo = async (customerInfo, user_id) => {
     const response = await axios.post(`${baseURL}/api/products/customerInfo/${user_id}`, customerInfo);
 
     if (response.status === 200 && response.data.success) {
-      // The request was successful, and the customer information was saved
+      
       return true;
     } else {
-      // The server returned a response, but the customer information might not have been saved
+    
       console.error('Failed to save customer information:', response.data.error);
       return false;
     }
   } catch (err) {
-    // An error occurred during the request (e.g., network error, server down)
+    
     console.error('Error saving customer information:', err);
     return false;
   }
@@ -147,15 +147,20 @@ export const getCustomerInfor = async (user_id) =>{
     }
 }
 
+export const deleteCustomerInfo = async (userId) => {
+    try {
+      const res = await axios.delete(`${baseURL}/api/products/customerInfo/${userId}`);
+      return res.data;
+    } catch (err) {
+      return null;
+    }
+  };
+  
 
-// export const getAllOrders = async (user_id) =>{
-//     try{
-//         const res = await axios.get(`${baseURL}/api/products/orders/${user_id}`)
-//          return res.data.data
-//     } catch(err){
-//         return null ;
-//     }
-// }
+
+
+
+
 
 export const createOrder = async (data) =>{
     try{
@@ -195,10 +200,10 @@ export const updateOrderSts = async(order_id, sts )=>{
 export const getAllOrders = async () => {
     try {
       const res = await axios.get(`${baseURL}/api/products/orders`);
-      console.log('API response:', res.data); // Debugging statement
+      console.log('API response:', res.data); 
       return res.data.data;
     } catch (err) {
-      console.error('API error:', err); // Debugging statement
+      console.error('API error:', err); 
       return null;
     }
   };

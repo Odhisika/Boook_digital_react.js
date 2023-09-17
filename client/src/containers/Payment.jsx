@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {  useLocation, useNavigate  } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useDispatch, useSelector } from 'react-redux';
-import { createOrder, deleteCart, deleteCartItem , getAllCartItems, getCustomerInfor } from '../api';
+import { createOrder, deleteCart,  getAllCartItems, getCustomerInfor } from '../api';
 
 import { setCartItems } from '../context/actions/cartActions';
 import { buttonClick, staggerFadeInOut } from '../animations';
@@ -61,19 +61,7 @@ const Payment = () => {
   const deliveryFees = 45.10;
   const  overallTotal = totalCartPrice + deliveryFees;
 
-  // useEffect(()=>{
-  //   let deliveryFees =45.1;
-  //   let overallTotal =0;
-  //   if (cart){
-  //     cart.map(()=>{
-  //       overallTotal = totalCartPrice + deliveryFees
-  //       settotal(overallTotal);
-  //     });
-  //   }
-  // },[cart]);
-
-
-  // ...
+  
   
   const handleConfirmOrder = async () => {
     try {
@@ -87,7 +75,7 @@ const Payment = () => {
         createdAt: new Date(),
       };
   
-      // Send a POST request to the createOrder API endpoint
+      
       const response = await createOrder(orderData);
 
       dispatch(alertSuccess("You have successfully placed an order "));
@@ -103,15 +91,12 @@ const Payment = () => {
         
          dispatch(clearCartItems());
          console.log(clearCartItems)
-
-  
-        // Handle success, e.g., show a success message
       } else {
         dispatch(alertDanger("Unknown error occurred while processing the order"));
-        // Handle error, e.g., show an error message
+        
       }
     } catch (error) {
-      // Handle error, e.g., show an error message
+    
     }
   };
   

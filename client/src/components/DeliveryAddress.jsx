@@ -1,17 +1,18 @@
 import React, { useState,useEffect } from 'react'
 import {motion} from "framer-motion"
-import {Cart, LoginInput} from '../components'
-import {DataTable} from '../components';
-import { buttonClick } from '../animations';
+import { LoginInput} from '../components'
+import { buttonClick, staggerFadeInOut } from '../animations';
 import { delivery } from '../asset';
 import {Header} from "../components"
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {  vodafone, tigo, mtn, banks, CashOnDelivery } from '../asset';
-import {  getCustomerInfor, saveCustomerInfo } from '../api';
+import {   createOrder, deleteCart, deleteCustomerInfo, getAllCartItems, getCustomerInfor, saveCustomerInfo } from '../api';
 import { alertDanger, alertNull, alertSuccess } from '../context/actions/alertActions';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
+import { removeAddress, setCustomerInfoNull } from '../context/actions/DeliveryInfo';
+import { clearCartItems, setCartItems } from '../context/actions/cartActions';
 
 
 
@@ -104,8 +105,6 @@ const SaveDeliveryDetails = async () => {
 
 
 
-
-
 useEffect(() => {
   if (!info) {
     getCustomerInfor(user?.user_id) // Pass the user ID as an argument to the API function
@@ -119,9 +118,7 @@ useEffect(() => {
       });
   } else {
     
-    // No need to fetch the data again. It's already in the state (info).
-    // The data has been filtered based on user_id in the getCustomerInfor function,
-    // so you don't need to filter it again here.
+   
     console.log(info);
   }
 }, [info, user?.user_id, dispatch]);
@@ -302,28 +299,169 @@ function isValidGhanaPhoneNumber(number) {
   return regex.test(number);
 }
 
- /// A function to handle the input change
+ //
 function handleChange(event) {
-  // Get the input value
+  
   const value = event.target.value;
-  // Remove any non-numeric characters
+ 
   const numericValue = value.replace(/\D/g, '');
 
-  // Limit the input to 10 digits
+
   const limitedValue = numericValue.slice(0, 10);
 
-  // Update the input state with the sanitized and limited value
+ 
   setPhoneNumber(limitedValue);
 
-  // Validate the phone number
+
   if (isValidGhanaPhoneNumber(limitedValue)) {
-    // If valid, clear the error message
+  
     setError('');
   } else {
-    // If invalid, set the error message
+    
     setError('Please enter a valid Ghana phone number');
   }
 }
+
+
+
+const handleDeleteAddress = async (addressToDelete) => {
+  try {
+    const result = await deleteCustomerInfo(addressToDelete.user?.user_id);
+    dispatch(setCustomerInfoNull)
+
+    if (result && result.success) {
+      console.log("Customer information deleted successfully");
+     
+    } else {
+      console.error("Failed to delete customer information. Result:", result);
+    }
+  } catch (error) {
+    console.error("Error deleting customer information:", error);
+  }
+};
+
+useEffect(() => {
+  if (!cart) {
+    getAllCartItems(user?.user_id)
+      .then((data) => {
+        // Update cart items in the Redux store using your cartActions
+        dispatch(setCartItems(data));
+        console.log('Data from Cart:', data);
+      })
+      .catch((err) => {
+        console.error('Error fetching Cart Items:', err);
+      });
+  } else {
+    console.log(cart);
+  }
+}, [cart, user?.user_id, dispatch]);
+
+
+const totalCartPrice = cart.reduce(
+  (total, cartItem) => total + cartItem.product_price * cartItem.quantity,
+  0
+);
+// Constants for delivery prices
+const Express = 55.2;
+const ExpressGh = 100.9;
+const Koforidua = 30.0;
+const Normal = 60.0;
+
+// Initial overall total
+let overallTotal = totalCartPrice + Normal;
+
+// Function to update overall total based on selected delivery option
+function updateOverallTotal() {
+  // Get all radio buttons with name 'shipping'
+  const shippingOptions = document.getElementsByName('shipping');
+
+  // Loop through radio buttons to find the selected one
+  let selectedOption = null;
+  for (const option of shippingOptions) {
+    if (option.checked) {
+      selectedOption = option.value;
+      break;
+    }
+  }
+
+  // Update overall total based on the selected option
+  switch (selectedOption) {
+    case 'ExpressKoforidua':
+      overallTotal = totalCartPrice + Express;
+      break;
+    case 'ExpressGhana':
+      overallTotal = totalCartPrice + ExpressGh;
+      break;
+    case 'DeliveryKoforidua':
+      overallTotal = totalCartPrice + Koforidua;
+      break;
+    case 'NormalGhana':
+      overallTotal = totalCartPrice + Normal;
+      break;
+    default:
+      overallTotal = totalCartPrice + Normal; // Default to Normal delivery if no option selected
+      break;
+  }
+
+  // Update the displayed overall total
+  const overallTotalElement = document.querySelector('.overall-total');
+  if (overallTotalElement) {
+    overallTotalElement.textContent = `₵${overallTotal.toFixed(2)}`;
+  }
+}
+
+// Add event listeners to all radio buttons
+const radioButtons = document.getElementsByName('shipping');
+for (const radioButton of radioButtons) {
+  radioButton.addEventListener('change', updateOverallTotal);
+}
+
+// Initial call to set the overall total with the default option
+updateOverallTotal();
+
+
+
+
+
+const handleConfirmOrder = async () => {
+  try {
+    // Create the order
+    const orderData = {
+      overallTotal:overallTotal,
+      user_id: user.user_id,
+      CustomerDeliveryInfor: deliveryInfo,
+      paymentMethod: selectedOption,
+      cart: JSON.stringify(cart),
+      createdAt: new Date(),
+    };
+
+    
+    const response = await createOrder(orderData);
+
+    dispatch(alertSuccess("You have successfully placed an order "));
+    setTimeout(() => {
+      dispatch(alertNull());
+    }, 3000);
+    navigate('/checkout', { replace: true });
+    console.log(orderData);
+
+    if (response.data.success) {
+       
+      await deleteCart(clearCartItems)
+      
+       dispatch(clearCartItems());
+       console.log(clearCartItems)
+    } else {
+      dispatch(alertDanger("Unknown error occurred while processing the order"));
+      
+    }
+  } catch (error) {
+  
+  }
+};
+
+
+  
 
 
 
@@ -366,19 +504,14 @@ function handleChange(event) {
 
           <LoginInput
             placeholder={"Enter Your phone number"}
-            inputState={PhoneNumber} // Replace with your state variable
-            inputStateFunc={setPhoneNumber} // Replace with your state setter function
-            type="PhoneNumber" // Set the type to "PhoneNumber" to render the PhoneInput component
+            inputState={PhoneNumber}
+            inputStateFunc={setPhoneNumber}
+            type="PhoneNumber" 
             required
-            onChange={handleChange} // Include the onChange handler
+            onChange={handleChange} 
           />
           {/* Show the error message if any */}
           {error && <p className="text-red-500">{error}</p>}
-
-
-
-          {/* Show the error message if any
-          {error && <p className="text-red-500">{error}</p>} */}
 
              
 
@@ -428,140 +561,165 @@ function handleChange(event) {
               Save Address
             </motion.button>
             
-  {deliveryInfo && deliveryInfo.length > 0 && deliveryInfo.map((item, index) => {
-      if (item.userId === user.user_id) { 
+            {deliveryInfo && deliveryInfo.length > 0 && (
+  <div>
+    <h2 className="text-2xl font-bold text-textColor w-full flex items-center justify-between">Delivery Information</h2>
+    {deliveryInfo.map((item, index) => {
+      if (item.userId === user.user_id) {
         return (
-          <div key={index}>
-            <h2 className="text-2xl font-bold  text-textColor w-full flex items-center justify-between ">Delivery Information</h2>
-            <div className=" flex flex-col items-start  justify-start gap-6">
-        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-primary w-full'>
-             Full Name: {item.firstName + item.SurName},
-             Address Line1: {item.AddressLine1},
-             Address Line2:{item.AddressLine2},
-             Phone Number:{item.PhoneNumber},
-             Region:{item.Region},
-             City: {item.City},
-             </div>
-             </div>
-             <motion.button
-              {...buttonClick}
-              onClick={handlePyment}
-              className=" w-40 px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-800 transition-all duration-150"
-            >
-              Proceed 
-            </motion.button>
-            
+          <div key={index} className="px-4 py-1 flex items-start justify-start gap-2 bg-primary w-full">
+            Full Name: {item.firstName + item.SurName}<br />
+            Address Line1: {item.AddressLine1}<br />
+            Address Line2: {item.AddressLine2}<br />
+            Phone Number: {item.PhoneNumber}<br />
+            Region: {item.Region}<br />
+            City: {item.City}<br />
+            <div className="flex gap-2">
+              <motion.button
+                {...buttonClick}
+                onClick={handlePyment} // Handle payment for this address
+                className="w-40 px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-800 transition-all duration-150"
+              >
+                Proceed
+              </motion.button>
+              <button
+                onClick={() => handleDeleteAddress(item)} 
+                className="w-40 px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-800 transition-all duration-150"
+              >
+                Delete Address
+              </button>
+            </div>
           </div>
 
           
         );
       }
       return null;
-      
     })}
+  </div>
+)}
+  <p className=' text-teal-950 font-bold items-center justify-center'>ORDER</p>
+        {cart &&
+          cart.map((cartItem, index) => (
+            <motion.div
+              key={index}
+              {...staggerFadeInOut(index)}
+              className='w-full items-center justify-start bg-zinc-200 rounded-md drop-shadow-md px-4 gap-4'
+            >
+              <img
+                src={cartItem?.imageURL}
+                className='w-24 min-w-[94px] h-24 object-contain'
+                alt=''
+              />
+
+              <div className='flex items-center justify-center w-full gap-1'>
+                <p className='text-lg text-textColor font-semibold'>
+                 Name: {cartItem?.product_name}
+                  <span className='text-sm block capitalize text-textColor'>
+                  Level:  {cartItem?.product_category}
+                  </span>
+                </p>
+                <p className=' flex items-center justify-center gap-1 text-sm font-semibold text-red-400 ml-auto'>
+                 Price: ₵{parseFloat(cartItem?.product_price * cartItem?.quantity).toFixed(2)}
+                </p>
+              </div>
+              <p className='text-lg font-semibold text-textColor'> Description:{cartItem?.product_description}</p>
+
+              <p className='text-lg font-semibold text-textColor'> Quantity:{cartItem?.quantity}</p>
+            </motion.div>
+          ))}
 
 
         </div>
       </div>
 
-
-      <div className="  flex border w-full top-0   px-5 py-7 left-0 ">
-      
-      <div className=" py-2 flex-1 flex items-center justify-center relative">
-
-      <div className='flex flex-col  items-start h-full w-full  bg-slate-400 justify-start gap-6 p-6'>
-        <p className='text-textColor font-bold text-[16px] md:text-[20px]'>Choose your payment Method</p>
-        <div className='font-bold text-textColor'>
-
-        <div className=" flex flex-col items-start  justify-start gap-6">
-        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-purple-300 rounded-full w-350'>
-          <img src={CashOnDelivery} className=' w-10 h-10 object-contain items-start justify-start ' alt="" />
-          <label className=' cursor-pointer'>
-            <input
-              type='radio'
-              value='Cash On Delivery'
-              checked={selectedOption === 'Cash On Delivery'}
-              onChange={handleOptionChange}
-            />
-            Cash On Delivery
-          </label>
-          </div>
-          </div>
-          <hr/>
-
-          <div className=" flex flex-col items-start justify-start gap-6">
-        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-green-300 rounded-full w-350'>
-          <img src={banks} className=' w-10 h-10 object-contain flex flex-col' alt="" />
-          <label className=' cursor-pointer'>
-            <input
-              type='radio'
-              value='Bank Payment'
-              checked={selectedOption === 'Bank Payment'}
-              onChange={handleOptionChange}
-            />
-            Bank Payment
-          </label>
-          </div>
-          </div>
-          <hr/>
-
-          <div className=" flex flex-col items-start justify-start gap-6">
-        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-yellow-300 rounded-full w-350'>
-          <img src={mtn} className=' w-10 h-10 object-contain flex flex-col' alt="" />
-          <label className=' cursor-pointer '>
-            <input
-              type='radio'
-              value='MTN Mobile Money'
-              checked={selectedOption === 'MTN Mobile Money'}
-              onChange={handleOptionChange}
-            />
-          MTN Mobile Money
-          </label>
-          </div>
-          </div>
-          <hr/>
-
-          <div className=" flex flex-col items-start justify-start gap-6">
-        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-blue-300 rounded-full w-350'>
-          <img src={tigo} className=' w-10 h-10 object-contain flex flex-col' alt="" />
-          <label className=' cursor-pointer'>
-            <input
-              type='radio'
-              value='TIGO Cash'
-              checked={selectedOption === 'TIGO Cash'}
-              onChange={handleOptionChange}
-            />
-            TIGO Cash
-          </label>      
-          </div>
-          </div>
-          <hr/>
-
-          <div className=" flex flex-col items-start justify-start gap-6">
-        <div className=' px-4 py-1 flex items-start justify-start gap-2 bg-red-300 rounded-full w-350'>
-          <img src={vodafone} className=' w-10 h-10 object-contain flex flex-col' alt="" />
-          <label className=' cursor-pointer'>
-            <input 
-              type='radio'
-              value=' VODAFONE Cash'
-              checked={selectedOption === ' VODAFONE Cash'}
-              onChange={handleOptionChange}
-            />
-            VODAFONE Cash 
-          </label>
-          </div>
-          </div>
-          <hr className=' bg-red-700'/>
-
-        </div>
-       
-      </div>
-      
-
- 
+        <div className=''>
+        <div className=' flex border w-full top-0 z-50  bg-slate-400  px-5 py-7 left-0 '>
+          {/* Add content for the right side here */}
+          <table className='table-auto w-full border '>
+  <thead>
+    <tr>
+      <th className='px-4 py-2 text-left'>Summary</th>
+      <th className='px-4 py-2 text-right'>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td className='px-4 py-2'>Total Cart Price</td>
+      <td className='px-4 py-2 text-right'>₵{totalCartPrice.toFixed(2)}</td>
+    </tr>
     
-</div> 
- </div>
+    <th className='px-4 py-2 text-left'>Shipping</th>
+   
+<tr>
+  <td className='px-4 py-2'>
+    <label>
+      <input type='radio' name='shipping' value='ExpressKoforidua' />
+      Express delivery(Within Koforidua)
+    </label>
+  </td>
+  <td className='px-4 py-2 text-right'>₵{Express.toFixed(2)}</td>
+</tr>
+
+
+<tr>
+  <td className='px-4 py-2'>
+    <label>
+      <input type='radio' name='shipping' value='ExpressGhana' />
+      Express Delivery Within Ghana
+    </label>
+  </td>
+  <td className='px-4 py-2 text-right'>₵{ExpressGh.toFixed(2)}</td>
+</tr>
+
+
+<tr>
+  <td className='px-4 py-2'>
+    <label>
+      <input type='radio' name='shipping' value='DeliveryKoforidua' />
+      Delivery Within Koforidua
+    </label>
+  </td>
+  <td className='px-4 py-2 text-right'>₵{Koforidua.toFixed(2)}</td>
+</tr>
+
+
+<tr>
+  <td className='px-4 py-2'>
+    <label>
+      <input type='radio' name='shipping' value='NormalGhana' />
+      Normal Delivery Across Ghana
+    </label>
+  </td>
+  <td className='px-4 py-2 text-right'>₵{Normal.toFixed(2)}</td>
+</tr>
+
+    
+    <tr>
+      <td className='px-4 py-2 font-semibold'>Overall Total</td>
+    <td className='px-4 py-2 font-semibold text-right'>
+    <span class="overall-total">₵{overallTotal.toFixed(2)}</span>
+   </td>
+
+    </tr>
+
+    <hr className='w-full flex flex-row'/>
+  </tbody>
+</table>
+
+          
+          </div>
+          <p>
+          <motion.button
+              {...buttonClick}
+              onClick={handleConfirmOrder}
+              className="w-50 first:items-center justify-center top-5  px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-900 transition-all duration-150"
+            >
+              Confirm Order
+            </motion.button>
+            </p>
+          </div>
+       
  
 
      
