@@ -41,6 +41,8 @@ const [Region , setRegion ] = useState("")
 const [City, setCity] = useState("")
 const [selectedOption, setSelectedOption] = useState('');
 const [error, setError] = useState("");
+const [termsAgreed, setTermsAgreed] = useState(false);
+const [selectedAddress, setSelectedAddress] = useState(null);
 
 
 
@@ -281,9 +283,9 @@ const handleCitySelect = (selectedCity) => {
   setCity(selectedCity);
 };
 
-const handlePyment = () => {
-  navigate('/payment', { replace: true, state: { selectedOption } });
-};
+// const handlePyment = () => {
+//   navigate('/payment', { replace: true, state: { selectedOption } });
+// };
 
 
 
@@ -424,10 +426,19 @@ updateOverallTotal();
 
 
 const handleConfirmOrder = async () => {
+  // Check if the terms are agreed and a delivery address is selected
+  if (!termsAgreed || !deliveryInfo) {
+    dispatch(alertDanger('Please agree to terms and select a delivery address.'));
+    setTimeout(() => {
+      dispatch(alertNull());
+    }, 3000);
+    return; // Don't proceed with the order if conditions are not met
+  }
+
   try {
     // Create the order
     const orderData = {
-      overallTotal:overallTotal,
+      overallTotal: overallTotal,
       user_id: user.user_id,
       CustomerDeliveryInfor: deliveryInfo,
       paymentMethod: selectedOption,
@@ -435,10 +446,9 @@ const handleConfirmOrder = async () => {
       createdAt: new Date(),
     };
 
-    
     const response = await createOrder(orderData);
 
-    dispatch(alertSuccess("You have successfully placed an order "));
+    dispatch(alertSuccess('You have successfully placed an order'));
     setTimeout(() => {
       dispatch(alertNull());
     }, 3000);
@@ -446,21 +456,20 @@ const handleConfirmOrder = async () => {
     console.log(orderData);
 
     if (response.data.success) {
-       
-      await deleteCart(clearCartItems)
-      
-       dispatch(clearCartItems());
-       console.log(clearCartItems)
+      await deleteCart(clearCartItems);
+      dispatch(clearCartItems());
+      console.log(clearCartItems);
     } else {
-      dispatch(alertDanger("Unknown error occurred while processing the order"));
-      
+      dispatch(alertDanger('Unknown error occurred while processing the order'));
     }
   } catch (error) {
-  
+    // Handle the error
   }
 };
 
-
+const handleSelectAddress = (address) => {
+  setSelectedAddress(address);
+};
   
 
 
@@ -560,44 +569,47 @@ const handleConfirmOrder = async () => {
             >
               Save Address
             </motion.button>
-            
-            {deliveryInfo && deliveryInfo.length > 0 && (
-  <div>
-    <h2 className="text-2xl font-bold text-textColor w-full flex items-center justify-between">Delivery Information</h2>
-    {deliveryInfo.map((item, index) => {
-      if (item.userId === user.user_id) {
-        return (
-          <div key={index} className="px-4 py-1 flex items-start justify-start gap-2 bg-primary w-full">
-            Full Name: {item.firstName + item.SurName}<br />
-            Address Line1: {item.AddressLine1}<br />
-            Address Line2: {item.AddressLine2}<br />
-            Phone Number: {item.PhoneNumber}<br />
-            Region: {item.Region}<br />
-            City: {item.City}<br />
-            <div className="flex gap-2">
-              <motion.button
-                {...buttonClick}
-                onClick={handlePyment} // Handle payment for this address
-                className="w-40 px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-800 transition-all duration-150"
-              >
-                Proceed
-              </motion.button>
-              <button
-                onClick={() => handleDeleteAddress(item)} 
-                className="w-40 px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-800 transition-all duration-150"
-              >
-                Delete Address
-              </button>
-            </div>
-          </div>
 
-          
-        );
-      }
-      return null;
-    })}
-  </div>
-)}
+      
+      
+      {/* Display list of delivery addresses */}
+      {deliveryInfo && deliveryInfo.length > 0 && (
+        <div>
+          <h2 className="text-2xl font-bold text-textColor w-full flex items-center justify-between">Delivery Information</h2>
+          {deliveryInfo.map((item, index) => {
+            if (item.userId === user.user_id) {
+              return (
+                <div key={index} className="px-4 py-1 flex items-start justify-start gap-2 bg-primary w-full">
+                  Full Name: {item.firstName + item.SurName}<br />
+                  Address Line1: {item.AddressLine1}<br />
+                  Address Line2: {item.AddressLine2}<br />
+                  Phone Number: {item.PhoneNumber}<br />
+                  Region: {item.Region}<br />
+                  City: {item.City}<br />
+                  <div className="flex gap-2">
+                    <input
+                      type="radio"
+                      id={`selectAddress_${index}`}
+                      name="selectAddress" // Group radio buttons by giving them the same "name" attribute
+                      onChange={() => handleSelectAddress(item)} // Call handleSelectAddress with the selected address
+                      checked={item === selectedAddress} // Check if the address matches the selectedAddress
+                    />
+                    <label htmlFor={`selectAddress_${index}`}>Select Address</label>
+                    <button
+                      onClick={() => handleDeleteAddress(item)} 
+                      className="w-40 px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-800 transition-all duration-150"
+                    >
+                      Delete Address
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
+
   <p className=' text-teal-950 font-bold items-center justify-center'>ORDER</p>
         {cart &&
           cart.map((cartItem, index) => (
@@ -709,15 +721,47 @@ const handleConfirmOrder = async () => {
 
           
           </div>
-          <p>
-          <motion.button
-              {...buttonClick}
-              onClick={handleConfirmOrder}
-              className="w-50 first:items-center justify-center top-5  px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-900 transition-all duration-150"
-            >
-              Confirm Order
-            </motion.button>
-            </p>
+
+          {/* Checkbox for terms and conditions */}
+      <div className="flex items-start justify-start  w-full">
+        <label className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={termsAgreed}
+            onChange={() => setTermsAgreed(!termsAgreed)}
+          />
+          <span className="text-textColor text-sm">
+            I agree to the terms and conditions
+          </span>
+        </label>
+      </div>
+       <div className='flex text-blue-800'>
+       <p> <i>Please fill in your address details and <pan className="text-textColor"> Refresh the page  </pan><br>
+       </br> ... Agree to the terms and condition to be able to place the order</i> </p>
+       </div>
+      
+      <p>
+    <motion.button
+      {...buttonClick}
+      onClick={() => {
+      if (!selectedAddress || !termsAgreed) {
+          // Show an alert message if the button is inactive
+          dispatch(alertDanger("Please select a delivery address and agree to the terms and conditions."))
+        } else {
+          // Handle the actual click action (e.g., handleConfirmOrder)
+          handleConfirmOrder();
+        }
+      }}
+     className={`w-50 first:items-center justify-center top-5  px-4 py-2 rounded-md ${
+        selectedAddress && termsAgreed ? 'bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-blue-900 transition-all duration-150' : 'bg-gray-400 text-gray-600 cursor-not-allowed'
+      }`}
+     disabled={!selectedAddress || !termsAgreed}
+    >
+    Confirm Order
+  </motion.button>
+
+
+        </p>
           </div>
        
  
