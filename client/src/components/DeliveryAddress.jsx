@@ -745,10 +745,10 @@ const handleSelectAddress = (address) => {
       {...buttonClick}
       onClick={() => {
       if (!selectedAddress || !termsAgreed) {
-          // Show an alert message if the button is inactive
+          
           dispatch(alertDanger("Please select a delivery address and agree to the terms and conditions."))
         } else {
-          // Handle the actual click action (e.g., handleConfirmOrder)
+         
           handleConfirmOrder();
         }
       }}
