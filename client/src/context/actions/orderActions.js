@@ -11,3 +11,10 @@ export const  setOrders= (data) =>{
             
         };
     };
+       
+    export const  ClearOrders = () =>{
+        return {
+            type: "CLEAR_ORDERS",
+            
+        };
+    };

@@ -10,5 +10,9 @@ export const setAllProducts = (products) => {
       type: "GET_ALL_PRODUCTS",
     };
   };
-  
+  export const clearAllProducts = () => {
+    return {
+      type: "CLEAR_ALL_PRODUCTS",
+    };
+  };
  

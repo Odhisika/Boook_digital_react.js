@@ -182,6 +182,19 @@ export const deleteCart = async (userId) =>{
     }
 }
 
+export const getAllOrders = async () => {
+  try {
+    const res = await axios.get(`${baseURL}/api/products/orders`);
+    console.log('API response:', res.data); 
+    return res.data.data;
+  } catch (err) {
+    console.error('API error:', err); 
+    return null;
+  }
+};
+
+
+
 export const updateOrderSts = async(order_id, sts )=>{
     console.log(order_id, sts );
     try{
@@ -197,14 +210,3 @@ export const updateOrderSts = async(order_id, sts )=>{
 
 
 
-export const getAllOrders = async () => {
-    try {
-      const res = await axios.get(`${baseURL}/api/products/orders`);
-      console.log('API response:', res.data); 
-      return res.data.data;
-    } catch (err) {
-      console.error('API error:', err); 
-      return null;
-    }
-  };
-  

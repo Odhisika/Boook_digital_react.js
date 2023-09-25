@@ -7,8 +7,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { baseURL, getAllCartItems, increaseItemQuantity } from '../api'
 import { alertNull, alertSuccess } from '../context/actions/alertActions'
 import {setCartItems} from "../context/actions/cartActions"
-import axios from 'axios'
 import {  useNavigate } from 'react-router-dom';
+import { emptyCart } from '../asset'
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -75,6 +75,7 @@ const Cart = () => {
       </div>
     </>):(<>
       <h1 className=' text-3xl text-primary font-bold'>Empty cart</h1>
+      <img src={emptyCart} alt="" className=' w-56 h-56 object-contain items-center justify-center' />
     </>)}
     </div>
   </motion.div>

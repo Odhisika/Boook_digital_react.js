@@ -370,7 +370,7 @@ router.post('/createOrder', async (req, res) => {
     await db.collection('orders').doc(orderId.toString()).set(orderData);
     
     await placeOrder(orderData);
-    
+    console.log(orderData)
 
     console.log('Calling deleteCartItems with user_id:', user_id);
     await deleteCartItems(user_id);

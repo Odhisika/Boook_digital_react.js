@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Header, OrdersData} from '../components'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllOrders } from '../api'
-import { setOrders } from '../context/actions/orderActions'
+import { ClearOrders, setOrders } from '../context/actions/orderActions'
 
 const UsersOrder = () => {
     const user = useSelector((state) => state.user);
@@ -20,6 +20,8 @@ const UsersOrder = () => {
               console.log(orders);
               setuserOrders(data.filter((item) => item.userId === user?.user_id));
               console.log(userOrders); 
+              dispatch(ClearOrders)
+              
 
             })
             .catch((error) => {

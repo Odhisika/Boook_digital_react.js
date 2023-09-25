@@ -18,8 +18,11 @@ const OrdersData = ({index, data, admin}) => {
         })
     }
 
-    const cartArray = JSON.parse(JSON.parse(data.cart));
-    console.log("Parsed cartArray:", cartArray);
+    // Check if data.cart is a string before attempting to parse it
+const cartArray = typeof data.cart === 'string' ? JSON.parse(data.cart) : [];
+
+console.log("Parsed cartArray:", cartArray);
+
       
 
   return (
@@ -66,9 +69,9 @@ const OrdersData = ({index, data, admin}) => {
      </div>
 <div className=' flex items-center justify-start flex-wrap w-full'>
   <div className=' flex justify-center items-center gap-4'>
-  {cartArray?.map((product, idx) => (
+  {data.cart?.map((product, idx) => (
           <div key={idx} className='items-center gap-1 flex text-textColor'>
-            <img src={product.imageURL} alt={""} className='w-10 h-10 object-contain' />
+            <img src={product.imageURL} alt={""} className=' w-20 h-20 object-contain' />
             <div className=' flex items-start flex-col'>
             <p>Name: {product.product_name} </p>
             <p> Price: {product.product_price} </p>
@@ -78,6 +81,8 @@ const OrdersData = ({index, data, admin}) => {
           </div>
           </div>
         ))}
+
+
        
   </div>
   <p className=' items-end justify-end '>
@@ -95,6 +100,10 @@ const OrdersData = ({index, data, admin}) => {
         </p>
       </>
     )}
+  <p className='text-sm text-headingColor'>
+  Created At: {new Date(data.createdAt._seconds * 1000).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })}
+</p>
+
   </div>
   </p>
 </div>

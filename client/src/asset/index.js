@@ -10,3 +10,5 @@ export {default as vodafone} from "./img/vodafone.jpg"
 export {default as mtn} from "./img/mtn.png"
 export {default as CashOnDelivery} from "./img/CashOnDelivery.png"
 export {default as banks} from "./img/banks.png"
+export {default as emptyCart} from "./img/emptyCart.png"
+
