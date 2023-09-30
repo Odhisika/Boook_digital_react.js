@@ -27,7 +27,7 @@ const Home = () => {
        
         </div>
 
-        <p className=" text-[40px] text-headingColor md:text-[52px] font-sans font-extrabold tracking-wider"> Buy our High Qualitiy Books   <span className=' text-orange-600'> And Get It Delivered In Your City  </span></p>
+        <p className=" text-[40px] text-headingColor md:text-[52px] font-sans font-extrabold tracking-wider"> Buy our High Quality Books   <span className=' text-orange-600'> And Get It Delivered In Your City  </span></p>
 
         {/* <p className=" text-textColor text-lg"></p>
         <motion.button {...buttonClick} className=" bg-gradient-to-bl from-orange-400 to-orange-600 px-4 py-2 rounded-xl text-black text-base font-semibold">  </motion.button> */}

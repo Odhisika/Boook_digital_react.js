@@ -41,9 +41,19 @@ const Cart = () => {
     //   }
     //  }).catch((err)=>console.log(err))
     // }
-    const handleCheckOut=()=>{
-      navigate('/delivery', { replace: true });
-    }
+    const handleCheckOut = () => {
+      
+      if (user) {
+        navigate('/delivery', { replace: true });
+      } else {
+        
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+    
+        
+        navigate('/login', { replace: true });
+      }
+    };
+    
 
   return <motion.div {...slideIn} className=" fixed z-50 top-0 right-0 w-250 md:w-508 bg-cardOverlay backdrop-blur-md shadow-md h-[100%] overflow-y-auto ">
     <div className=' items-center justify-between w-full flex py-4 pb-12 px-6'>

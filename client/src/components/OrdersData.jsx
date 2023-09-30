@@ -10,9 +10,9 @@ const OrdersData = ({index, data, admin}) => {
 
     const handleClick= (orderId, sts)=>{
         updateOrderSts(orderId,sts).then(response =>{
-          console.log("Update Response:", response);
+        
           getAllOrders().then((data)=>{
-            console.log("All Orders:", data);
+           
               dispatch(setOrders(data));
             })
         })
