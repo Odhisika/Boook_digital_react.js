@@ -1,44 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import {Header, NavBar, SliderCad} from '../components'
+import React, { useEffect, useState } from 'react';
+import { Header, NavBar, SliderCad } from '../components';
 import { useSelector } from 'react-redux';
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "../asset/css/swiperStyles.css";
-import "swiper/css/bundle";
 
 const JHS = () => {
-  const products =useSelector((state)=>state.products)
-  const [JHS, setJHS] = useState(null)
+  const products = useSelector((state) => state.products);
+  const [JHS, setJHS] = useState(null);
 
-  useEffect(()=>{
-    setJHS(products?.filter((data)=>data.product_category ==="JHS"));
-    console.log(JHS);
-},[products]);
+  useEffect(() => {
+    setJHS(
+      products?.filter(
+        (data) =>
+          data.product_category === 'JHS' &&
+          data.product_name &&
+          data.product_description &&
+          data.product_price &&
+          data.imageURL
+      )
+    );
+  }, [products]);
+
+  // Define the number of columns based on screen size
+  const numColumns = {
+    sm: 1, // Small screens
+    md: 2, // Medium screens
+    lg: 3, // Large screens
+    xl: 4, // Extra-large screens
+  };
 
   return (
-<div>
-   <main className="w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
-     <Header/>       
-     <NavBar/>
-     <div className=" w-full pt-24">
-      <Swiper
-        slidesPerView={4}
-        centeredSlides={false}
-        spaceBetween={30}
-        grabCursor={true}
-        className="mySwiper"
-      >
-      {  JHS && JHS.map((data, i)=>(
-        <SwiperSlide key={i}>
-         <SliderCad key={i} data={data} index={i}/>
-        </SwiperSlide>
-      ))}
-      </Swiper>
+    <div>
+      <main className="w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
+        <Header />
+        <NavBar />
+        <div className={`w-full items-center justify-evenly flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-2 px-2 md:p-4`}>
+          {JHS &&
+            JHS.map((data, i) => (
+              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md">
+                <SliderCad key={i} data={data} index={i} />
+              </div>
+            ))}
         </div>
-   </main>
-</div>
+      </main>
+    </div>
+  );
+};
 
-  )
-}
-
-export default JHS
+export default JHS;

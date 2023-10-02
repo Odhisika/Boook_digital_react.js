@@ -9,12 +9,11 @@ import { logo, avatar } from '../asset';
 import { isActiveStyles, isNotActiveStyles } from '../utils/styles';
 import { buttonClick, slideTop } from '../animations';
 import { app } from '../config/firebase.config';
-import {setCartOn} from "../context/actions/displayCartActions"
-
+import { setCartOn } from '../context/actions/displayCartActions';
 
 const Header = () => {
   const user = useSelector((state) => state.user);
-  const cart = useSelector((state)=>state.cart);
+  const cart = useSelector((state) => state.cart);
 
   const [isMenu, setIsMenu] = useState(false);
   const navigate = useNavigate();
@@ -31,13 +30,23 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed backdrop-blur-md z-50 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6 bg-blue-50">
-      <NavLink to="/" className="flex items-center justify-center gap-4">
-        <img src={logo} className="w-12" alt="" />
-        <p className="font-semibold text-xl">Digi.Books</p>
-      </NavLink>
-      <nav className="flex items-center font-semibold justify-center gap-8">
-        <ul className="hidden md:flex items-center justify-center gap-6">
+    <header className="fixed z-50 inset-x-0 top-0 flex flex-col items-center md:flex-row justify-between px-4 md:px-12 lg:px-20 py-8 bg-primary">
+      <div className="flex items-center justify-between w-full md:w-auto">
+        <NavLink to="/" className="flex items-center gap-4">
+          <img src={logo} className="w-12" alt="" />
+          <p className="font-semibold text-xl">Digi.Books</p>
+        </NavLink>
+        <button
+          {...buttonClick}
+          className="md:hidden text-2xl text-white focus:outline-none"
+          onClick={() => setIsMenu(!isMenu)}
+        >
+          {isMenu ? 'Close' : 'Menu'}
+        </button>
+      </div>
+
+      <nav className={`md:flex items-center font-semibold gap-8 ${isMenu ? 'flex' : 'hidden'}`}>
+        <ul className="flex flex-col md:flex-row items-center justify-center gap-6">
           <NavLink
             className={({ isActive }) => (isActive ? isActiveStyles : isNotActiveStyles)}
             to="/"
@@ -63,14 +72,16 @@ const Header = () => {
             About Us
           </NavLink>
         </ul>
-        <motion.div {...buttonClick} onClick={()=>dispatch(setCartOn())} className="relative cursor-pointer">
-          <MdShoppingCart className="text-3xl text-textColor" />
-         {cart?.length > 0 && (
-           <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -top-4 -right-1">
-           <p className="text-primary text-base font-semibold">{cart?.length}</p>
-         </div>
-         )}
-        </motion.div>
+        <div className="relative cursor-pointer">
+          <motion.div {...buttonClick} onClick={() => dispatch(setCartOn())} className="relative cursor-pointer">
+            <MdShoppingCart className="text-3xl text-textColor" />
+            {cart?.length > 0 && (
+              <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -top-4 -right-1">
+                <p className="text-primary text-base font-semibold">{cart?.length}</p>
+              </div>
+            )}
+          </motion.div>
+        </div>
         {user ? (
           <div className="relative cursor-pointer" onMouseEnter={() => setIsMenu(true)}>
             <div className="w-12 h-12 rounded-full shadow-md cursor-pointer overflow-hidden flex items-center justify-center">
@@ -87,12 +98,11 @@ const Header = () => {
                 onMouseLeave={() => setIsMenu(false)}
                 className="px-6 py-4 w-48 bg-slate-400 backdrop-blur-md rounded-md shadow-md absolute top-12 right-0 flex flex-col gap"
               >
-               {user?.user_id === process.env.REACT_APP_ADMIN_ID && (
-                <Link className="hover:text-red-500 text-xl text-textColor" to="/dashboard/home">
-                Dashboard
-              </Link>
-               )} 
-                
+                {user?.user_id === process.env.REACT_APP_ADMIN_ID && (
+                  <Link className="hover:text-red-500 text-xl text-textColor" to="/dashboard/home">
+                    Dashboard
+                  </Link>
+                )}
                 <Link className="hover:text-red-500 text-xl text-textColor" to="/profile">
                   My Profile
                 </Link>

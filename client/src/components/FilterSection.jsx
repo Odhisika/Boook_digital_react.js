@@ -59,19 +59,19 @@ export const FilterCad = ({ data, index, category, setCategory }) => {
       key={index}
       {...staggerFadeInOut(index)}
       className={`group w-56  min-w-[128px] cursor-pointer py-6 ${
-        category === data.category ? "bg-red-500" : "bg-primary"
-      } hover:bg-red-500 shadow-md flex flex-col items-center justify-center gap-4`}
+        category === data.category ? "bg-orange-500" : "bg-primary"
+      } hover:bg-orange-500 shadow-md flex flex-col items-center justify-center gap-4`}
       onClick={handleClick}
     >
       <div
         className={`w-10 h-10 rounded-full shadow-md flex items-center justify-center group-hover:bg-primary ${
-          category === data.category ? "bg-primary" : "bg-red-500"
+          category === data.category ? "bg-primary" : "bg-orange-500"
         }`}
       >
         <FaWarehouse
           className={`${
-            category === data.category ? "text-red-500" : "text-primary"
-          } group-hover:text-red-500`}
+            category === data.category ? "text-orange-500" : "text-primary"
+          } group-hover:text-orange-500`}
         />
       </div>
 
