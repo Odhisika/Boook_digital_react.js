@@ -70,7 +70,7 @@ const BookDetails = () => {
   return (
     <>
       <Header className='w-screen min-h-screen flex items-center justify-start flex-col bg-primary' />
-      <div className="grid grid-cols-1 overscroll-auto lg:grid-cols-2 gap-8 bg-cyan-50 p-8 mt-28">
+      <div className="grid grid-cols-1 overscroll-auto lg:grid-cols-2 gap-8 p-8 mt-28">
         <div>
           <img src={bookData.imageURL} alt={bookData.product_name} className="w-full h-fit" />
         </div>
@@ -93,9 +93,9 @@ const BookDetails = () => {
       <div>
       <h2 className="text-xl font-semibold mb-4">Related Books</h2>
       </div>
-      <div className="w-screen grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 bg-cyan-50 p-8 mt-4">
+      <div className="w-screen grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4  p-8 mt-4">
         {relatedBooks.map((relatedBook, index) => (
-          <div key={relatedBook.productid} className="bg-orange-100 hover:drop-shadow-lg backdrop-blur-md rounded-xl p-4">
+          <div key={relatedBook.productid} className=" hover:drop-shadow-lg backdrop-blur-md rounded-xl p-4">
             <img src={relatedBook.imageURL} className="w-full h-auto object-contain" alt="" />
             <div className="mt-4">
               <p className="text-xl text-headingColor font-semibold">{relatedBook.product_name}</p>
