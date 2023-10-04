@@ -46,20 +46,20 @@ const App = () => {
               })
               .catch((error) => {
                 if (error.code === 'auth/network-request-failed') {
-                  // Display a message to the user
+                
                   alert('Please connect to the internet and refresh the page.');
                 } else {
-                  // Handle other errors
+                 
                   console.error(error);
                 }
               });
           })
           .catch((error) => {
             if (error.code === 'auth/network-request-failed') {
-              // Display a message to the user
+             
               alert('Please connect to the internet and refresh the page.');
             } else {
-              // Handle other errors
+          
               console.error(error);
             }
           });

@@ -590,17 +590,17 @@ const handleSelectAddress = (address) => {
                     <input
                       type="radio"
                       id={`selectAddress_${index}`}
-                      name="selectAddress" // Group radio buttons by giving them the same "name" attribute
-                      onChange={() => handleSelectAddress(item)} // Call handleSelectAddress with the selected address
-                      checked={item === selectedAddress} // Check if the address matches the selectedAddress
+                      name="selectAddress" 
+                      onChange={() => handleSelectAddress(item)}
+                      checked={item === selectedAddress} 
                     />
                     <label htmlFor={`selectAddress_${index}`}>Select Address</label>
-                    <button
+                    {/* <button
                       onClick={() => handleDeleteAddress(item)} 
                       className="w-40 px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-800 transition-all duration-150"
                     >
-                      Delete Address
-                    </button>
+                    Change Address
+                    </button> */}
                   </div>
                 </div>
               );

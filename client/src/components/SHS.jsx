@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 
 const JHS = () => {
   const products = useSelector((state) => state.products);
-  const [SHS, setSHS] = useState(null);
+  const [JHS, setJHS] = useState(null);
 
   useEffect(() => {
-    setSHS(
+    setJHS(
       products?.filter(
         (data) =>
-          data.product_category === 'SHS' &&
+          data.product_category === 'JHS' &&
           data.product_name &&
           data.product_description &&
           data.product_price &&
@@ -29,15 +29,13 @@ const JHS = () => {
 
   return (
     <div>
-      <main className="w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
+      <main className=" container w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
         <Header />
         <NavBar />
-        <div
-         className={`w-full items-center justify-evenly  flex-wrap gap-4 mt-12 pt-24 flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-4`}
-        >
-          {SHS &&
-            SHS.map((data, i) => (
-              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md">
+        <div className={`w-full items-start justify-start flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-6`}>
+          {JHS &&
+            JHS.map((data, i) => (
+              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md mt-1">
                 <SliderCad key={i} data={data} index={i} />
               </div>
             ))}
@@ -48,3 +46,5 @@ const JHS = () => {
 };
 
 export default JHS;
+
+

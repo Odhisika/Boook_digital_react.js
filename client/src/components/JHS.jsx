@@ -29,13 +29,13 @@ const JHS = () => {
 
   return (
     <div>
-      <main className="w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
+      <main className=" container w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
         <Header />
         <NavBar />
-        <div className={`w-full items-center justify-evenly flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-2 px-2 md:p-4`}>
+        <div className={`w-full items-start justify-start flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-6`}>
           {JHS &&
             JHS.map((data, i) => (
-              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md">
+              <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md mt-1">
                 <SliderCad key={i} data={data} index={i} />
               </div>
             ))}
@@ -46,3 +46,5 @@ const JHS = () => {
 };
 
 export default JHS;
+
+

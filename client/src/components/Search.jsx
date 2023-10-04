@@ -8,6 +8,9 @@ const Search = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
 
+
+ 
+  
   useEffect(() => {
     if (products && (searchQuery !== '' || selectedCategory !== '')) {
       const filteredProducts = products.filter((product) => {
@@ -37,12 +40,12 @@ const Search = () => {
           id="header-search"
           placeholder="Search products"
           name="s"
-          className="w-full md:w-96 bg-orange-300 px-4 py-2 rounded-md focus:outline-none"
+          className="w-full md:w-96 bg-orange-300 px-6 py-2 mt-8 rounded-md focus:outline-none"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <select
-          className="w-full md:w-40 bg-orange-300 px-4 py-2 rounded-md focus:outline-none"
+          className="w-full md:w-40 bg-orange-300 px-4 py-2 mt-8 rounded-md focus:outline-none"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >

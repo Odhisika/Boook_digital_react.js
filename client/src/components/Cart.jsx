@@ -28,19 +28,7 @@ const Cart = () => {
     }
   },[cart]);
  
-    // const handleCheckOut= ()=>{
-    //   const data ={
-    //     user:user, 
-    //     cart: cart,
-    //     total: total,
-
-    //   }
-    //  axios.post(`${baseURL}/api/users/customerInfo`,{data}).then(res=>{
-    //   if (res.data.url){
-    //     window.location.href =res.data.url
-    //   }
-    //  }).catch((err)=>console.log(err))
-    // }
+    
     const handleCheckOut = () => {
       
       if (user) {
@@ -84,8 +72,7 @@ const Cart = () => {
         </motion.button>
       </div>
     </>):(<>
-      <h1 className=' text-3xl text-primary font-bold'>Empty cart</h1>
-      <img src={emptyCart} alt="" className=' w-56 h-56 object-contain items-center justify-center' />
+      <h1 className="text-3xl text-primary font-bold">Empty cart</h1> <div className="flex h-screen w-full justify-center items-center"> <img src={emptyCart} alt="" className="w-56 h-56 object-contain"  /></div>
     </>)}
     </div>
   </motion.div>
