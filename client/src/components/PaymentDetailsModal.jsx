@@ -1,40 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOrders } from '../context/actions/orderActions';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { getAllOrders, updatePaymentSts } from '../api';
+import { setOrders } from '../context/actions/orderActions'; // Import the action you need
 
-const PaymentDetailsModal = ({ onClose, orderId }) => {
+const PaymentDetailsModal = ({ onClose, orderId, data }) => {
   const [error, setError] = useState(null);
-
-  // You don't need to fetch orders here, as you already have them in props
-  const orders = useSelector((state) => state.orders && state.orders.orders);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    // Ensure that orders is not null before accessing its properties
-    if (orders && orders.length > 0) {
-      const order = orders.find((order) => order.orderId === orderId);
+  const handlePaidClick = (orderId, sts) => {
+    updatePaymentSts(orderId, sts)
+      .then((response) => {
+        if (response) {
+          // Update the payment status in the data object
+          data.paymentSts = sts;
 
-      if (order) {
-        // Display payment details for the specific order
-        // You can access order properties like order.paymentMethod, order.userId, etc.
-      } else {
-        setError('Order not found.');
-      }
-    } else {
-      setError('No orders found.');
-    }
-  }, [orderId, orders]);
+          // Dispatch the updated data to Redux
+          dispatch(setOrders(data));
+        } else {
+          setError("Error updating payment status");
+        }
+      })
+      .catch((error) => {
+        console.error("API request failed:", error);
+        setError("API request failed");
+      });
+  };
+  
+
+  if (!orderId) {
+    return null; // Return null or a loading indicator if orderId is null
+  }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white w-96 p-4 rounded-lg">
         <h2 className="text-2xl font-semibold">Payment Details for Order #{orderId}</h2>
+        <div className='text-red-500'>
+          <u>Please use the order ID as reference when making payment</u>
+        </div>
 
         {error ? (
           <p className="text-red-500">{error}</p>
         ) : (
-          // Render payment details for the specific order here
-          // You can access order properties like order.paymentMethod, order.userId, etc.
           <>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Mobile Payments</h3>
@@ -54,8 +62,17 @@ const PaymentDetailsModal = ({ onClose, orderId }) => {
 
             <div className="mb-4">
               <h3 className="text-lg font-semibold">NAME ON ACCOUNT</h3>
-              <p>NAME: FRANICS GANYO</p>
+              <p>NAME: FRANCIS GANYO</p>
             </div>
+
+            {/* "Paid" button */}
+            <button
+              onClick={() => handlePaidClick(data.orderId, "paid")}
+              className="mt-4 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
+            >
+              Mark as Paid
+            </button>
+
           </>
         )}
 

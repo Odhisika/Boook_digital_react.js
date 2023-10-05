@@ -1,7 +1,7 @@
 import React from 'react'
 import {motion } from "framer-motion"
 import { buttonClick, staggerFadeInOut } from '../animations'
-import { getAllOrders, updateOrderSts } from '../api'
+import { getAllOrders, updateOrderSts, updatePaymentSts } from '../api'
 import { setOrders } from '../context/actions/orderActions'
 import { useDispatch } from 'react-redux'
 
@@ -18,10 +18,21 @@ const OrdersData = ({index, data, admin}) => {
         })
     }
 
+    const handlePay= (orderId, paymentSts)=>{
+      updatePaymentSts(orderId, paymentSts).then(response =>{
+      
+        getAllOrders().then((data)=>{
+         
+            dispatch(setOrders(data));
+          })
+      })
+  }
     // Check if data.cart is a string before attempting to parse it
 const cartArray = typeof data.cart === 'string' ? JSON.parse(data.cart) : [];
 
 console.log("Parsed cartArray:", cartArray);
+
+
 
       
 
@@ -32,7 +43,15 @@ console.log("Parsed cartArray:", cartArray);
     <h1 className='text-xl text-headingColor font-semibold'>Order ID: {data.orderId}</h1>
      <div className=' flex items-center gap-4'>
         <p className=' flex items-center gap-1 text-textColor'>Total: ₵<pan className=' text-headingColor font-bold'>{data.overallTotal}</pan></p>
-        <p className=' px-2 py-[2px] text-sm text-headingColor font-semibold capitalize rounded-md bg-emerald-400 drop-shadow-md'>{data?.status}</p>
+        <div className=' text-textColor'>Payment status</div>
+        {/* <p className=' px-2 py-[2px] text-sm text-headingColor font-semibold capitalize rounded-md bg-red-500 drop-shadow-md'> {data?.paymentSts}</p>
+         */}
+        <p className={` text-base font-semibold capitalize border bg-gray-300 px-2 py-[2px] rounded-md ${
+            (data.paymentSts==="pending" && "text-red-500 bg-red-100")||
+            (data.paymentMethod==="paid" && "text-emerald-500 bg-emerald-100")
+        }`}>{data?.paymentSts}</p>
+
+        <div className=' text-textColor'>order status</div>
         <p className={` text-base font-semibold capitalize border bg-gray-300 px-2 py-[2px] rounded-md ${
             (data.sts==="preparing" && "text-orange-500 bg-orange-100")||
             (data.sts==="canceled" && "text-red-500 bg-red-100")||

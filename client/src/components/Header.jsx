@@ -10,6 +10,7 @@ import { isActiveStyles, isNotActiveStyles } from '../utils/styles';
 import { buttonClick, slideTop } from '../animations';
 import { app } from '../config/firebase.config';
 import { setCartOn } from '../context/actions/displayCartActions';
+import { BsBellFill } from 'react-icons/bs';
 
 const Header = () => {
   const user = useSelector((state) => state.user);
@@ -72,6 +73,13 @@ const Header = () => {
             About Us
           </NavLink>
         </ul>
+
+        <motion.div
+        {...buttonClick}
+         className=" w-10 h-10 rounded-md bg-slate-50 backdrop-blur-md cursor-pointer shadow-md flex items-center justify-center">
+            <BsBellFill className=" text-gray-400 text-xl"/>
+
+        </motion.div>
         <div className="relative cursor-pointer">
           <motion.div {...buttonClick} onClick={() => dispatch(setCartOn())} className="relative cursor-pointer">
             <MdShoppingCart className="text-3xl text-textColor" />

@@ -310,7 +310,7 @@ async function placeOrder(orderData) {
       
     }
 
-    // Iterate through the products in the order
+    
     for (const orderItem of orderData.cart) {
       const productid = orderItem.productid;
       const quantityOrdered = orderItem.quantity;
@@ -335,9 +335,7 @@ async function placeOrder(orderData) {
       }
     }
 
-    // Handle order completion and other tasks here
-    // ...
-
+   
   } catch (error) {
     console.error("Error placing order:", error);
     // Handle the error and possibly roll back any changes made
@@ -360,7 +358,7 @@ router.post('/createOrder', async (req, res) => {
       userId: user_id,
       cart: JSON.parse(cart),
       CustomerDeliveryInfor: CustomerDeliveryInfor,
-      paymentMethod: paymentMethod,
+      paymentSts: "pending",
       sts: "preparing",
       overallTotal: overallTotal,
       createdAt: new Date(),
@@ -372,14 +370,18 @@ router.post('/createOrder', async (req, res) => {
     await placeOrder(orderData);
     console.log(orderData)
 
+   
+
     console.log('Calling deleteCartItems with user_id:', user_id);
     await deleteCartItems(user_id);
     
     
     console.log("*****************************************");
     
-    console.log('Order created ');
-    return res.status(200).send({ success: true });
+    console.log('orderId',orderId);
+    // return res.status(200).send({ success: true });
+    return res.status(200).send({ success: true, orderData });
+    
   } catch (err) {
     console.error('Error creating order:', err);
     return res.status(500).send({ error: 'An error occurred' });
@@ -439,6 +441,21 @@ router.post("/updateOrder/:order_id", async (req, res)=>{
   }
 })
 
+//update order payment 
+router.post("/updatePayment/:order_id", async (req, res)=>{
+  const order_id =req.params.order_id;
+  const paymentSts = req.query.paymentSts;
+
+  try{
+    const updatedItem = await 
+    db.collection("orders")
+    .doc(`/${order_id}/`)
+    .update({paymentSts});
+    return res.status(200).send({success: true, data: updatedItem});
+  }catch (err){
+    return res.send({success: false, msg: `Error : ${err}`});
+  }
+})
 
 
 

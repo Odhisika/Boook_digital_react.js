@@ -8,10 +8,12 @@ import { addNewItemToCart, getAllCartItems } from '../api';
 import { alertNull, alertSuccess } from '../context/actions/alertActions';
 import { setCartItems } from '../context/actions/cartActions';
 import Header from './Header';
+import {Cart} from '../components';
 
 const BookDetails = () => {
   const { productid } = useParams();
   const products = useSelector((state) => state.products);
+  const isCart = useSelector((state)=>state.isCart);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
@@ -118,8 +120,12 @@ const BookDetails = () => {
             </div>
           </div>
         ))}
+        {isCart && <Cart/>}
+
       </div>
     </>
+    
+
   );
 };
 

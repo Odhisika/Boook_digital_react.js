@@ -44,7 +44,7 @@ const Search = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <select
+        {/* <select
           className="w-full md:w-40 bg-orange-300 px-4 py-2 mt-8 rounded-md focus:outline-none"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -54,7 +54,7 @@ const Search = () => {
           <option value="primary">Primary</option>
           <option value="jhs">JHS</option>
           <option value="shs">SHS</option>
-        </select>
+        </select> */}
       </form>
       {searchQuery !== '' || selectedCategory !== '' ? (
         <div className="flex flex-col md:flex-row items-center justify-evenly flex-wrap gap-4 mt-12">

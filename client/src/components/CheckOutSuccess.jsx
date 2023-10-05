@@ -1,64 +1,67 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Header, MainLoader, PaymentDetailsModal } from '../components';
 import { bill } from '../asset';
-import { buttonClick, fadeInOut } from '../animations';
+import { fadeInOut } from '../animations';
 import { FaArrowLeft } from '../asset/icons';
 import { motion } from 'framer-motion';
-import { updateOrderSts, getAllOrders, createOrder } from '../api';
-import { setOrders } from '../context/actions/orderActions';
+import { connect } from 'react-redux'; // Import connect from react-redux
 
-const CheckOutSuccess = ({data}) => {
-  const [isLoading, setIsLoading] = useState(true);
+const CheckOutSuccess = ({ user },data) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [error, setError] = useState(null);
-  
-
-  const dispatch = useDispatch();
-
-  // Access the orders array from the Redux store
-  const orders = useSelector((state) => state.orders && state.orders.orders);
+  const [userOrders, setUserOrders] = useState([]);
+  const [currentOrderId, setCurrentOrderId] = useState("");
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const ordersData = await getAllOrders(); 
-        dispatch(setOrders(ordersData)); 
-  
-        // Find the orderId you're interested in (for example, the first order)
-        const orders = ordersData && ordersData.length > 0 ? ordersData[0] : null;
-  
-        if (orders) {
-          setIsLoading(false); // Stop loading when orderId is found
-        } else {
-          setError('No orders found.'); // Handle the case where there are no orders
-          setIsLoading(false); // Stop loading
+    fetchUserOrders();
+  }, []); // No need to watch 'user' as it's coming from Redux
+
+  const fetchUserOrders = async () => {
+    if (!user || !user.user_id) {
+      setError('User information is missing or invalid.');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      const response = await axios.get(
+        `http://127.0.0.1:5001/books-digital-4815a/us-central1/app/api/products/orders?userId=${user.user_id}`
+      );
+
+      if (response.data.success) {
+        const orders = response.data.data;
+
+        // Filter orders to include only those with the user's userId
+              const userSpecificOrders = orders
+        .filter(order => order.userId === user.user_id)
+        .sort((a, b) => b.createdAt._seconds - a.createdAt._seconds); // Sort orders by creation timestamp
+
+
+        // Set the currentOrderId to the latest order (you can adjust this logic as needed)
+        if (userSpecificOrders.length > 0) {
+          setCurrentOrderId(userSpecificOrders[0].orderId);
         }
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-        setError('Error fetching orders.'); // Handle any errors
-        setIsLoading(false); // Stop loading
+      } else {
+        setError('No orders found or an error occurred.');
       }
-    };
-  
-    fetchOrders(); // Call the fetchOrders function
-  
-    // Clean up the effect (e.g., clear timeouts, intervals, etc.) if needed
-    return () => {
-      // Clean up code here if necessary
-    };
-  }, [dispatch, orders]);
+    } catch (error) {
+      console.error('Network or other error:', error);
+      setError('An error occurred. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const openPaymentModal = () => {
-    console.log('Order ID:', data.orderId);
     setIsPaymentModalOpen(true);
   };
 
   const closePaymentModal = () => {
     setIsPaymentModalOpen(false);
   };
-  
-  // Rest of your component code...
 
   return (
     <main className='w-screen min-h-screen flex items-center justify-start flex-col'>
@@ -67,7 +70,7 @@ const CheckOutSuccess = ({data}) => {
         {isLoading ? (
           <motion.div
             {...fadeInOut}
-            className='fixed z-50 inset-0  backdrop-blur-md flex items-center justify-center w-full'
+            className='fixed z-50 inset-0 backdrop-blur-md flex items-center justify-center w-full'
           >
             <MainLoader />
           </motion.div>
@@ -79,19 +82,24 @@ const CheckOutSuccess = ({data}) => {
             <h1 className='text-[35px] text-headingColor font-bold'>
               You have placed your order successfully
             </h1>
-            <motion.div {...buttonClick}>
+            <div>
+              {/* Display the orderId of the current order for the user to see */}
+              <p className='text-textColor text-lg font-semibold mb-4'>
+                Order ID: {currentOrderId}
+              </p>
+            </div>
+            <motion.div>
               <button
-                onClick={() => setIsPaymentModalOpen(true)}
+                onClick={openPaymentModal}
                 className='flex items-center justify-center gap-4 text-2xl font-semibold text-textColor px-4 py-2 rounded-md border border-gray-300 hover:shadow-md'
               >
                 <FaArrowLeft className='text-3xl text-textColor' />
                 Pay Now
               </button>
             </motion.div>
-            {/* Payment Details Modal */}
             {isPaymentModalOpen && (
-            <PaymentDetailsModal onClose={closePaymentModal} />
-              )}
+              <PaymentDetailsModal onClose={closePaymentModal}  data={data} orderId={currentOrderId} />
+            )}
           </>
         )}
       </div>
@@ -99,4 +107,9 @@ const CheckOutSuccess = ({data}) => {
   );
 };
 
-export default CheckOutSuccess;
+// Connect the component to the Redux store and specify which part of the state contains the user information
+const mapStateToProps = (state) => ({
+  user: state.user, // Modify this to match the structure of your Redux state
+});
+
+export default connect(mapStateToProps)(CheckOutSuccess);

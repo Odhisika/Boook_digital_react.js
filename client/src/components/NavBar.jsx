@@ -78,6 +78,7 @@ const NavBar = () => {
             >
               Senior High School
             </Link>
+            
           </div>
         </div>
       </nav>

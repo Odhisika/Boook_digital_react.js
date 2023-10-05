@@ -207,6 +207,18 @@ export const updateOrderSts = async(order_id, sts )=>{
     }
 };
 
+export const updatePaymentSts = async(order_id, paymentSts )=>{
+  console.log(order_id, paymentSts );
+  try{
+      const  res = await axios.post(`${baseURL}/api/products/updatePayment/${order_id}`, null,
+      {params: {paymentSts: paymentSts}});
+      return res.data.data
+      
+  }catch(error){
+      return null;
+  }
+};
+
 
 
 

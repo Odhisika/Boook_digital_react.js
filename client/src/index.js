@@ -11,48 +11,31 @@ import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 import myReducers from "./context/reducers";
 
-const isServerRunning = true;
 
 const persistConfig = {
   key: "root",
   storage,
 };
 
-const persistedReducer = isServerRunning
-  ? persistReducer(persistConfig, myReducers)
-  : myReducers;
+const persistedReducer = persistReducer(persistConfig, myReducers);
 
 const myStore = createStore(
   persistedReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window._REDUX_DEVTOOLS_EXTENSION_ && window._REDUX_DEVTOOLS_EXTENSION_()
 );
 
-// Conditionally create the persistor if the server is running
-let persistor;
-if (isServerRunning) {
-  persistor = persistStore(myStore);
-
-  
-  persistor.purge();
-}
-
-// Conditionally apply Redux Persist only if the server is running
-const AppContainer = isServerRunning ? (
-  <Provider store={myStore}>
-    <PersistGate loading={null} persistor={persistor}>
-      <App />
-    </PersistGate>
-  </Provider>
-) : (
-  <Provider store={myStore}>
-    <App />
-  </Provider>
-);
+const persistor = persistStore(myStore);
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <AnimatePresence>{AppContainer}</AnimatePresence>
+      <AnimatePresence>
+        <Provider store={myStore}>
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
+        </Provider>
+      </AnimatePresence>
     </Router>
   </React.StrictMode>,
   document.getElementById("root")
