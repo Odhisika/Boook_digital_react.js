@@ -1,4 +1,4 @@
-export const  setOrders= (data) =>{
+export const setOrders= (data) =>{
     return {
         type: "SET_ORDERS",
         payload: data,

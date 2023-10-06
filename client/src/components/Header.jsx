@@ -17,6 +17,7 @@ const Header = () => {
   const cart = useSelector((state) => state.cart);
 
   const [isMenu, setIsMenu] = useState(false);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false); // Add state for notifications
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const firebaseAuth = getAuth(app);
@@ -74,14 +75,12 @@ const Header = () => {
           </NavLink>
         </ul>
 
-        <motion.div
-        {...buttonClick}
-         className=" w-10 h-10 rounded-md bg-slate-50 backdrop-blur-md cursor-pointer shadow-md flex items-center justify-center">
-            <BsBellFill className=" text-gray-400 text-xl"/>
-
-        </motion.div>
         <div className="relative cursor-pointer">
-          <motion.div {...buttonClick} onClick={() => dispatch(setCartOn())} className="relative cursor-pointer">
+          <motion.div
+            {...buttonClick}
+            onClick={() => dispatch(setCartOn())}
+            className="relative cursor-pointer"
+          >
             <MdShoppingCart className="text-3xl text-textColor" />
             {cart?.length > 0 && (
               <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center absolute -top-4 -right-1">
@@ -90,8 +89,43 @@ const Header = () => {
             )}
           </motion.div>
         </div>
+
+        <div className="relative cursor-pointer">
+          <motion.div
+            {...buttonClick}
+            onClick={() => setIsNotificationsOpen(!isNotificationsOpen)} // Toggle notifications popup
+            className=" w-10 h-10 rounded-md bg-slate-50 backdrop-blur-md cursor-pointer shadow-md flex items-center justify-center"
+          >
+            <BsBellFill className=" text-gray-400 text-xl" />
+          </motion.div>
+          {isNotificationsOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-12 right-0 w-48 bg-slate-400 backdrop-blur-md rounded-md shadow-md"
+            >
+              <div className="px-4 py-2">
+                <p className="text-xl text-textColor font-semibold">Notifications</p>
+              </div>
+              <div className="divide-y bg-primary">
+                {/* Add your notifications here */}
+                <div className="px-4 py-3">
+                  <p className="text-textColor"> No Notification</p>
+                </div>
+                {/* <div className="px-4 py-3">
+                  <p className="text-textColor">Notification 2</p>
+                </div>
+                <div className="px-4 py-3">
+                  <p className="text-textColor">Notification 3</p>
+                </div> */}
+              </div>
+            </motion.div>
+          )}
+        </div>
+
         {user ? (
-          <div className="relative cursor-pointer" onMouseEnter={() => setIsMenu(true)}>
+            <div className="relative cursor-pointer" onMouseEnter={() => setIsMenu(true)}>
             <div className="w-12 h-12 rounded-full shadow-md cursor-pointer overflow-hidden flex items-center justify-center">
               <motion.img
                 className="w-full h-full object-cover"

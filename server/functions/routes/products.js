@@ -441,6 +441,26 @@ router.post("/updateOrder/:order_id", async (req, res)=>{
   }
 })
 
+
+// Assuming you are using Firebase Firestore as shown in your previous code
+// router.post("/updatePayment/:order_id", async (req, res) => {
+//   const order_id = req.params.order_id;
+//   const paymentSts = req.query.paymentSts;
+
+//   try {
+//     // Assuming you have a Firestore database reference stored in 'db'
+//     const orderRef = db.collection("orders").doc(order_id);
+
+//     // Update the payment status to 'paid'
+//     await orderRef.update({ paymentSts: "paid" });
+
+//     return res.status(200).send({ success: true, message: "Payment status updated to 'paid'" });
+//   } catch (err) {
+//     return res.status(500).send({ success: false, error: `Error: ${err}` });
+//   }
+// });
+
+
 //update order payment 
 router.post("/updatePayment/:order_id", async (req, res)=>{
   const order_id =req.params.order_id;
@@ -456,8 +476,6 @@ router.post("/updatePayment/:order_id", async (req, res)=>{
     return res.send({success: false, msg: `Error : ${err}`});
   }
 })
-
-
 
 
 

@@ -3,41 +3,34 @@ import {motion } from "framer-motion"
 import { buttonClick, staggerFadeInOut } from '../animations'
 import { getAllOrders, updateOrderSts, updatePaymentSts } from '../api'
 import { setOrders } from '../context/actions/orderActions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const OrdersData = ({index, data, admin}) => {
   const dispatch = useDispatch();
-
+ 
     const handleClick= (orderId, sts)=>{
         updateOrderSts(orderId,sts).then(response =>{
-        
-          getAllOrders().then((data)=>{
+          console.log("API Response", response);
+          getAllOrders().then(data => {
+            console.log("Data from API", data);
            
               dispatch(setOrders(data));
             })
         })
     }
 
-    const handlePay= (orderId, paymentSts)=>{
-      updatePaymentSts(orderId, paymentSts).then(response =>{
-      
-        getAllOrders().then((data)=>{
-         
-            dispatch(setOrders(data));
-          })
-      })
-  }
+    
     // Check if data.cart is a string before attempting to parse it
 const cartArray = typeof data.cart === 'string' ? JSON.parse(data.cart) : [];
 
-console.log("Parsed cartArray:", cartArray);
+
 
 
 
       
 
   return (
-  <motion.div {...staggerFadeInOut(index)} className=" w-full flex flex-col items-start justify-start px-3  py-2 border relative border-gray-300 bg-slate-200 drop-shadow-md rounded-md gap-4">
+  <motion.div {...staggerFadeInOut(index)} className=" w-full flex flex-col items-start justify-start px-3  py-2 border relative border-gray-300 bg-slate-200 drop-shadow-md rounded-md gap-4 sm:flex-row md:flex-col lg:flex-col">
     
     <div className=' w-full flex items-center justify-between'>
     <h1 className='text-xl text-headingColor font-semibold'>Order ID: {data.orderId}</h1>

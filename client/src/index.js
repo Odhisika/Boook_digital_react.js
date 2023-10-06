@@ -21,7 +21,7 @@ const persistedReducer = persistReducer(persistConfig, myReducers);
 
 const myStore = createStore(
   persistedReducer,
-  window._REDUX_DEVTOOLS_EXTENSION_ && window._REDUX_DEVTOOLS_EXTENSION_()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 const persistor = persistStore(myStore);

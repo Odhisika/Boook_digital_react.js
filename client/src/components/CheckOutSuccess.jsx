@@ -63,6 +63,8 @@ const CheckOutSuccess = ({ user },data) => {
     setIsPaymentModalOpen(false);
   };
 
+ 
+
   return (
     <main className='w-screen min-h-screen flex items-center justify-start flex-col'>
       <Header />
@@ -89,6 +91,7 @@ const CheckOutSuccess = ({ user },data) => {
               </p>
             </div>
             <motion.div>
+              
               <button
                 onClick={openPaymentModal}
                 className='flex items-center justify-center gap-4 text-2xl font-semibold text-textColor px-4 py-2 rounded-md border border-gray-300 hover:shadow-md'
@@ -96,6 +99,7 @@ const CheckOutSuccess = ({ user },data) => {
                 <FaArrowLeft className='text-3xl text-textColor' />
                 Pay Now
               </button>
+             
             </motion.div>
             {isPaymentModalOpen && (
               <PaymentDetailsModal onClose={closePaymentModal}  data={data} orderId={currentOrderId} />
