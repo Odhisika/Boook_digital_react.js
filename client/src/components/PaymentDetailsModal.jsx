@@ -6,40 +6,36 @@ import { setOrders } from '../context/actions/orderActions'; // Import the actio
 
 const PaymentDetailsModal = ({ onClose, orderId, data }) => {
   const [error, setError] = useState(null);
-  const [success, setsuccess] = useState(null)
+  const [success, setSuccess] = useState(null);
   const dispatch = useDispatch();
 
   const handlePaidClick = async (orderId, paymentSts) => {
     try {
-      // Retrieve the existing orders from the Redux store
-      const existingOrders = await getAllOrders(); // Replace this with your actual method to get orders from Redux
-  
-      // Find the index of the order that matches the orderId
+      
+      const existingOrders = await getAllOrders(); 
+     
       const orderIndex = existingOrders.findIndex((order) => order.orderId === orderId);
-  
+
       if (orderIndex !== -1) {
-        // Create a copy of the order with the updated payment status
+      
         const updatedOrder = { ...existingOrders[orderIndex], paymentSts };
-  
-        // Create a new array with the updated order
+
+        
         const updatedOrders = [...existingOrders];
         updatedOrders[orderIndex] = updatedOrder;
-  
-        // Dispatch the updated orders to Redux
+
         dispatch(setOrders(updatedOrders));
-  
-        // Set a success message
-        setsuccess("Payment status updated successfully");
+
+        
+        setError(' Thank you for your order');
       } else {
-        setError("Order not found");
+        setError('Order not found');
       }
     } catch (error) {
-      console.error("Error updating payment status:", error);
-      setError("Error updating payment status");
+      console.error('Error updating payment status:', error);
+      setError('Error updating payment status');
     }
   };
-  
-  
 
   if (!orderId) {
     return null; // Return null or a loading indicator if orderId is null
@@ -49,7 +45,6 @@ const PaymentDetailsModal = ({ onClose, orderId, data }) => {
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white w-96 p-4 rounded-lg">
         <h2 className="text-2xl font-semibold">Payment Details for Order #{orderId}</h2>
-        
 
         {error ? (
           <p className="text-red-500">{error}</p>
@@ -75,24 +70,28 @@ const PaymentDetailsModal = ({ onClose, orderId, data }) => {
               <h3 className="text-lg font-semibold">NAME ON ACCOUNT</h3>
               <p>NAME: FRANCIS GANYO</p>
             </div>
-            <div className='text-red-500'>
-          <u>Please use the order ID as reference when making payment</u>
-        </div>
+            <div className="text-red-500">
+              <u>Please use the order ID as reference when making payment</u>
+            </div>
 
             {/* "Paid" button */}
-            <button
-              onClick={() => handlePaidClick(orderId, "paid")}
-              className="mt-4 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
-            >
-              Mark as Paid
-            </button>
+            <div className="flex justify-between items-center">
+              <button
+                onClick={() => handlePaidClick(orderId, 'paid')}
+                className="mt-4 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md"
+              >
+                Mark as Paid
+              </button>
 
+              <button
+                onClick={onClose}
+                className="mt-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+              >
+                Close
+              </button>
+            </div>
           </>
         )}
-
-        <button onClick={onClose} className="mt-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md">
-          Close
-        </button>
       </div>
     </div>
   );

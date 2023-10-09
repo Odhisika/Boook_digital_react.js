@@ -85,6 +85,30 @@ return res.status(200).json({ success: true, data: response });
   }
 });
 
+// Create products
+router.post("/stories", async (req, res) => {
+  try {
+    const storybookid = generateID();
+    const data = {
+      storybookid: storybookid,
+      storybook_name:req.body.storybook_name,
+      description: req.body.description,
+      image_url: req.body.image_url,
+      Pdf_url: req.body.Pdf_url,
+    };
+
+
+const response = await db.collection("StoryBooks").doc(`${storybookid}`).set(data);
+await updateTotalItems();
+return res.status(200).json({ success: true, data: response }); 
+
+   
+  } catch (err) {
+    return res.send({ success: false, msg: `Error: ${err}` });
+  }
+});
+
+
 
 
 async function createInventoryFromProducts() {
@@ -138,6 +162,22 @@ router.get("/all", async (req, res) => {
       return res.status(500).json({ success: false, msg: `Error: ${err}` });
     }
   });
+  
+  //get all products
+router.get("/allStories", async (req, res) => {
+  try {
+    const query = db.collection("StoryBooks");
+    const querySnapshot = await query.get();
+    const response = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+
+    return res.status(200).json({ success: true, data: response });
+  } catch (err) {
+    return res.status(500).json({ success: false, msg: `Error: ${err}` });
+  }
+});
+
+
+  
   
   
 

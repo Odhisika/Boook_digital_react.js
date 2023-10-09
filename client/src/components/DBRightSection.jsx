@@ -1,6 +1,7 @@
 import React from 'react'
-import {DbHeader, DbHome, DbItems, DbNewItems, DbOrders, DbUsers} from "../components"
+import {DbHeader, DbHome, DbItems, DbNewItems, DbOrders, DbUsers, DbAddStories } from "../components"
 import { Route, Routes } from 'react-router-dom'
+
 
 const DBRightSection = () => {
   return (
@@ -13,6 +14,7 @@ const DBRightSection = () => {
           <Route path="/orders" element={<DbOrders/>}/>
           <Route path="/newItems" element={<DbNewItems/>}/>
           <Route path="/users" element={<DbUsers/>}/>
+          <Route path="/stories" element={<DbAddStories/>}/>
         </Routes>
        </div>
     </div>

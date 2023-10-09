@@ -27,6 +27,15 @@ export const addNewProduct = async (data) =>{
     }
 }
 
+export const addNewStoryBook = async (data) =>{
+  try{
+      const res = await axios.post(`${baseURL}/api/products/stories`,{...data})
+       return res.data.data
+  } catch(err){
+      return null ;
+  }
+}
+
 // get all the products
 
 export const getAllProducts = async () =>{
@@ -36,6 +45,16 @@ export const getAllProducts = async () =>{
     } catch(err){
         return null ;
     }
+}
+
+// get all the products
+export const getAllStoryBooks = async () =>{
+  try{
+      const res = await axios.get(`${baseURL}/api/products/allStories`)
+       return res.data.data
+  } catch(err){
+      return null ;
+  }
 }
 
 // delete a   product 

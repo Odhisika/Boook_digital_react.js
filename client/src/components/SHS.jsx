@@ -32,7 +32,7 @@ const JHS = () => {
       <main className=" container w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
         <Header />
         <NavBar />
-        <div className={`w-full items-start justify-start flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-6`}>
+        <div className={`w-full items-start justify-start flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-6 `}>
           {JHS &&
             JHS.map((data, i) => (
               <div key={i} className="bg-white rounded-lg overflow-hidden shadow-md mt-1">

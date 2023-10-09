@@ -65,9 +65,19 @@ const DbLeftSection = () => {
         >
           Users
         </NavLink>
+        <NavLink
+          to={"/dashboard/stories"}
+          className={({ isActive }) =>
+            isActive
+              ? `${isActiveStyles} px-4 py-4 border-l-8 border-red-500`
+              : isNotActiveStyles
+          }
+        >
+          AddStories
+        </NavLink>
       </ul>
 
-      <div className="w-full justify-center flex h-225 m-auto px-2">
+      {/* <div className="w-full justify-center flex h-225 m-auto px-2">
         <div className="w-full h-full rounded-md bg-red-400 flex items-center flex-col justify-center px-3 gap-3">
           <div className="w-12 h-12 borde bg-white rounded-full flex items-center justify-center">
             <p className="text-2xl font-bold text-red-500">?</p>
@@ -80,7 +90,7 @@ const DbLeftSection = () => {
             Get in touch
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

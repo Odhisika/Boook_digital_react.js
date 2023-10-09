@@ -22,12 +22,17 @@ const DbItems = () => {
          field : "imageURL",
           render:(rowData)=>(
            <img src={rowData.imageURL}
-           className="w-32 h-16 object-contain rounded-md"/>
+           className="w-10 h-10 object-contain rounded-md"/>
          )},
          {
            title: "Name",
            field : "product_name",
-         },{
+         },
+         {
+          title: "Quantity",
+          field : "quantity_in_stock",
+        },
+         {
            title: "Category",
            field: "product_category",
          },
@@ -47,14 +52,14 @@ const DbItems = () => {
        data={products}
        title = "List of Products"
        actions= {[
-         {
-           icon: "edit",
-           tooltip: "Edit Data",
-           onClick: (event, rowData) => {
-             alert("You want to edit " + rowData.productid);
+        //  {
+        //    icon: "edit",
+        //    tooltip: "Edit Data",
+        //    onClick: (event, rowData) => {
+        //      alert("You want to edit " + rowData.productid);
              
-           }
-         },
+        //    }
+        //  },
          {
            icon: "delete",
            tooltip: "Delete Data",

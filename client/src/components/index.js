@@ -35,6 +35,7 @@ export {default  as Footer} from "./Footer"
 export {default  as Search} from "./Search"
 export {default  as BookDetails} from "./BookDetails"
 export {default as PaymentDetailsModal } from "./PaymentDetailsModal"
+export {default as DbAddStories } from "./DbAddStories"
 
 
 
