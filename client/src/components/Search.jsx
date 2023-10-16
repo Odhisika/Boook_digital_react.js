@@ -8,22 +8,24 @@ const Search = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
 
-
- 
-  
   useEffect(() => {
     if (products && (searchQuery !== '' || selectedCategory !== '')) {
       const filteredProducts = products.filter((product) => {
         const nameMatch = product.product_name.toLowerCase().includes(searchQuery.toLowerCase());
         const categoryMatch = product.product_category.toLowerCase() === selectedCategory.toLowerCase();
+        
+        // New conditions for additional fields
+        const publisherMatch = product.product_publishers.toLowerCase().includes(searchQuery.toLowerCase());
+        const authorMatch = product.product_authors.toLowerCase().includes(searchQuery.toLowerCase());
+        const descriptionMatch = product.product_description.toLowerCase().includes(searchQuery.toLowerCase());
 
         if (searchQuery === '' && selectedCategory === '') return false;
 
-        if (searchQuery === '') return categoryMatch;
+        if (searchQuery === '') return categoryMatch || publisherMatch || authorMatch || descriptionMatch;
 
-        if (selectedCategory === '') return nameMatch;
+        if (selectedCategory === '') return nameMatch || publisherMatch || authorMatch || descriptionMatch;
 
-        return nameMatch && categoryMatch;
+        return (nameMatch || publisherMatch || authorMatch || descriptionMatch) && categoryMatch;
       });
 
       setFilteredProducts(filteredProducts);
@@ -44,22 +46,21 @@ const Search = () => {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        {/* <select
-          className="w-full md:w-40 bg-orange-300 px-4 py-2 mt-8 rounded-md focus:outline-none"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-        >
-          <option value="">All Categories</option>
-          <option value="kindagerten">KG</option>
-          <option value="primary">Primary</option>
-          <option value="jhs">JHS</option>
-          <option value="shs">SHS</option>
-        </select> */}
       </form>
       {searchQuery !== '' || selectedCategory !== '' ? (
         <div className="flex flex-col md:flex-row items-center justify-evenly flex-wrap gap-4 mt-12">
           {filteredProducts.length > 0 ? (
-            filteredProducts.map((data, i) => <SliderCad key={i} data={data} index={i} />)
+            filteredProducts.map((data, i) => (
+              <SliderCad
+                key={i}
+                data={data}
+                index={i}
+                // Pass the additional fields to the SliderCad component
+                publishers={data.product_publishers}
+                authors={data.product_authors}
+                description={data.product_description}
+              />
+            ))
           ) : (
             <h1 className='text-[35px] text-headingColor font-bold'>No Books found</h1>
           )}

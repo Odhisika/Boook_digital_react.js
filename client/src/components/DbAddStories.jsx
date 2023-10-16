@@ -273,7 +273,7 @@ const uploadPdf = (e) => {
         {/* Display the selected PDF file name */}
         {selectedPdfName && (
           <div className="text-textColor text-xl">
-            Selected PDF File: {selectedPdfName}
+            Selected Document: {selectedPdfName}
           </div>
         )}
 

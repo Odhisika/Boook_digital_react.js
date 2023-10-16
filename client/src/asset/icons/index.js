@@ -1,4 +1,4 @@
-import { FaEnvelope, FaLock, FaCloudUploadAlt, FaCheck, FaArrowLeft, FaAlipay, FaGoogle, FaRegFolder, FaWarehouse } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaCloudUploadAlt, FaCheck, FaArrowLeft, FaAlipay, FaGoogle, FaRegFolder, FaWarehouse, FaRegUser } from "react-icons/fa";
 import { FcClearFilters } from "react-icons/fc";
 import { MdShoppingCart, MdSearch, MdDelete } from "react-icons/md";
 import { BsToggles2, BsFillBellFill, BsExclamationTriangleFill } from "react-icons/bs";
@@ -27,4 +27,5 @@ export {
  FaRegFolder,
  FaWarehouse,
   FaAlipay,
+  FaRegUser,
 };

@@ -25,7 +25,7 @@ const NavBar = () => {
             alt="Logo"
             onClick={toggleMenu}
           />
-          <div className={`md:flex ${isOpen ? 'flex-col' : 'hidden'} md:flex-row items-center space-x-6 mt-2 md:mt-0`}>
+          <div className={`md:flex ${isOpen ? 'flex-col' : 'hidden'} md:flex-row items-center font-semibold space-x-6 mt-2 md:mt-0`}>
             <Link
               isActiveStyles={isNotActiveStyles}
               activeClass={isActiveStyles}

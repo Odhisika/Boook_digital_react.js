@@ -60,7 +60,7 @@ const PaymentDetailsModal = ({ onClose, orderId, data }) => {
             </div>
 
             <div className="mb-4">
-              <h3 className="text-lg font-semibold">Bank Payments</h3>
+              <h3 className="text-lg font-semibold">E-Bank Payments</h3>
               <ul>
                 <li>ACCESS BANK - 104800000232</li>
               </ul>

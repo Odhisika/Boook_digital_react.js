@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { loginBg, logo } from '../asset';
 import { LoginInput } from '../components';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { FaEnvelope, FaLock, FaRegUser } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { buttonClick } from '../animations';
 import { FcGoogle } from 'react-icons/fc';
@@ -23,6 +23,8 @@ import {  alertDanger, alertNull, alertSuccess, alertWarning } from '../context/
 
 
 const Login = () => {
+  const [firstName, setFirstName] = useState('');
+  const [surname, setSurname] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const [password, setPassword] = useState('');
@@ -58,24 +60,29 @@ const Login = () => {
   };
 
   const SignUpWithEmailPass = async () => {
-    if (userEmail === '' || password === '' || confirm_password === '') {
-      dispatch(alertDanger('Please enter your email and password to create an account '));
+    if ( firstName === '' || surname=== '' || userEmail === '' || password === '' || confirm_password === '') {
+      dispatch(alertDanger('Please fill all input fields '));
       setTimeout(() => {
         dispatch(alertNull());
       }, 3000);
     } else {
       if (password === confirm_password) {
+        setFirstName('')
+        setSurname('')
         setUserEmail('');
         setPassword('');
         setConfirm_password('');
-        await createUserWithEmailAndPassword(firebaseAuth, userEmail, password)
+        await createUserWithEmailAndPassword(firebaseAuth,  userEmail, password)
           .then((userCred) => {
             firebaseAuth.onAuthStateChanged((Cred) => {
               if (Cred) {
                 Cred.getIdToken().then((token) => {
                   validateUserJWTToken(token).then((data) => {
                     dispatch(setUserDetails(data));
-                    dispatch(alertSuccess("Log in successfull"))
+                    dispatch(alertSuccess("Accounted creation successfull"))
+                    setTimeout(() => {
+                      dispatch(alertNull());
+                    }, 3000);
                   });
                   navigate('/', { replace: true });
                 });
@@ -83,14 +90,14 @@ const Login = () => {
             });
           })
           .catch((error) => {
-            dispatch(alertWarning("Email or Password error"));
+            dispatch(alertWarning("This email already exist, Please "));
             setTimeout(() => {
               dispatch(alertNull());
             }, 3000);
           });
         console.log('Equal');
       } else {
-        dispatch(alertWarning("Enter or password error"));
+        dispatch(alertWarning(" password error"));
         setTimeout(() => {
           dispatch(alertNull());
         }, 3000);
@@ -135,32 +142,71 @@ const Login = () => {
 
   return (
     <div className="w-screen h-screen  relative overflow-hidden flex">
-      {/* backgroud imaage  */}
-      <img src={loginBg} className="w-full h-full object-cover absolute top-0 left-0" alt="" />
+       <div className="overflow-y-auto w-full h-full">
+  {/* backgroud image */}
+  <img src={loginBg} className="w-full h-full object-cover absolute top-0 left-0" alt="" />
 
-      {/* content box  */}
-      <div className="flex flex-col items-center bg-blend-multiply w-[80%] md:w-508 h-full z-10 backdrop-blur-md p-4 px-4 py-12 gap-3 ">
-        {/* logo section  */}
-        <div className="flex items-center justify-start gap-4 w-full ">
-          <img src={logo} className="w-6" alt="" />
-          <p className="text-headingColor font-semibold  "> Digi.Books</p>
-        </div>
+  {/* content box */}
+  <div className="flex flex-col items-center bg-blend-multiply w-[80%] md:w-508 min-h-screen z-10 backdrop-blur-md p-4 px-4 py-12 gap-3 ">
 
-        {/* Welcome text  */}
-        <p className="text-3xl font-semibold text-headingColor"> Welcome </p>
-        <p className="text-xl text-textColor -mt-1">{isSignUp ? 'Sign Up ' : 'Sign In '}with the following </p>
+    {/* logo section */}
+    <div className="flex items-center justify-start gap-4 w-full ">
+      <img src={logo} className="w-6" alt="" />
+      <p className="text-headingColor font-semibold  "> Digi.Books</p>
+    </div>
 
-        {/* input  */}
-        <div className="w-full flex flex-col items-center justify-center gap-6  px-4 md:px-12 py-4">
+    {/* Welcome text */}
+    <p className="text-3xl font-semibold text-headingColor"> Welcome </p>
+    <p className="text-xl text-textColor -mt-1">{isSignUp ? 'Sign Up ' : 'Sign In '}with the following </p>
+
+    {/* input */}
+    <div className="w-full flex flex-col items-center justify-center gap-6  px-4 md:px-12 py-4">
+      {isSignUp && (
+        <div className="w-full">
           <LoginInput
-            placeholder="Enter your email"
-            icon={<FaEnvelope className="text-xl text-primary" />}
-            inputState={userEmail}
-            inputStateFunc={setUserEmail}
-            type="email"
+            placeholder="First Name"
+            icon={<FaRegUser className="text-xl text-primary" />}
+            inputState={firstName}
+            inputStateFunc={setFirstName}
+            type="text"
             isSignUp={isSignUp}
           />
+        </div>
+      )}
+      {isSignUp && (
+        <div className="w-full">
+          <LoginInput
+            placeholder="Surname"
+            icon={<FaRegUser className="text-xl text-primary" />}
+            inputState={surname}
+            inputStateFunc={setSurname}
+            type="text"
+            isSignUp={isSignUp}
+          />
+        </div>
+      )}
+      <LoginInput
+        placeholder="Enter your email"
+        icon={<FaEnvelope className="text-xl text-primary" />}
+        inputState={userEmail}
+        inputStateFunc={setUserEmail}
+        type="email"
+        isSignUp={isSignUp}
+      />
 
+      {!isSignUp && (
+        <LoginInput
+          placeholder="Password "
+          icon={<FaLock className="text-xl text-primary" />}
+          inputState={password}
+          inputStateFunc={setPassword}
+          type="password"
+          isSignUp={isSignUp}
+        />
+      )}
+
+      {isSignUp && (
+        <div className="w-full">
           <LoginInput
             placeholder="Password "
             icon={<FaLock className="text-xl text-primary" />}
@@ -169,17 +215,21 @@ const Login = () => {
             type="password"
             isSignUp={isSignUp}
           />
+        </div>
+      )}
 
-          {isSignUp && (
-            <LoginInput
-              placeholder="Confirm Password  "
-              icon={<FaLock className="text-xl text-primary" />}
-              inputState={confirm_password}
-              inputStateFunc={setConfirm_password}
-              type="password"
-              isSignUp={isSignUp}
-            />
-          )}
+      {isSignUp && (
+        <div className="w-full">
+          <LoginInput
+            placeholder="Confirm Password  "
+            icon={<FaLock className="text-xl text-primary" />}
+            inputState={confirm_password}
+            inputStateFunc={setConfirm_password}
+            type="password"
+            isSignUp={isSignUp}
+          />
+        </div>
+      )}
 
           {!isSignUp ? (
             <p>
@@ -233,12 +283,13 @@ const Login = () => {
 
         <motion.div
           {...buttonClick}
-          className="flex items-center justify-center px-20 py-2 bg-primary backdrop-blur-md cursor-pointer rounded-3xl gap-4"
+          className="flex items-center justify-center px-20 py-2 bg-primary backdrop-blur-md cursor-pointer rounded-3xl gap-4 mb-80 "
           onClick={loginWithGoogle}
         >
           <FcGoogle className="text-3xl" />
           <p className="capitalize text-base text-headingColor">Sign in with Google</p>
         </motion.div>
+      </div>
       </div>
     </div>
   );

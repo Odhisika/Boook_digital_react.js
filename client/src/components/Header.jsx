@@ -40,7 +40,7 @@ const Header = () => {
         </NavLink>
         <button
           {...buttonClick}
-          className="md:hidden text-2xl text-white focus:outline-none"
+          className="md:hidden text-2xl text-black focus:outline-none"
           onClick={() => setIsMenu(!isMenu)}
         >
           {isMenu ? 'Close' : 'Menu'}
