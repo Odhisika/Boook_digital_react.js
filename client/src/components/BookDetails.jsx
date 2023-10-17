@@ -104,19 +104,18 @@ const BookDetails = () => {
               <p className="text-headingColor">{relatedBook.product_description}</p>
               <p className="text-lg font-semibold text-red-500 mt-2">₵{parseFloat(relatedBook.product_price).toFixed(2)}</p>
               <motion.div
-                {...buttonClick}
-                onClick={SendToCart}
-                className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center mt-2"
-                onMouseEnter={() => handleMouseEnter(index)}
-                onMouseLeave={() => handleMouseLeave(index)}
-              >
-                <IoBasket className="cursor-pointer text-2xl text-primary" />
-                {relatedBook.isHovered && (
-                  <div {...buttonClick} className="bg-red-700 cursor-pointer font-bold text-red-950 px-2 py-1 rounded shadow mt-2">
-                    Add to Cart
-                  </div>
-                )}
-              </motion.div>
+          {...buttonClick}
+          className="w-full flex items-center justify-center"
+        >
+          <button
+            {...buttonClick}
+            onClick={SendToCart}
+            className="bg-orange-500 cursor-pointer font-bold text-white px-4 py-2 rounded shadow"
+          >
+            Add to Cart
+          </button>
+          <IoBasket className="text-2xl text-primary cursor-pointer" />
+        </motion.div>
             </div>
           </div>
         ))}

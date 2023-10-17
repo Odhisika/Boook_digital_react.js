@@ -24,7 +24,7 @@ const DeliveryAddress = (props) => {
  const user = useSelector((state)=>state.user);
  const dispatch = useDispatch();
  const isCart = useSelector((state)=>state.isCart);
-
+ const [isLoading, setIsLoading] = useState(false);
  const info = useSelector((state) => state.info);
  const  [deliveryInfo, setDeliveryInfo] = useState(null)
  const navigate = useNavigate();
@@ -51,13 +51,11 @@ const SaveDeliveryDetails = async () => {
     dispatch(alertDanger('Please enter your delivery details.'));
     setTimeout(() => {
       dispatch(alertNull());
-      
     }, 3000);
   } else {
     try {
       // Call the API function to save customer information
       const success = await saveCustomerInfo({
-        
         firstName,
         SurName,
         AddressLine1,
@@ -65,27 +63,28 @@ const SaveDeliveryDetails = async () => {
         PhoneNumber,
         Region,
         City,
-      },
-      user?.user_id
-      );
+      }, user?.user_id);
 
       if (success) {
-          dispatch(alertSuccess("Delivery Information saved successfully"))
-          setTimeout(() => {
-            dispatch(alertNull());
-          }, 3000);
+        dispatch(alertSuccess("Delivery Information saved successfully"));
+        setIsLoading(true);
+        setTimeout(() => {
+          setIsLoading(false);
+          window.location.reload();
+        }, 15000);
+        setTimeout(() => {
+          dispatch(alertNull());
+        }, 3000);
         console.log('Customer information saved successfully!');
         console.log(delivery);
       } else {
-          dispatch(alertDanger("Failed to save Delivery Details"))
-          setTimeout(() => {
-            dispatch(alertNull());
-          }, 3000);
+        dispatch(alertDanger("Failed to save Delivery Details"));
+        setTimeout(() => {
+          dispatch(alertNull());
+        }, 3000);
         console.error('Failed to save customer information.');
       }
-     
 
-      // Optionally, you can clear the form fields after successful submission
       setfirstName('');
       setSurName('');
       setAddressLine1('');
@@ -104,6 +103,44 @@ const SaveDeliveryDetails = async () => {
     }
   }
 };
+
+
+
+// ... (Previous code remains the same)
+
+const handleEditAddress = (address) => {
+  // Set the state values based on the selected address
+  setfirstName(address.firstName);
+  setSurName(address.SurName);
+  setAddressLine1(address.AddressLine1);
+  setAddressLine2(address.AddressLine2);
+  setPhoneNumber(address.PhoneNumber);
+  setRegion(address.Region);
+  setCity(address.City);
+
+  // Call the API function to update the address in the Firebase database
+ getCustomerInfor(address.id, {
+    firstName,
+    SurName,
+    AddressLine1,
+    AddressLine2,
+    PhoneNumber,
+    Region,
+    City,
+  })
+    .then(() => {
+      // Handle success, if necessary
+      console.log('Address updated successfully');
+    })
+    .catch((error) => {
+      // Handle error, if necessary
+      console.error('Error updating address:', error);
+    });
+};
+
+
+
+
 
 
 
@@ -326,21 +363,7 @@ function handleChange(event) {
 
 
 
-const handleDeleteAddress = async (addressToDelete) => {
-  try {
-    const result = await deleteCustomerInfo(addressToDelete.user?.user_id);
-    dispatch(setCustomerInfoNull)
 
-    if (result && result.success) {
-      console.log("Customer information deleted successfully");
-     
-    } else {
-      console.error("Failed to delete customer information. Result:", result);
-    }
-  } catch (error) {
-    console.error("Error deleting customer information:", error);
-  }
-};
 
 useEffect(() => {
   if (!cart) {
@@ -572,43 +595,71 @@ const handleSelectAddress = (address) => {
 
       
       
-      {/* Display list of delivery addresses */}
-      {deliveryInfo && deliveryInfo.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold text-textColor w-full flex items-center justify-between">Delivery Information</h2>
-          {deliveryInfo.map((item, index) => {
-            if (item.userId === user.user_id) {
-              return (
-                <div key={index} className="px-4 py-1 flex items-start justify-start gap-2 bg-primary w-full">
-                  Full Name: {item.firstName + item.SurName}<br />
-                  Address Line1: {item.AddressLine1}<br />
-                  Address Line2: {item.AddressLine2}<br />
-                  Phone Number: {item.PhoneNumber}<br />
-                  Region: {item.Region}<br />
-                  City: {item.City}<br />
-                  <div className="flex gap-2">
-                    <input
-                      type="radio"
-                      id={`selectAddress_${index}`}
-                      name="selectAddress" 
-                      onChange={() => handleSelectAddress(item)}
-                      checked={item === selectedAddress} 
-                    />
-                    <label htmlFor={`selectAddress_${index}`}>Select Address</label>
-                    {/* <button
-                      onClick={() => handleDeleteAddress(item)} 
-                      className="w-40 px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-800 transition-all duration-150"
-                    >
-                    Change Address
-                    </button> */}
-                  </div>
-                </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-      )}
+
+ 
+         
+
+{deliveryInfo && deliveryInfo.length > 0 && (
+  <div className="my-8">
+    <h2 className="text-2xl font-bold text-gray-800 mb-4">Delivery Information</h2>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {deliveryInfo.map((item, index) => {
+        if (item.userId === user.user_id) {
+          return (
+            <div key={index} className="border border-gray-300 rounded p-4">
+              <h3 className="text-lg font-semibold mb-2">Delivery Address {index + 1}</h3>
+              <p>
+                <span className="font-semibold">Full Name:</span> {item.firstName} {item.SurName}
+              </p>
+              <p>
+                <span className="font-semibold">Address Line 1:</span> {item.AddressLine1}
+              </p>
+              <p>
+                <span className="font-semibold">Address Line 2:</span> {item.AddressLine2}
+              </p>
+              <p>
+                <span className="font-semibold">Phone Number:</span> {item.PhoneNumber}
+              </p>
+              <p>
+                <span className="font-semibold">Region:</span> {item.Region}
+              </p>
+              <p>
+                <span className="font-semibold">City:</span> {item.City}
+              </p>
+              <div className="mt-4 flex items-center">
+                <input
+                  type="radio"
+                  id={`selectAddress_${index}`}
+                  name="selectAddress"
+                  onChange={() => handleSelectAddress(item)}
+                  checked={item === selectedAddress}
+                  className="mr-2"
+                />
+                <label htmlFor={`selectAddress_${index}`} className="text-sm font-medium text-gray-800">
+                  Select Address
+                </label>
+              </div>
+              <div className="mt-4">
+                {/* <button
+                  onClick={() => handleEditAddress(item)}
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Change Address
+                </button> */}
+              </div>
+            </div>
+          );
+        }
+        return null;
+      })}
+    </div>
+  </div>
+)}
+
+
+
+
+
 
   <p className=' text-teal-950 font-bold items-center justify-center'>ORDER</p>
         {cart &&
@@ -699,7 +750,7 @@ const handleSelectAddress = (address) => {
 <tr>
   <td className='px-4 py-2'>
     <label>
-      <input type='radio' name='shipping' value='NormalGhana' />
+      <input type='radio' name='shipping' value='NormalGhana' checked />
       Normal Delivery Across Ghana
     </label>
   </td>

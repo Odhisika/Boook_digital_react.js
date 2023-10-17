@@ -9,31 +9,31 @@ const Search = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   useEffect(() => {
-    if (products && (searchQuery !== '' || selectedCategory !== '')) {
+    if (products && products.length && (searchQuery !== '' || selectedCategory !== '')) {
       const filteredProducts = products.filter((product) => {
-        const nameMatch = product.product_name.toLowerCase().includes(searchQuery.toLowerCase());
-        const categoryMatch = product.product_category.toLowerCase() === selectedCategory.toLowerCase();
+        const nameMatch = product.product_name && product.product_name.toLowerCase().includes(searchQuery.toLowerCase());
+        const categoryMatch = product.product_category && product.product_category.toLowerCase() === selectedCategory.toLowerCase();
         
-        // New conditions for additional fields
-        const publisherMatch = product.product_publishers.toLowerCase().includes(searchQuery.toLowerCase());
-        const authorMatch = product.product_authors.toLowerCase().includes(searchQuery.toLowerCase());
-        const descriptionMatch = product.product_description.toLowerCase().includes(searchQuery.toLowerCase());
-
+        // New conditions for additional fields with null checks
+        const publisherMatch = product.product_publishers && product.product_publishers.toLowerCase().includes(searchQuery.toLowerCase());
+        const authorMatch = product.product_authors && product.product_authors.toLowerCase().includes(searchQuery.toLowerCase());
+        const descriptionMatch = product.product_description && product.product_description.toLowerCase().includes(searchQuery.toLowerCase());
+  
         if (searchQuery === '' && selectedCategory === '') return false;
-
+  
         if (searchQuery === '') return categoryMatch || publisherMatch || authorMatch || descriptionMatch;
-
+  
         if (selectedCategory === '') return nameMatch || publisherMatch || authorMatch || descriptionMatch;
-
+  
         return (nameMatch || publisherMatch || authorMatch || descriptionMatch) && categoryMatch;
       });
-
+  
       setFilteredProducts(filteredProducts);
     } else {
       setFilteredProducts([]);
     }
   }, [searchQuery, selectedCategory, products]);
-
+  
   return (
     <div>
       <form action="/" method="get" className="flex flex-col md:flex-row items-center gap-4">

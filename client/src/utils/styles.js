@@ -21,84 +21,55 @@ export const notActive =
 
 
   export const randomData =[
-    {
-      imageURL:
-      "https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1686819282730_book6.jpg?alt=media&token=76715741-5270-4760-8b8e-d8907068ee2b",
-      product_category:
-      "deserts",
-      product_name:
-      "Fetch",
-      product_price:
-      "44",
-      productid: 1686819288116,
-    },
+    
+{
+  imageURL:
+"https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1697458192474_african-kids-reading-at-school-in-a-book-ghana-2RH27X9.jpg?alt=media&token=12b51a6d-74bd-484b-97bf-3f287199ab77",
 
-        {
-          imageURL:
-          "https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1686902136911_download%20(1).jpg?alt=media&token=b7e2ba85-ac58-4a08-b76b-aca0a2528d72",
-          
-          product_category:
-          "curry",
-          product_name:
-          "Bann",
-          product_price:
-          "77",
-          productid:
-          1686902140104,
 
-        },
-        {
-          imageURL:
-          "https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1686819314442_book2.jpg?alt=media&token=71b2f695-9de5-4e14-9864-9c3e9af1c98f",
-          product_category:
-          "curry",
-          product_name:
-          "Falsk",
-          product_price:
-          "88.99",
-          productid:
-          1686819317534,
-        },
 
-        {
-          imageURL:
-          "https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1686819339305_book5.jpg?alt=media&token=59bcf9fa-8d93-432f-a105-cbef68876471",
-          product_category:
-          "chinese",
-          product_name:
-          "Hisen",
-          product_price:
-          "2424",
-          productid:
-          1686819343926,
-        },
+product_authors:
+"",
 
-        {
-          
-        imageURL:
-        "https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1686819314442_book2.jpg?alt=media&token=71b2f695-9de5-4e14-9864-9c3e9af1c98f",
-        product_category:
-        "curry",
-        product_name:
-        "Falsk",
-        product_price:
-        "88.99",
-        productid:
-        1686819317534,
-        },
 
-        {
-          imageURL:
-        "https://firebasestorage.googleapis.com/v0/b/books-digital-4815a.appspot.com/o/images%2F1686819282730_book6.jpg?alt=media&token=76715741-5270-4760-8b8e-d8907068ee2b",
-        product_category:
-        "deserts",
-        product_name:
-        "Fetch",
-        product_price:
-        "44",
-        productid:
-        1686819288116,
-        },
+
+product_category:
+"",
+
+
+product_description:
+"",
+
+
+
+product_name:
+"Display1",
+
+
+
+product_price:
+"",
+
+
+
+product_publishers:
+"",
+
+
+
+productid:
+"Y78kLLV2",
+
+
+
+quantity_in_stock:
+"",
+}
+    
+    
+        
+
+    
 
   ]
 

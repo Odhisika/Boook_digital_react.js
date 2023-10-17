@@ -326,6 +326,8 @@ router.get("/customerInfo/:user_id", async (req, res) => {
 
 
 
+
+
 // Delete customer delivery information by user_id
 router.delete('/customerInfo/:user_id', async (req, res) => {
   const user_id = req.params.user_id;

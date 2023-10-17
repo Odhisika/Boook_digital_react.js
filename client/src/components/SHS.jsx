@@ -9,15 +9,17 @@ const SHS = () => {
   const [allBooks, setAllBooks] = useState([]);
 
   useEffect(() => {
-    const filteredBooks = products?.filter(
-      (data) =>
-        data.product_category === 'SHS' &&
-        data.product_name &&
-        data.product_description &&
-        data.product_price &&
-        data.imageURL
-    );
-    setAllBooks(filteredBooks);
+    if (products) {
+      const filteredBooks = products.filter(
+        (data) =>
+          data.product_category === 'SHS' &&
+          data.product_name &&
+          data.product_description &&
+          data.product_price &&
+          data.imageURL
+      );
+      setAllBooks(filteredBooks);
+    }
   }, [products]);
 
   const handleExploreMore = () => {

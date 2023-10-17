@@ -15,7 +15,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl text-orange-600 font-semibold mb-4">Our Mission</h2>
             <p className="text-gray-700">
-              Describe your organization's mission and objectives here.
+              Empowering parents and guardians with accessible education through a curated selection of elementary and secondary school books.
             </p>
           </div>
 
@@ -23,7 +23,17 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl font-semibold text-orange-600 mb-4">Our Team</h2>
             <p className="text-gray-700">
-              Introduce your team members and their roles within the organization.
+              Meet the dedicated members of our team:
+              <br />
+              - Guttor Afia Doris
+              <br />
+              - Sosi Bernard Tetteh
+              <br />
+              - Ganyo Francis
+              <br />
+              - Opoku Emmanuel Anderson
+              <br />
+              - Djangmah Daniel Tetteh
             </p>
           </div>
 
@@ -31,7 +41,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl text-orange-600 font-semibold mb-4">Our Values</h2>
             <p className="text-gray-700">
-              Highlight the core values that guide your organization's work.
+              Embodying accessibility, passion for learning, customer-centricity, cooperation, quality curation, innovation, and social responsibility.
             </p>
           </div>
 
@@ -39,7 +49,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl font-semibold text-orange-600 mb-4">History</h2>
             <p className="text-gray-700">
-              Provide a brief overview of your organization's history and milestones.
+              A new initiative by dedicated education advocates, revolutionizing family access to educational resources and nurturing a love for learning.
             </p>
           </div>
 
@@ -47,7 +57,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl font-semibold text-orange-600  mb-4">Achievements</h2>
             <p className="text-gray-700">
-              Showcase your organization's significant achievements and successes.
+              Digi.Books reached a significant milestone, curating diverse educational books and establishing a seamless ordering and delivery system.
             </p>
           </div>
 
@@ -55,7 +65,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl font-semibold text-orange-600 mb-4">Contact Us</h2>
             <p className="text-gray-700">
-              Provide contact information and how users can reach out to your organization.
+              Contact Digi.Books at: Phone: 0503390083, Email: tettehsosibernard@gmail.com
             </p>
           </div>
         </div>
