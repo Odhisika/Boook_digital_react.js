@@ -71,7 +71,7 @@ const SaveDeliveryDetails = async () => {
         setTimeout(() => {
           setIsLoading(false);
           window.location.reload();
-        }, 15000);
+        }, 3000);
         setTimeout(() => {
           dispatch(alertNull());
         }, 3000);
@@ -106,7 +106,7 @@ const SaveDeliveryDetails = async () => {
 
 
 
-// ... (Previous code remains the same)
+
 
 const handleEditAddress = (address) => {
   // Set the state values based on the selected address
@@ -320,9 +320,6 @@ const handleCitySelect = (selectedCity) => {
   setCity(selectedCity);
 };
 
-// const handlePyment = () => {
-//   navigate('/payment', { replace: true, state: { selectedOption } });
-// };
 
 
 
@@ -332,9 +329,9 @@ const handleOptionChange = (event) => {
 };
 
 function isValidGhanaPhoneNumber(number) {
-  // A regular expression for Ghana phone numbers
+ 
   const regex = /^(?:\+233|0)(?:2|5)(?:[0-9]{7})$/;
-  // Test the number against the regex and return true or false
+
   return regex.test(number);
 }
 
