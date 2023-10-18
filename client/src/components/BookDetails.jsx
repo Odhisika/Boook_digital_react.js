@@ -119,7 +119,7 @@ const BookDetails = () => {
             </div>
           </div>
         ))}
-        {isCart && <Cart/>}
+       
 
       </div>
     </>

@@ -29,6 +29,7 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [password, setPassword] = useState('');
   const [confirm_password, setConfirm_password] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const firebaseAuth = getAuth(app);
   const provider = new GoogleAuthProvider();
@@ -138,6 +139,11 @@ const Login = () => {
       }, 3000);
     }
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   
 
   return (
@@ -195,40 +201,69 @@ const Login = () => {
       />
 
       {!isSignUp && (
-        <LoginInput
-          placeholder="Password "
-          icon={<FaLock className="text-xl text-primary" />}
-          inputState={password}
-          inputStateFunc={setPassword}
-          type="password"
-          isSignUp={isSignUp}
-        />
+       <div className="w-full">
+       <div className="relative">
+         <LoginInput
+           placeholder="Password"
+           inputState={password}
+           inputStateFunc={setPassword}
+           type={showPassword ? 'text' : 'password'} // Toggle between text and password type
+           value={password}
+           onChange={(e) => setPassword(e.target.value)}
+           className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+         />
+         <span
+           onClick={togglePasswordVisibility}
+           className="absolute top-3 right-4 cursor-pointer"
+         >
+           {showPassword ? '🙈' : '👁️'}
+         </span>
+       </div>
+     </div>
       )}
 
       {isSignUp && (
         <div className="w-full">
+        <div className="relative">
           <LoginInput
-            placeholder="Password "
-            icon={<FaLock className="text-xl text-primary" />}
+            placeholder="Password"
             inputState={password}
-            inputStateFunc={setPassword}
-            type="password"
-            isSignUp={isSignUp}
+           inputStateFunc={setPassword}
+            type={showPassword ? 'text' : 'password'} // Toggle between text and password type
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
+          <span
+            onClick={togglePasswordVisibility}
+            className="absolute top-3 right-4 cursor-pointer"
+          >
+            {showPassword ? '🙈' : '👁️'}
+          </span>
         </div>
+      </div>
       )}
 
       {isSignUp && (
-        <div className="w-full">
-          <LoginInput
-            placeholder="Confirm Password  "
-            icon={<FaLock className="text-xl text-primary" />}
-            inputState={confirm_password}
-            inputStateFunc={setConfirm_password}
-            type="password"
-            isSignUp={isSignUp}
-          />
-        </div>
+       <div className="w-full">
+       <div className="relative">
+         <LoginInput
+           placeholder="Password"
+           inputState={confirm_password}
+           inputStateFunc={setConfirm_password}
+           type={showPassword ? 'text' : 'password'} 
+           value={password}
+           onChange={(e) => setPassword(e.target.value)}
+           className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600"
+         />
+         <span
+           onClick={togglePasswordVisibility}
+           className="absolute top-3 right-4 cursor-pointer"
+         >
+           {showPassword ? '🙈' : '👁️'}
+         </span>
+       </div>
+     </div>
       )}
 
           {!isSignUp ? (

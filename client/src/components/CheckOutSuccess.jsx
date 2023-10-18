@@ -6,6 +6,7 @@ import { fadeInOut } from '../animations';
 import { FaAlipay, FaArrowLeft } from '../asset/icons';
 import { motion } from 'framer-motion';
 import { connect } from 'react-redux'; // Import connect from react-redux
+import { useNavigate } from 'react-router-dom';
 
 
 const CheckOutSuccess = ({ user },data) => {
@@ -14,6 +15,7 @@ const CheckOutSuccess = ({ user },data) => {
   const [error, setError] = useState(null);
   const [userOrders, setUserOrders] = useState([]);
   const [currentOrderId, setCurrentOrderId] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserOrders();
@@ -35,13 +37,13 @@ const CheckOutSuccess = ({ user },data) => {
       if (response.data.success) {
         const orders = response.data.data;
 
-        // Filter orders to include only those with the user's userId
+        
               const userSpecificOrders = orders
         .filter(order => order.userId === user.user_id)
-        .sort((a, b) => b.createdAt._seconds - a.createdAt._seconds); // Sort orders by creation timestamp
+        .sort((a, b) => b.createdAt._seconds - a.createdAt._seconds);
 
 
-        // Set the currentOrderId to the latest order (you can adjust this logic as needed)
+       
         if (userSpecificOrders.length > 0) {
           setCurrentOrderId(userSpecificOrders[0].orderId);
         }
@@ -62,6 +64,11 @@ const CheckOutSuccess = ({ user },data) => {
 
   const closePaymentModal = () => {
     setIsPaymentModalOpen(false);
+  };
+
+  const navigateToHomepage = () => {
+      navigate('/', { replace: true });
+   
   };
 
  
@@ -107,14 +114,21 @@ const CheckOutSuccess = ({ user },data) => {
             )}
           </>
         )}
+
+        <button
+          onClick={navigateToHomepage}
+          className='mt-8 text-textColor font-semibold underline hover:text-blue-500 focus:outline-none'
+        >
+          Continue Shopping
+        </button>
       </div>
     </main>
   );
 };
 
-// Connect the component to the Redux store and specify which part of the state contains the user information
+
 const mapStateToProps = (state) => ({
-  user: state.user, // Modify this to match the structure of your Redux state
+  user: state.user, 
 });
 
 export default connect(mapStateToProps)(CheckOutSuccess);

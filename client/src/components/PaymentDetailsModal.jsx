@@ -11,23 +11,15 @@ const PaymentDetailsModal = ({ onClose, orderId, data }) => {
 
   const handlePaidClick = async (orderId, paymentSts) => {
     try {
-      
-      const existingOrders = await getAllOrders(); 
-     
+      const existingOrders = await getAllOrders();
       const orderIndex = existingOrders.findIndex((order) => order.orderId === orderId);
 
       if (orderIndex !== -1) {
-      
         const updatedOrder = { ...existingOrders[orderIndex], paymentSts };
-
-        
         const updatedOrders = [...existingOrders];
         updatedOrders[orderIndex] = updatedOrder;
-
         dispatch(setOrders(updatedOrders));
-
-        
-        setError(' Thank you for your order');
+        setSuccess('Thank you for your order');
       } else {
         setError('Order not found');
       }
@@ -37,19 +29,34 @@ const PaymentDetailsModal = ({ onClose, orderId, data }) => {
     }
   };
 
-  if (!orderId) {
-    return null; // Return null or a loading indicator if orderId is null
-  }
-
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
       <div className="bg-white w-96 p-4 rounded-lg">
         <h2 className="text-2xl font-semibold">Payment Details for Order #{orderId}</h2>
 
         {error ? (
-          <p className="text-red-500">{error}</p>
+          <div>
+            <p className="text-red-500">{error}</p>
+            <button
+              onClick={onClose}
+              className="mt-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+            >
+              Close
+            </button>
+          </div>
+        ) : success ? (
+          <div>
+            <p className="text-green-500">{success}</p>
+            <button
+              onClick={onClose}
+              className="mt-4 px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded-md"
+            >
+              Close
+            </button>
+          </div>
         ) : (
           <>
+            {/* Payment details content */}
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Mobile Payments</h3>
               <ul>

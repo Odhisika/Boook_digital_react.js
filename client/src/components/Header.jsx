@@ -113,12 +113,7 @@ const Header = () => {
                 <div className="px-4 py-3">
                   <p className="text-textColor"> No Notification</p>
                 </div>
-                {/* <div className="px-4 py-3">
-                  <p className="text-textColor">Notification 2</p>
-                </div>
-                <div className="px-4 py-3">
-                  <p className="text-textColor">Notification 3</p>
-                </div> */}
+                
               </div>
             </motion.div>
           )}

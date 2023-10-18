@@ -33,10 +33,10 @@ const SHS = () => {
   };
 
   const numColumns = {
-    sm: 2, 
-    md: 2, 
-    lg: showAllBooks ? Math.min(4, allBooks.length) : 2, 
-    xl: showAllBooks ? Math.min(4, allBooks.length) : 2, 
+    sm: 1,
+    md: 1,
+    lg: showAllBooks ? 'auto-fill' : 'minmax(300px, 1fr)',
+    xl: showAllBooks ? 'auto-fill' : 'minmax(300px, 1fr)',
   };
 
   return (
@@ -51,7 +51,7 @@ const SHS = () => {
             </div>
           ))}
         </div>
-        {!showAllBooks && allBooks.length > 6 && (
+        {!showAllBooks && allBooks.length > +1 && (
           <button className='bg-red-500 text-white px-4 py-2 rounded-lg inline-block hover:bg-red-600 transition-colors' onClick={handleExploreMore}>Browse more books</button>
         )}
         {showAllBooks && (

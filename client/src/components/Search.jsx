@@ -14,7 +14,7 @@ const Search = () => {
         const nameMatch = product.product_name && product.product_name.toLowerCase().includes(searchQuery.toLowerCase());
         const categoryMatch = product.product_category && product.product_category.toLowerCase() === selectedCategory.toLowerCase();
         
-        // New conditions for additional fields with null checks
+        
         const publisherMatch = product.product_publishers && product.product_publishers.toLowerCase().includes(searchQuery.toLowerCase());
         const authorMatch = product.product_authors && product.product_authors.toLowerCase().includes(searchQuery.toLowerCase());
         const descriptionMatch = product.product_description && product.product_description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -55,7 +55,7 @@ const Search = () => {
                 key={i}
                 data={data}
                 index={i}
-                // Pass the additional fields to the SliderCad component
+               
                 publishers={data.product_publishers}
                 authors={data.product_authors}
                 description={data.product_description}
