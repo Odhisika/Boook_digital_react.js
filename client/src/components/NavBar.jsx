@@ -16,7 +16,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="w-full fixed z-40 inset-x-0 top-0 bg-blue-200 md:top-24 mt-2 py-2">
+    <div className="w-full fixed z-40 inset-x-0 top-0 bg-blue-200 md:top-24 mt-2 py-2" style={{ marginTop: '-2rem' }}>
       <nav className="container mx-auto px-4 md:px-10 py-6 h-24 md:h-6 flex items-center justify-center">
         <div className="flex items-center">
           <img
