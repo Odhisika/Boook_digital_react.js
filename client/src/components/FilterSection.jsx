@@ -16,15 +16,14 @@ const FilterSection = () => {
 
   const filteredProducts = products ? products.filter(data => data.product_category === category) : [];
 
-
   return (
-    <motion.div className="w-full items-start justify-start flex flex-col bg-blend-color-burn">
-      <div className="w-full items-center justify-between flex">
+    <motion.div className="w-full flex flex-col items-start justify-start bg-blend-color-burn p-4 sm:p-8">
+      <div className="w-full flex items-center justify-between">
         <div className="flex flex-col items-start justify-start gap-1">
-          <p className="text-headingColor text-2xl font-bold">
+          <p className="text-headingColor text-xl sm:text-2xl font-bold">
             Market Place 
           </p>
-          <div className="w-40 h-1 rounded-md bg-orange-500"></div>
+          <div className="w-20 h-1 rounded-md bg-orange-500 sm:w-40"></div>
         </div>
       </div>
 
@@ -40,7 +39,7 @@ const FilterSection = () => {
             />
           ))}
       </div>
-      <div className="w-full items-center justify-evenly flex flex-wrap gap-4 mt-12">
+      <div className="w-full flex flex-wrap items-center justify-center gap-4 mt-8 sm:mt-12">
         {filteredProducts.map((data, i) => (
           <SliderCad key={i} data={data} index={i} />
         ))}
@@ -58,15 +57,15 @@ export const FilterCad = ({ data, index, category, setCategory }) => {
     <motion.div
       key={index}
       {...staggerFadeInOut(index)}
-      className={`group w-56  min-w-[128px] cursor-pointer py-6 ${
+      className={`group w-40 min-w-[96px] cursor-pointer py-4 sm:w-56 sm:min-w-[128px] py-6 ${
         category === data.category ? "bg-orange-500" : "bg-primary"
-      } hover:bg-orange-500 shadow-md flex flex-col items-center justify-center gap-4`}
+      } hover:bg-orange-500 shadow-md flex flex-col items-center justify-center gap-2 sm:gap-4`}
       onClick={handleClick}
     >
       <div
-        className={`w-10 h-10 rounded-full shadow-md flex items-center justify-center group-hover:bg-primary ${
+        className={`w-8 h-8 rounded-full shadow-md flex items-center justify-center group-hover:bg-primary ${
           category === data.category ? "bg-primary" : "bg-orange-500"
-        }`}
+        } sm:w-10 sm:h-10`}
       >
         <FaWarehouse
           className={`${
@@ -76,7 +75,7 @@ export const FilterCad = ({ data, index, category, setCategory }) => {
       </div>
 
       <p
-        className={` flex font-semibold ${
+        className={`text-sm sm:text-base font-semibold ${
           category === data.category ? "text-primary" : "text-textColor"
         } group-hover:text-primary`}
       >

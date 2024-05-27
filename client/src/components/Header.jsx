@@ -95,8 +95,16 @@ const Header = () => {
             className={({ isActive }) => (isActive ? isActiveStyles : isNotActiveStyles)}
             to="/"
           >
-            Home
+            Books
           </NavLink>
+
+          <NavLink
+            className={({ isActive }) => (isActive ? isActiveStyles : isNotActiveStyles)}
+            to="/shop"
+          >
+            Shop
+          </NavLink>
+
           <NavLink
             className={({ isActive }) => (isActive ? isActiveStyles : isNotActiveStyles)}
             to="/menu"

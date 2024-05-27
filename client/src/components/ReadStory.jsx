@@ -3,7 +3,7 @@ import React from 'react';
 const ReadStory = ({ isOpen, onClose, Pdf_url }) => {
   if (!isOpen) return null;
 
-  // Function to close the modal
+  
   const closeModal = () => {
     onClose();
   };
