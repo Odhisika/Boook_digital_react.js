@@ -19,24 +19,6 @@ const AboutUs = () => {
             </p>
           </div>
 
-          {/* Container 2 */}
-          <div className="bg-white rounded-lg p-6 shadow-lg text-center">
-            <h2 className="text-2xl font-semibold text-orange-600 mb-4">Our Team</h2>
-            <p className="text-gray-700">
-              Meet the dedicated members of our team:
-              <br />
-              - Guttor Afia Doris
-              <br />
-              - Sosi Bernard Tetteh
-              <br />
-              - Ganyo Francis
-              <br />
-              - Opoku Emmanuel Anderson
-              <br />
-              - Djangmah Daniel Tetteh
-            </p>
-          </div>
-
           {/* Container 3 */}
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl text-orange-600 font-semibold mb-4">Our Values</h2>
@@ -65,7 +47,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl font-semibold text-orange-600 mb-4">Contact Us</h2>
             <p className="text-gray-700">
-              Contact Digi.Books at: Phone: 0503390083, Email: tettehsosibernard@gmail.com
+              <p>  digibooks@gmail.come</p>
             </p>
           </div>
         </div>

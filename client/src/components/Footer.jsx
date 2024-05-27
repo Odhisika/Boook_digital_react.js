@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className={`${footerStyle} w-screen bg-orange-600 px-5 py-7 bottom-0 left-0 `}>
+      <footer className={`${footerStyle} w-screen bg-blue-600 px-5 py-7 bottom-0 left-0 `}>
         <div className='nike-container text-slate-200'>
           <div className='grid items-start grid-cols-3 max-w-2xl w-full m-auto md:max-w-none md:gap-5'>
             {titles.map((val, i) => (

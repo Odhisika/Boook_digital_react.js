@@ -205,6 +205,7 @@ const Login = () => {
        <div className="relative">
          <LoginInput
            placeholder="Password"
+           icon={<FaLock className="text-xl text-primary" />}
            inputState={password}
            inputStateFunc={setPassword}
            type={showPassword ? 'text' : 'password'} // Toggle between text and password type
@@ -227,6 +228,7 @@ const Login = () => {
         <div className="relative">
           <LoginInput
             placeholder="Password"
+            icon={<FaLock className="text-xl text-primary" />}
             inputState={password}
            inputStateFunc={setPassword}
             type={showPassword ? 'text' : 'password'} // Toggle between text and password type
@@ -248,6 +250,7 @@ const Login = () => {
        <div className="w-full">
        <div className="relative">
          <LoginInput
+          icon={<FaLock className="text-xl text-primary" />}
            placeholder="Password"
            inputState={confirm_password}
            inputStateFunc={setConfirm_password}

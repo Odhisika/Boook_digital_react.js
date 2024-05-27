@@ -507,32 +507,32 @@ const handleSelectAddress = (address) => {
         <p className=' text-textColor font-bold'><h1>Please fill your delivery Address</h1></p>
           {/* Rest of your input fields */}
           <LoginInput
-            placeholder="Enter your first Name"
+            placeholder="First Name "
             inputState={firstName}
             inputStateFunc={setfirstName}
             type="firstName"
           />
           <LoginInput
-            placeholder="Enter your SurName"
+            placeholder=" SurName"
             inputState={SurName}
             inputStateFunc={setSurName}
             type="firstName"
           />
           <LoginInput
-            placeholder="Enter your Address Line 1"
+            placeholder="Street Address "
             inputState={AddressLine1}
             inputStateFunc={setAddressLine1}
             type="firstName"
           />
           <LoginInput
-            placeholder="Enter Address Line 2 "
+            placeholder=" GPS Addresss  "
             inputState={AddressLine2}
             inputStateFunc={setAddressLine2}
             type="firstName"
           />
 
           <LoginInput
-            placeholder={"Enter Your phone number"}
+            placeholder={"Phone number"}
             inputState={PhoneNumber}
             inputStateFunc={setPhoneNumber}
             type="PhoneNumber" 

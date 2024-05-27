@@ -86,7 +86,7 @@ const BookDetails = () => {
             <div
               {...buttonClick}
               onClick={SendToCart}
-              className="w-full px-4 py-2 rounded-md bg-orange-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-900 transition-all duration-150">
+              className="w-full px-4 py-2 rounded-md bg-blue-400 cursor-pointer text-white text-xl capitalize hover:bg-orange-900 transition-all duration-150">
               Add to Cart
             </div>
           </motion.div>
@@ -110,7 +110,7 @@ const BookDetails = () => {
           <button
             {...buttonClick}
             onClick={SendToCart}
-            className="bg-orange-500 cursor-pointer font-bold text-white px-4 py-2 rounded shadow"
+            className="bg-blue-500 cursor-pointer font-bold text-white px-4 py-2 rounded shadow"
           >
             Add to Cart
           </button>

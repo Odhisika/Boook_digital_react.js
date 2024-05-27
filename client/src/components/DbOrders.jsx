@@ -10,17 +10,26 @@ const DbOrders = () => {
 
   useEffect(() => {
     if (!orders.length) {
-      getAllOrders()
-        .then((data) => {
-          console.log('Data from API:', data);
-          dispatch(setOrders(data));
-        })
-        .catch((error) => {
-          // Handle the error if necessary
-          console.error(error);
-        });
+      fetchOrders();
     }
   }, [orders, dispatch]);
+
+  const fetchOrders = async () => {
+    try {
+      const response = await getAllOrders();
+      if (response.success) {
+        // Sort orders in ascending order based on createdAt timestamp
+        const sortedOrders = response.orders.sort((a, b) => {
+          return new Date(a.createdAt.toDate()) - new Date(b.createdAt.toDate());
+        });
+        dispatch(setOrders(sortedOrders));
+      } else {
+        console.error('Error fetching orders:', response.error);
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    }
+  };
 
   return (
     <div className='flex items-center justify-center flex-col w-full pt-6 gap-4'>

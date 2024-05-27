@@ -201,16 +201,38 @@ export const deleteCart = async (userId) =>{
     }
 }
 
+// export const getAllOrders = async () => {
+//   try {
+//     const res = await axios.get(`${baseURL}/api/products/orders`);
+//     console.log('API response:', res.data); 
+//     return res.data.data;
+//   } catch (err) {
+//     console.error('API error:', err); 
+//     return null;
+//   }
+// };
+
+
+
 export const getAllOrders = async () => {
   try {
     const res = await axios.get(`${baseURL}/api/products/orders`);
-    console.log('API response:', res.data); 
-    return res.data.data;
-  } catch (err) {
-    console.error('API error:', err); 
-    return null;
+    // Assuming your API endpoint for fetching orders is '/api/orders'
+    if (!res.data || !res.data.success) {
+      throw new Error('Failed to fetch orders');
+    }
+    // Extract orders data from the response
+    const ordersData = res.data.data;
+    // Sort orders in ascending order based on createdAt timestamp
+    ordersData.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+    return ordersData;
+  } catch (error) {
+    console.error('API error:', error);
+    throw error;
   }
 };
+
+
 
 
 

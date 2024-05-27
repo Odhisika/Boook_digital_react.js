@@ -394,8 +394,8 @@ router.post('/createOrder', async (req, res) => {
   console.log('Inside the orders');
   try {
     const orderId = generateID();
+    const currentTime = new Date(); // Current date and time
     const orderData = {
-
       orderId: orderId,
       userId: user_id,
       cart: JSON.parse(cart),
@@ -403,32 +403,25 @@ router.post('/createOrder', async (req, res) => {
       paymentSts: "pending",
       sts: "preparing",
       overallTotal: overallTotal,
-      createdAt: new Date(),
-      
+      createdAt: currentTime, // Store current date and time
     };
     
     await db.collection('orders').doc(orderId.toString()).set(orderData);
-    
     await placeOrder(orderData);
-    console.log(orderData)
-
-   
-
+    console.log(orderData);
     console.log('Calling deleteCartItems with user_id:', user_id);
     await deleteCartItems(user_id);
     
-    
     console.log("*****************************************");
-    
     console.log('orderId',orderId);
-    // return res.status(200).send({ success: true });
-    return res.status(200).send({ success: true, orderData });
     
+    return res.status(200).send({ success: true });
   } catch (err) {
     console.error('Error creating order:', err);
-    return res.status(500).send({ error: 'An error occurred' });
+    return res.status(500).send({ error: 'An error occurred while creating the order' });
   }
 });
+
 
 
 async function deleteCartItems(user_id) {

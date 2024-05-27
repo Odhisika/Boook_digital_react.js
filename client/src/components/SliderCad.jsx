@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { buttonClick } from '../animations';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { IoBasket } from '../asset/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addNewItemToCart, getAllCartItems } from '../api';
 import { alertNull, alertSuccess } from '../context/actions/alertActions';
 import { setCartItems } from '../context/actions/cartActions';
-import { Link } from 'react-router-dom';
 
-const SliderCad = ({ data, index }) => {
+const SliderCad = ({ data }) => {
   const user = useSelector((state) => state.user);
-  const product = useSelector((state) => state.products);
   const dispatch = useDispatch();
 
   const SendToCart = () => {
@@ -26,27 +23,20 @@ const SliderCad = ({ data, index }) => {
   };
 
   return (
-    <div className=" hover:drop-shadow-lg backdrop-blur-md rounded-xl flex items-center justify-between relative px-4 py-2 w-full md:w-340 md:min-w-350 gap-3 overflow-y-auto">
-      <img src={data.imageURL} className="w-40 h-40 md:w-32 md:mt-16 object-contain" alt="" />
-      <div className="relative pt-12">
-        <p className="text-xl text-headingColor font-semibold">{data.product_name}</p>
-        <p className="text-headingColor">{data.product_description}</p>
-        <p className="text-lg font-semibold text-orange-500 items-center justify-center gap-1">₵{parseFloat(data.product_price).toFixed(2)}</p>
-        <motion.div
-          {...buttonClick}
-          className="w-full flex items-center justify-center"
-        >
-          <button
-            {...buttonClick}
+    <div className="max-w-xs bg-white shadow-lg rounded-lg overflow-hidden">
+      <img src={data.imageURL} className="w-full h-64 object-cover" alt="Product" />
+      <div className="px-4 py-2">
+        <div className="font-bold text-xl mb-2 text-gray-800">{data.product_name}</div>
+        <p className="text-gray-700 text-base">{data.product_description}</p>
+        <div className="flex justify-between items-center mt-4">
+          <p className="text-red-500 text-lg font-semibold">₵{parseFloat(data.product_price).toFixed(2)}</p>
+          <motion.button
             onClick={SendToCart}
-            className="bg-orange-500 cursor-pointer font-bold text-white px-4 py-2 rounded shadow"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
           >
             Add to Cart
-          </button>
+          </motion.button>
           <IoBasket className="text-2xl text-primary cursor-pointer" />
-        </motion.div>
-        <div className="w-full flex items-center justify-center">
-          <Link to={`/bookdetails/${data.productid}`}><u>View Details</u></Link>
         </div>
       </div>
     </div>

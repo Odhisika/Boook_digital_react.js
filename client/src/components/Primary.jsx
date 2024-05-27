@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 const Primary = () => {
   const products = useSelector((state) => state.products);
-  const [displayedBooks, setDisplayedBooks] = useState(6); // Number of books to display initially
+  const [displayedBooks, setDisplayedBooks] = useState(6); 
   const [showAllBooks, setShowAllBooks] = useState(false);
   const [allBooks, setAllBooks] = useState([]);
 
@@ -41,7 +41,7 @@ const Primary = () => {
 
   return (
     <div>
-      <main className="container w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
+      <main className="container w-screen min-h-screen  flex items-center justify-start flex-col bg-primary">
         <Header />
         <NavBar />
         <div className={`w-full items-start justify-start flex-wrap flex grid-cols-1 sm:grid-cols-${numColumns.sm} md:grid-cols-${numColumns.md} lg:grid-cols-${numColumns.lg} xl:grid-cols-${numColumns.xl} gap-6`}>
@@ -61,5 +61,6 @@ const Primary = () => {
     </div>
   );
 };
+
 
 export default Primary;
