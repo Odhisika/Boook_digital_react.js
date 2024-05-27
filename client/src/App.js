@@ -8,8 +8,8 @@ import { getAllCartItems, validateUserJWTToken } from './api';
 import { setUserDetails } from './context/actions/userActions';
 import { fadeInOut } from './animations';
 import { motion } from 'framer-motion';
-import { AboutUs, Alert, shop, BookDetails, CheckOutSuccess, DeliveryAddress, MainLoader, 
-  Menu, Profile,  Services, UsersOrder,} from './components';
+import { AboutUs, Alert,  BookDetails, CheckOutSuccess, DeliveryAddress, MainLoader, 
+  Menu, Profile,  Services, UsersOrder, shop} from './components';
 import { setCartItems } from './context/actions/cartActions';
 
 const App = () => {

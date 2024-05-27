@@ -1,15 +1,11 @@
-import React from 'react';
-import {Header} from "../components"
+import React from 'react'
 
 const shop = () => {
   return (
-    <main className="w-full bg-blue-500 p-4 text-white">
-     <Header />
+    <div>
+      Hello world 
+    </div>
+  )
+}
 
-      <h1>shop</h1>
-    </main>
-  );
-};
-
-
-export default shop ;
+export default shop
