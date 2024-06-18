@@ -17,6 +17,15 @@ export const notActive =
     {id: 4, title:"SHS", category: "SHS", description: "SHS "},
   ]
 
+  export const statush =[
+    {id: 5, title:"Provision", category: "Proviosion", description: "Provision"},
+    {id: 6, title:"Electronics", category: "Electronics", description: "Electronics"},
+    {id: 7, title:"Clothing", category: "Clothing",description: "Clothing" },
+    {id: 8, title:"Bags", category: "Bags",description: "Bags" },
+    {id: 9, title:"Footwear", category: "Footwear", description: "Footwear "},
+    {id: 10, title:"Toiletories", category: "Toiletories", description: "Toiletories "},
+    {id: 11, title:"Stationary", category: "Stationary", description: "Stationary "},
+  ]
 
 
 

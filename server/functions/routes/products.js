@@ -24,7 +24,6 @@ function generateID() {
   return id;
 }
 
-
 async function updateTotalItems() {
   try {
     const productsSnapshot = await db.collection("products").get();
@@ -73,8 +72,6 @@ router.post("/create", async (req, res) => {
       imageURL: req.body.imageURL,
       quantity_in_stock: req.body.quantity_in_stock, 
     };
-
-
 const response = await db.collection("products").doc(`${productid}`).set(data);
 await updateTotalItems();
 return res.status(200).json({ success: true, data: response }); 

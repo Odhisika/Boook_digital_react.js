@@ -42,7 +42,7 @@ const Search = () => {
           id="header-search"
           placeholder="Search products"
           name="s"
-          className="w-full md:w-96 bg-stone-300 px-6 py-2 mt-8 rounded-md focus:outline-none"
+          className="w-150 md:w-96 bg-blue-300 px-6 py-2 mt-8 rounded-md focus:outline-none"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />

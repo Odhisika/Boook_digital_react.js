@@ -11,6 +11,7 @@ import { buttonClick, slideTop } from '../animations';
 import { app } from '../config/firebase.config';
 import { setCartOn } from '../context/actions/displayCartActions';
 import { BsBellFill } from 'react-icons/bs';
+import { FiMenu } from 'react-icons/fi'; 
 
 const Header = () => {
   const user = useSelector((state) => state.user);
@@ -18,7 +19,7 @@ const Header = () => {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // State for user dropdown menu
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const firebaseAuth = getAuth(app);
@@ -84,7 +85,7 @@ const Header = () => {
             className="text-2xl text-black focus:outline-none"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            {isMenuOpen ? 'Close' : 'Menu'}
+            <FiMenu />
           </button>
         </div>
       </div>

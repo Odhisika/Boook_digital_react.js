@@ -47,7 +47,7 @@ const AboutUs = () => {
           <div className="bg-white rounded-lg p-6 shadow-lg text-center">
             <h2 className="text-2xl font-semibold text-orange-600 mb-4">Contact Us</h2>
             <p className="text-gray-700">
-              <p>  digibooks@gmail.come</p>
+              <p>  digibooks@gmail.com</p>
             </p>
           </div>
         </div>

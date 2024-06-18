@@ -4,6 +4,8 @@ import { MdShoppingCart, MdSearch, MdDelete } from "react-icons/md";
 import { BsToggles2, BsFillBellFill, BsExclamationTriangleFill } from "react-icons/bs";
 import { IoFastFood, IoBasket } from "react-icons/io5";
 import { BiChevronRight } from "react-icons/bi";
+import { FiMenu } from 'react-icons/fi';
+
 
  
 
@@ -13,6 +15,7 @@ export {
   FaArrowLeft,
   FaCheck,
   MdSearch,
+  FiMenu,
   MdDelete,
   FaCloudUploadAlt,
   FaGoogle,

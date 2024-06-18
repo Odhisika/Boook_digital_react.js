@@ -33,7 +33,7 @@ const DbLeftSection = () => {
               : isNotActiveStyles
           }
         >
-          Orders
+          Book orders
         </NavLink>
         <NavLink
           to={"/dashboard/items"}
@@ -43,7 +43,7 @@ const DbLeftSection = () => {
               : isNotActiveStyles
           }
         >
-          Items
+          Books
         </NavLink>
         <NavLink
           to={"/dashboard/newItems"}
@@ -53,7 +53,7 @@ const DbLeftSection = () => {
               : isNotActiveStyles
           }
         >
-          Add New Items
+          Add New Books
         </NavLink>
         <NavLink
           to={"/dashboard/users"}
@@ -75,22 +75,19 @@ const DbLeftSection = () => {
         >
           AddStories
         </NavLink>
+        <NavLink
+          to={"/dashboard/shop"}
+          className={({ isActive }) =>
+            isActive
+              ? `${isActiveStyles} px-4 py-4 border-l-8 border-red-500`
+              : isNotActiveStyles
+          }
+        >
+          Shop 
+        </NavLink>
       </ul>
 
-      {/* <div className="w-full justify-center flex h-225 m-auto px-2">
-        <div className="w-full h-full rounded-md bg-red-400 flex items-center flex-col justify-center px-3 gap-3">
-          <div className="w-12 h-12 borde bg-white rounded-full flex items-center justify-center">
-            <p className="text-2xl font-bold text-red-500">?</p>
-          </div>
-          <p className="text-xl text-primary font-semibold">Help center</p>
-          <p className="text-base text-gray-300 text-center">
-            Having trouble in your City? Please contact us for more Info
-          </p>
-          <p className="px-4 py-2 rounded-full bg-primary text-red-400 cursor-pointer">
-            Get in touch
-          </p>
-        </div>
-      </div> */}
+     
     </div>
   );
 };

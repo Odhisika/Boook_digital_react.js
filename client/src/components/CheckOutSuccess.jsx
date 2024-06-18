@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Header, MainLoader, PaymentDetailsModal } from '../components';
-import { bill } from '../asset';
+import { bill, vodafone } from '../asset';
+
 import { fadeInOut } from '../animations';
-import { FaAlipay, FaArrowLeft } from '../asset/icons';
 import { motion } from 'framer-motion';
 import { connect } from 'react-redux'; // Import connect from react-redux
 import { useNavigate } from 'react-router-dom';
@@ -104,7 +104,7 @@ const CheckOutSuccess = ({ user },data) => {
                 onClick={openPaymentModal}
                 className='flex items-center justify-center gap-4 text-2xl font-semibold text-textColor px-4 py-2 rounded-md border border-gray-300 hover:shadow-md'
               >
-                < FaAlipay className='text-3xl text-textColor' />
+                < vodafone className='text-3xl text-textColor' />
                 Pay Now
               </button>
              
